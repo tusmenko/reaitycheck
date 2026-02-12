@@ -1640,7 +1640,7 @@ export const testCases = [
     explanation: "Tests whether models admit lack of knowledge vs. fabricating plausible-sounding sources.",
     validationType: "custom",
     validationConfig: {
-      customValidatorName: "hallucينationValidator",
+      customValidatorName: "hallucinationValidator",
     },
     memenessScore: 5,
     tags: ["hallucination", "confabulation", "dangerous"],
