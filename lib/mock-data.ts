@@ -10,7 +10,7 @@ import type {
 
 export const TEST_CASES: TestCase[] = [
   {
-    id: "tc-1",
+    _id: "tc-1",
     name: "Strawberry Problem",
     slug: "strawberry-problem",
     category: "character_counting",
@@ -25,7 +25,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-2",
+    _id: "tc-2",
     name: "Alice's Brother Problem",
     slug: "alices-brother-problem",
     category: "logic_reasoning",
@@ -40,7 +40,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-3",
+    _id: "tc-3",
     name: "Self-Reference Count",
     slug: "self-reference-count",
     category: "self_reference",
@@ -54,7 +54,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-4",
+    _id: "tc-4",
     name: "Fabricated Citations",
     slug: "fabricated-citations",
     category: "hallucinations",
@@ -69,7 +69,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-5",
+    _id: "tc-5",
     name: "10-Step Instructions",
     slug: "ten-step-instructions",
     category: "instruction_following",
@@ -93,7 +93,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-6",
+    _id: "tc-6",
     name: "I Don't Know Test",
     slug: "i-dont-know-test",
     category: "epistemic_humility",
@@ -107,7 +107,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-7",
+    _id: "tc-7",
     name: "Minute Moment Riddle",
     slug: "minute-moment-riddle",
     category: "pattern_matching",
@@ -122,7 +122,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-8",
+    _id: "tc-8",
     name: "Reverse Word Test",
     slug: "reverse-word-test",
     category: "character_manipulation",
@@ -136,7 +136,7 @@ export const TEST_CASES: TestCase[] = [
     isActive: true,
   },
   {
-    id: "tc-9",
+    _id: "tc-9",
     name: "Multi-Step Arithmetic",
     slug: "multi-step-arithmetic",
     category: "multi_step_reasoning",
@@ -156,7 +156,7 @@ export const TEST_CASES: TestCase[] = [
 
 export const AI_MODELS: AIModel[] = [
   {
-    id: "m-1",
+    _id: "m-1",
     provider: "openai",
     modelName: "GPT-4o",
     modelVersion: "2025-01-15",
@@ -166,7 +166,7 @@ export const AI_MODELS: AIModel[] = [
     isActive: true,
   },
   {
-    id: "m-2",
+    _id: "m-2",
     provider: "openai",
     modelName: "GPT-4o-mini",
     modelVersion: "2025-01-15",
@@ -176,7 +176,7 @@ export const AI_MODELS: AIModel[] = [
     isActive: true,
   },
   {
-    id: "m-3",
+    _id: "m-3",
     provider: "anthropic",
     modelName: "Claude Opus 4.5",
     modelVersion: "20251101",
@@ -186,7 +186,7 @@ export const AI_MODELS: AIModel[] = [
     isActive: true,
   },
   {
-    id: "m-4",
+    _id: "m-4",
     provider: "anthropic",
     modelName: "Claude Sonnet 4.5",
     modelVersion: "20250929",
@@ -196,7 +196,7 @@ export const AI_MODELS: AIModel[] = [
     isActive: true,
   },
   {
-    id: "m-5",
+    _id: "m-5",
     provider: "google",
     modelName: "Gemini 2.0 Flash",
     modelVersion: "exp-0205",
@@ -206,7 +206,7 @@ export const AI_MODELS: AIModel[] = [
     isActive: true,
   },
   {
-    id: "m-6",
+    _id: "m-6",
     provider: "meta",
     modelName: "Llama 3.3 70B",
     modelVersion: "versatile",
@@ -236,18 +236,18 @@ const BASE_TIME = new Date("2026-02-12T03:00:00Z").getTime();
 
 export const TEST_RUNS: TestRun[] = TEST_CASES.flatMap((tc) =>
   AI_MODELS.map((model) => ({
-    id: `run-${tc.id}-${model.id}`,
-    testCaseId: tc.id,
-    modelId: model.id,
+    _id: `run-${tc._id}-${model._id}`,
+    testCaseId: tc._id,
+    modelId: model._id,
     executedAt: BASE_TIME + Math.floor(Math.random() * 3600000),
     status: "success" as const,
-    rawResponse: PASS_MAP[model.id].has(tc.id)
+    rawResponse: PASS_MAP[model._id].has(tc._id)
       ? `Correct answer: ${tc.expectedAnswer}`
       : `Incorrect answer for ${tc.name}`,
-    parsedAnswer: PASS_MAP[model.id].has(tc.id)
+    parsedAnswer: PASS_MAP[model._id].has(tc._id)
       ? tc.expectedAnswer
       : "wrong",
-    isCorrect: PASS_MAP[model.id].has(tc.id),
+    isCorrect: PASS_MAP[model._id].has(tc._id),
     executionTimeMs: 200 + Math.floor(Math.random() * 2800),
   }))
 );
@@ -256,16 +256,16 @@ export const TEST_RUNS: TestRun[] = TEST_CASES.flatMap((tc) =>
 
 function computeLeaderboard(): LeaderboardEntry[] {
   const entries = AI_MODELS.map((model) => {
-    const runs = TEST_RUNS.filter((r) => r.modelId === model.id);
+    const runs = TEST_RUNS.filter((r) => r.modelId === model._id);
     const successfulRuns = runs.filter((r) => r.isCorrect).length;
     return {
       model,
       totalRuns: runs.length,
       successfulRuns,
       successRate: successfulRuns / runs.length,
-      trend: (model.id === "m-1" || model.id === "m-3"
+      trend: (model._id === "m-1" || model._id === "m-3"
         ? "up"
-        : model.id === "m-6"
+        : model._id === "m-6"
           ? "down"
           : "stable") as LeaderboardEntry["trend"],
       rank: 0,

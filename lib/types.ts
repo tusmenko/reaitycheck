@@ -3,7 +3,7 @@ export type Difficulty = "easy" | "medium" | "hard";
 export type Trend = "up" | "down" | "stable";
 
 export interface TestCase {
-  id: string;
+  _id: string;
   name: string;
   slug: string;
   category: string;
@@ -17,7 +17,7 @@ export interface TestCase {
 }
 
 export interface AIModel {
-  id: string;
+  _id: string;
   provider: Provider;
   modelName: string;
   modelVersion: string;
@@ -28,7 +28,7 @@ export interface AIModel {
 }
 
 export interface TestRun {
-  id: string;
+  _id: string;
   testCaseId: string;
   modelId: string;
   executedAt: number;

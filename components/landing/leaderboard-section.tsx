@@ -33,7 +33,7 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {leaderboard.map((entry) => (
           <Card
-            key={entry.model.id}
+            key={entry.model._id}
             className={`relative ${RANK_STYLES[entry.rank] ? `border-2 ${RANK_STYLES[entry.rank]}` : ""}`}
           >
             {entry.rank <= 3 && (

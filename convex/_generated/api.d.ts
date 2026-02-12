@@ -8,13 +8,23 @@
  * @module
  */
 
+import type * as queries from "../queries.js";
+import type * as seed from "../seed.js";
+import type * as seeds_aiModels from "../seeds/aiModels.js";
+import type * as seeds_testCases from "../seeds/testCases.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  queries: typeof queries;
+  seed: typeof seed;
+  "seeds/aiModels": typeof seeds_aiModels;
+  "seeds/testCases": typeof seeds_testCases;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.

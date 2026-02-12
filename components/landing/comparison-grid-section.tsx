@@ -16,11 +16,11 @@ interface ComparisonGridSectionProps {
 
 function getResult(
   grid: ComparisonCell[],
-  testId: string,
+  testCaseId: string,
   modelId: string
 ): ComparisonCell | undefined {
   return grid.find(
-    (c) => c.testCaseId === testId && c.modelId === modelId
+    (c) => c.testCaseId === testCaseId && c.modelId === modelId
   );
 }
 
@@ -43,7 +43,7 @@ export function ComparisonGridSection({
                 Test
               </TableHead>
               {models.map((model) => (
-                <TableHead key={model.id} className="text-center min-w-[120px]">
+                <TableHead key={model._id} className="text-center min-w-[120px]">
                   <span className="text-xs font-medium leading-tight">
                     {model.modelName}
                   </span>
@@ -53,14 +53,14 @@ export function ComparisonGridSection({
           </TableHeader>
           <TableBody>
             {tests.map((test) => (
-              <TableRow key={test.id}>
+              <TableRow key={test._id}>
                 <TableCell className="sticky left-0 z-10 bg-background font-medium">
                   {test.name}
                 </TableCell>
                 {models.map((model) => {
-                  const cell = getResult(grid, test.id, model.id);
+                  const cell = getResult(grid, test._id, model._id);
                   return (
-                    <TableCell key={model.id} className="text-center">
+                    <TableCell key={model._id} className="text-center">
                       <span className="text-lg">
                         {cell?.isCorrect ? "\u2705" : "\u274C"}
                       </span>
