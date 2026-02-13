@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ConvexClientProvider } from "./convex-provider";
+import { Navbar } from "@/components/landing/navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,10 +14,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "ReAIity Check — Know your tools' limitations",
+  title: "RealityCheck - AI Models Challenger",
   description:
-    "Daily automated testing of viral and edge-case AI failure cases. Track real-world limitations of the most popular models.",
+    "We run non-trivial prompts across popular models to surface failures that academic benchmarks average out. No fluff, just edge cases.",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
@@ -29,11 +36,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased overflow-x-hidden`}
       >
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <ConvexClientProvider>
+          <Navbar />
+          {children}
+        </ConvexClientProvider>
       </body>
     </html>
   );

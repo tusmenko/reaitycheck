@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendIndicator } from "@/components/custom/trend-indicator";
 import type { LeaderboardEntry, Provider } from "@/lib/types";
-import { Trophy } from "lucide-react";
+import { Bot, Brain, Zap } from "lucide-react";
 
 function modelDetailHref(
   provider: string,
@@ -15,19 +13,22 @@ function modelDetailHref(
   return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
 }
 
-const PROVIDER_STYLES: Partial<Record<Provider, string>> = {
-  openai: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  anthropic:
-    "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  google: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  meta: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
+function modelInitials(modelName: string): string {
+  const words = modelName.split(/\s+/);
+  if (words.length >= 2)
+    return (words[0][0] ?? "") + (words[1].replace(/\D/g, "")[0] ?? words[1][0] ?? "");
+  return modelName.slice(0, 2).toUpperCase();
+}
+
+const PROVIDER_AVATAR_GRADIENT: Partial<Record<Provider, string>> = {
+  openai: "from-purple-500 to-indigo-600",
+  anthropic: "from-gray-700 to-gray-900",
+  google: "from-blue-500 to-indigo-600",
+  meta: "from-purple-500 to-indigo-600",
+  mistral: "from-orange-400 to-red-500",
 };
 
-const RANK_STYLES: Record<number, string> = {
-  1: "border-yellow-400 dark:border-yellow-500",
-  2: "border-gray-300 dark:border-gray-500",
-  3: "border-amber-600 dark:border-amber-700",
-};
+const RankIcons = [Bot, Brain, Zap];
 
 interface LeaderboardSectionProps {
   leaderboard: LeaderboardEntry[];
@@ -35,73 +36,101 @@ interface LeaderboardSectionProps {
 
 export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
   return (
-    <section className="py-16">
-      <div className="mb-8 flex items-center gap-2">
-        <Trophy className="h-6 w-6" />
-        <h2 className="text-3xl font-bold tracking-tight">Leaderboard</h2>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {leaderboard.map((entry) => (
+    <section id="models" className="relative bg-dark-50 py-20">
+      <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div className="mb-12 flex items-end justify-between">
+          <div>
+            <h2 className="font-display mb-3 text-3xl font-bold text-white">
+              Top Survivors
+            </h2>
+            <p className="text-dark-500">
+              Models ranked by their ability to overcome our challenges.
+            </p>
+          </div>
           <Link
-            key={entry.model._id}
-            href={modelDetailHref(
-              entry.model.provider,
-              entry.model.slug,
-              entry.model.apiIdentifier
-            )}
-            className="block"
+            href="#test-runs"
+            className="hidden items-center font-medium text-accent-red transition-colors hover:text-accent-orange sm:flex group"
           >
-            <Card
-              className={`relative transition-colors hover:bg-muted/50 ${RANK_STYLES[entry.rank] ? `border-2 ${RANK_STYLES[entry.rank]}` : ""}`}
-            >
-              {entry.rank <= 3 && (
-                <div className="absolute -top-3 left-4">
-                  <Badge
-                    variant="default"
-                    className={
-                      entry.rank === 1
-                        ? "bg-yellow-500 text-black"
-                        : entry.rank === 2
-                          ? "bg-gray-400 text-black"
-                          : "bg-amber-700 text-white"
-                    }
-                  >
-                    #{entry.rank}
-                  </Badge>
-                </div>
-              )}
-
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">
-                    {entry.model.modelName}
-                  </CardTitle>
-                <Badge
-                  variant="outline"
-                  className={PROVIDER_STYLES[entry.model.provider]}
-                >
-                  {entry.model.provider}
-                </Badge>
-              </div>
-            </CardHeader>
-
-            <CardContent>
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-3xl font-bold">
-                    {Math.round(entry.successRate * 100)}%
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {entry.successfulRuns}/{entry.totalRuns} passed
-                  </p>
-                </div>
-                <TrendIndicator trend={entry.trend} />
-              </div>
-            </CardContent>
-            </Card>
+            View all models
+            <span className="ml-2 transition-transform group-hover:translate-x-1">
+              →
+            </span>
           </Link>
-        ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {leaderboard.map((entry, index) => {
+            const Icon = RankIcons[index % RankIcons.length];
+            const failureRate = Math.round((1 - entry.successRate) * 1000) / 10;
+            const survivedRate = Math.round(entry.successRate * 1000) / 10;
+            return (
+              <Link
+                key={entry.model._id}
+                href={modelDetailHref(
+                  entry.model.provider,
+                  entry.model.slug,
+                  entry.model.apiIdentifier
+                )}
+                className="group block h-full"
+              >
+                <Card className="hover-lift relative h-full overflow-hidden rounded-3xl border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover [&_[data-slot=card-header]]:px-0 [&_[data-slot=card-content]]:px-0">
+                  <div className="absolute right-0 top-0 p-4 opacity-5 transition-opacity group-hover:opacity-10">
+                    <Icon className="h-36 w-36" />
+                  </div>
+                  <CardHeader className="pb-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-lg font-bold text-white shadow-lg ${PROVIDER_AVATAR_GRADIENT[entry.model.provider] ?? "from-dark-200 to-dark-300"}`}
+                        >
+                          {modelInitials(entry.model.modelName)}
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl font-bold text-white transition-colors group-hover:text-accent-red">
+                            {entry.model.modelName}
+                          </CardTitle>
+                          <p className="text-sm text-dark-500 capitalize">
+                            {entry.model.provider}
+                          </p>
+                        </div>
+                      </div>
+                      <span
+                        className={
+                          entry.rank === 1
+                            ? "inline-flex items-center rounded-full border border-green-800 bg-green-900/30 px-2.5 py-1 text-xs font-medium text-green-400"
+                            : "inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-dark-600"
+                        }
+                      >
+                        {entry.rank === 1 && "🏆 "}
+                        #{entry.rank}
+                      </span>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                        <div className="mb-2 text-xs font-semibold uppercase text-dark-500">
+                          Failure Rate
+                        </div>
+                        <div className="text-2xl font-bold text-accent-red">
+                          {failureRate}%
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                        <div className="mb-2 text-xs font-semibold uppercase text-dark-500">
+                          Survived
+                        </div>
+                        <div className="text-2xl font-bold text-brand-500">
+                          {survivedRate}%
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

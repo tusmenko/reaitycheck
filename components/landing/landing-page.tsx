@@ -72,21 +72,38 @@ export function LandingPage({
   }));
 
   const lastUpdated = lastRunTime ? new Date(lastRunTime) : new Date();
+  const totalPromptRuns = leaderboardEntries.reduce(
+    (sum, e) => sum + e.totalRuns,
+    0
+  );
+
+  const killRateByTestId: Record<string, number> = {};
+  testCases.forEach((test) => {
+    const cells = comparisonGrid.filter((c) => c.testCaseId === test._id);
+    if (cells.length === 0) return;
+    const avgFailure =
+      cells.reduce((sum, c) => sum + (1 - c.successRate), 0) / cells.length;
+    killRateByTestId[test._id] = Math.round(avgFailure * 100);
+  });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-[1440px] px-6 lg:px-12">
       <HeroSection
         modelCount={aiModels.length}
         testCount={testCases.length}
         lastUpdated={lastUpdated}
+        totalPromptRuns={totalPromptRuns}
       />
       <LeaderboardSection leaderboard={leaderboardEntries} />
+      <TestsSection
+        tests={testCases}
+        killRateByTestId={killRateByTestId}
+      />
       <ComparisonGridSection
         tests={testCases}
         models={aiModels}
         grid={comparisonGrid}
       />
-      <TestsSection tests={testCases} />
       <MethodologySection lastUpdated={lastUpdated} />
       <FooterSection />
     </div>
