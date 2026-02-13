@@ -8,9 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
+  # No environment: build runs on all branches and PRs; uses repo variable for codegen.
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
-    environment: Production
+    env:
+      CONVEX_DEPLOYMENT: ${{ vars.CONVEX_DEPLOYMENT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
