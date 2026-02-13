@@ -22,3 +22,4 @@ instructions for adding new decisions.
 | 003 | [UI Component Library](./003-ui-component-library.md) | Accepted |
 | 004 | [Test Triggering Mechanism](./004-test-triggering-mechanism.md) | Accepted |
 | 005 | [Test Execution Architecture](./005-test-execution-architecture.md) | Pending |
+| 006 | [Pre-commit Hooks](./006-pre-commit-hooks.md) | Accepted |

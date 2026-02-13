@@ -4,7 +4,7 @@ import { TrendIndicator } from "@/components/custom/trend-indicator";
 import type { LeaderboardEntry, Provider } from "@/lib/types";
 import { Trophy } from "lucide-react";
 
-const PROVIDER_STYLES: Record<Provider, string> = {
+const PROVIDER_STYLES: Partial<Record<Provider, string>> = {
   openai: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
   anthropic:
     "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
