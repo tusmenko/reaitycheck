@@ -23,3 +23,4 @@ instructions for adding new decisions.
 | 004 | [Test Triggering Mechanism](./004-test-triggering-mechanism.md) | Accepted |
 | 005 | [Test Execution Architecture](./005-test-execution-architecture.md) | Pending |
 | 006 | [Pre-commit Hooks](./006-pre-commit-hooks.md) | Accepted |
+| 007 | [Repository License (BSL 1.1)](./007-license-bsl.md) | Accepted |
