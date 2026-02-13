@@ -1,8 +1,19 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendIndicator } from "@/components/custom/trend-indicator";
 import type { LeaderboardEntry, Provider } from "@/lib/types";
 import { Trophy } from "lucide-react";
+
+function modelDetailHref(
+  provider: string,
+  slug: string | undefined,
+  apiIdentifier: string
+) {
+  const s =
+    slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
+  return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+}
 
 const PROVIDER_STYLES: Partial<Record<Provider, string>> = {
   openai: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
@@ -32,32 +43,40 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {leaderboard.map((entry) => (
-          <Card
+          <Link
             key={entry.model._id}
-            className={`relative ${RANK_STYLES[entry.rank] ? `border-2 ${RANK_STYLES[entry.rank]}` : ""}`}
-          >
-            {entry.rank <= 3 && (
-              <div className="absolute -top-3 left-4">
-                <Badge
-                  variant="default"
-                  className={
-                    entry.rank === 1
-                      ? "bg-yellow-500 text-black"
-                      : entry.rank === 2
-                        ? "bg-gray-400 text-black"
-                        : "bg-amber-700 text-white"
-                  }
-                >
-                  #{entry.rank}
-                </Badge>
-              </div>
+            href={modelDetailHref(
+              entry.model.provider,
+              entry.model.slug,
+              entry.model.apiIdentifier
             )}
+            className="block"
+          >
+            <Card
+              className={`relative transition-colors hover:bg-muted/50 ${RANK_STYLES[entry.rank] ? `border-2 ${RANK_STYLES[entry.rank]}` : ""}`}
+            >
+              {entry.rank <= 3 && (
+                <div className="absolute -top-3 left-4">
+                  <Badge
+                    variant="default"
+                    className={
+                      entry.rank === 1
+                        ? "bg-yellow-500 text-black"
+                        : entry.rank === 2
+                          ? "bg-gray-400 text-black"
+                          : "bg-amber-700 text-white"
+                    }
+                  >
+                    #{entry.rank}
+                  </Badge>
+                </div>
+              )}
 
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">
-                  {entry.model.modelName}
-                </CardTitle>
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg">
+                    {entry.model.modelName}
+                  </CardTitle>
                 <Badge
                   variant="outline"
                   className={PROVIDER_STYLES[entry.model.provider]}
@@ -80,7 +99,8 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                 <TrendIndicator trend={entry.trend} />
               </div>
             </CardContent>
-          </Card>
+            </Card>
+          </Link>
         ))}
       </div>
     </section>

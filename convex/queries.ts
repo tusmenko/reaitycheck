@@ -1,4 +1,89 @@
 import { query } from "./_generated/server";
+import { v } from "convex/values";
+
+export const getTestBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, { slug }) => {
+    return await ctx.db
+      .query("testCases")
+      .withIndex("by_slug", (q) => q.eq("slug", slug))
+      .first();
+  },
+});
+
+export const getModelBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, { slug }) => {
+    return await ctx.db
+      .query("aiModels")
+      .withIndex("by_slug", (q) => q.eq("slug", slug))
+      .first();
+  },
+});
+
+export const getTestBreakdown = query({
+  args: { testCaseId: v.id("testCases") },
+  handler: async (ctx, { testCaseId }) => {
+    const models = await ctx.db
+      .query("aiModels")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+
+    const entries = await Promise.all(
+      models.map(async (model) => {
+        const runs = await ctx.db
+          .query("testRuns")
+          .withIndex("by_test_and_model", (q) =>
+            q.eq("testCaseId", testCaseId).eq("modelId", model._id)
+          )
+          .collect();
+        const totalRuns = runs.length;
+        const successfulRuns = runs.filter((r) => r.isCorrect).length;
+        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+        const latestRun =
+          runs.length > 0
+            ? runs.reduce((a, b) => (a.executedAt >= b.executedAt ? a : b))
+            : null;
+        return { model, latestRun, totalRuns, successRate };
+      })
+    );
+
+    entries.sort((a, b) => a.successRate - b.successRate);
+    return entries;
+  },
+});
+
+export const getModelBreakdown = query({
+  args: { modelId: v.id("aiModels") },
+  handler: async (ctx, { modelId }) => {
+    const tests = await ctx.db
+      .query("testCases")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+
+    const entries = await Promise.all(
+      tests.map(async (test) => {
+        const runs = await ctx.db
+          .query("testRuns")
+          .withIndex("by_test_and_model", (q) =>
+            q.eq("testCaseId", test._id).eq("modelId", modelId)
+          )
+          .collect();
+        const totalRuns = runs.length;
+        const successfulRuns = runs.filter((r) => r.isCorrect).length;
+        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+        const latestRun =
+          runs.length > 0
+            ? runs.reduce((a, b) => (a.executedAt >= b.executedAt ? a : b))
+            : null;
+        return { test, latestRun, totalRuns, successRate };
+      })
+    );
+
+    entries.sort((a, b) => a.successRate - b.successRate);
+    return entries;
+  },
+});
 
 export const getActiveTestCases = query({
   args: {},

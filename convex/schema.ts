@@ -31,6 +31,7 @@ export default defineSchema({
     modelName: v.string(),
     modelVersion: v.optional(v.string()),
     apiIdentifier: v.string(),
+    slug: v.optional(v.string()),
     contextWindow: v.optional(v.number()),
     costPer1kTokens: v.optional(v.number()),
     maxTokens: v.optional(v.number()),
@@ -38,7 +39,8 @@ export default defineSchema({
   })
     .index("by_provider", ["provider"])
     .index("by_active", ["isActive"])
-    .index("by_provider_and_name", ["provider", "modelName"]),
+    .index("by_provider_and_name", ["provider", "modelName"])
+    .index("by_slug", ["slug"]),
 
   testRuns: defineTable({
     testCaseId: v.id("testCases"),

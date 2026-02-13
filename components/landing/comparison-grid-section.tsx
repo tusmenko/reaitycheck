@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -8,6 +9,15 @@ import {
 } from "@/components/ui/table";
 import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import type { TestCase, AIModel, ComparisonCell } from "@/lib/types";
+
+function modelDetailHref(
+  provider: string,
+  slug: string | undefined,
+  apiIdentifier: string
+) {
+  const s = slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
+  return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+}
 
 interface ComparisonGridSectionProps {
   tests: TestCase[];
@@ -45,9 +55,16 @@ export function ComparisonGridSection({
               </TableHead>
               {models.map((model) => (
                 <TableHead key={model._id} className="text-center min-w-[120px]">
-                  <span className="text-xs font-medium leading-tight">
+                  <Link
+                    href={modelDetailHref(
+                      model.provider,
+                      model.slug,
+                      model.apiIdentifier
+                    )}
+                    className="text-xs font-medium leading-tight text-primary underline-offset-4 hover:underline"
+                  >
                     {model.modelName}
-                  </span>
+                  </Link>
                 </TableHead>
               ))}
             </TableRow>
@@ -56,7 +73,12 @@ export function ComparisonGridSection({
             {tests.map((test) => (
               <TableRow key={test._id}>
                 <TableCell className="sticky left-0 z-10 bg-background font-medium">
-                  {test.name}
+                  <Link
+                    href={`/test/${test.slug}`}
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    {test.name}
+                  </Link>
                 </TableCell>
                 {models.map((model) => {
                   const cell = getResult(grid, test._id, model._id);

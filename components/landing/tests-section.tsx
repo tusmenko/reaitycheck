@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MemenessStars } from "@/components/custom/memeness-stars";
@@ -28,36 +29,38 @@ export function TestsSection({ tests }: TestsSectionProps) {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tests.map((test) => (
-          <Card key={test._id}>
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between gap-2">
-                <CardTitle className="text-base leading-tight">
-                  {test.name}
-                </CardTitle>
-                <MemenessStars score={test.memenessScore} />
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="outline">{formatCategory(test.category)}</Badge>
-                <Badge
-                  variant="outline"
-                  className={DIFFICULTY_STYLES[test.difficulty]}
-                >
-                  {test.difficulty}
-                </Badge>
-              </div>
-            </CardHeader>
+          <Link key={test._id} href={`/test/${test.slug}`} className="block">
+            <Card className="transition-colors hover:bg-muted/50">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <CardTitle className="text-base leading-tight">
+                    {test.name}
+                  </CardTitle>
+                  <MemenessStars score={test.memenessScore} />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{formatCategory(test.category)}</Badge>
+                  <Badge
+                    variant="outline"
+                    className={DIFFICULTY_STYLES[test.difficulty]}
+                  >
+                    {test.difficulty}
+                  </Badge>
+                </div>
+              </CardHeader>
 
-            <CardContent className="space-y-3">
-              <div className="rounded-md bg-muted p-3">
-                <p className="text-sm font-mono leading-relaxed line-clamp-3">
-                  {test.prompt}
+              <CardContent className="space-y-3">
+                <div className="rounded-md bg-muted p-3">
+                  <p className="text-sm font-mono leading-relaxed line-clamp-3">
+                    {test.prompt}
+                  </p>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {test.explanation}
                 </p>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {test.explanation}
-              </p>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </section>

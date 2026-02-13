@@ -22,6 +22,7 @@ export interface AIModel {
   modelName: string;
   modelVersion: string;
   apiIdentifier: string;
+  slug?: string;
   contextWindow: number;
   costPer1kTokens: number;
   isActive: boolean;

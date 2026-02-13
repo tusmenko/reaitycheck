@@ -1997,14 +1997,14 @@ export function DataFreshnessIndicator() {
 
 **Goals**: Get development environment ready
 
-- [ ] Initialize Next.js project with TypeScript
-- [ ] Set up Convex
+- [x] Initialize Next.js project with TypeScript
+- [x] Set up Convex
   - Create account
   - Install Convex SDK
   - Configure schema
-- [ ] Install shadcn/ui and Tailwind
-- [ ] Create basic project structure
-- [ ] Set up Git repository
+- [x] Install shadcn/ui and Tailwind
+- [x] Create basic project structure
+- [x] Set up Git repository
 
 **Deliverables**:
 
@@ -2018,13 +2018,13 @@ export function DataFreshnessIndicator() {
 
 **Goals**: Set up data layer
 
-- [ ] Define Convex schema (tables, indexes)
-- [ ] Create seed data files
+- [x] Define Convex schema (tables, indexes)
+- [x] Create seed data files
   - `testCases.ts` (all 10 tests)
   - `aiModels.ts` (6 models)
-- [ ] Write seed script
-- [ ] Test seeding locally
-- [ ] Write basic Convex queries
+- [x] Write seed script
+- [x] Test seeding locally
+- [x] Write basic Convex queries
   - `getTestCases`
   - `getModels`
   - `getLeaderboard`
@@ -2040,20 +2040,19 @@ export function DataFreshnessIndicator() {
 
 **Goals**: Build the core testing logic
 
-- [ ] Set up AI provider SDKs
+- [x] Set up AI provider SDKs
   - OpenAI client
   - Anthropic client
   - Google client
   - Groq client
-- [ ] Create unified client interface
-- [ ] Implement validation functions
+- [x] Create unified client interface
+- [x] Implement validation functions
   - Exact match
   - Contains
   - Regex
   - Custom validators
-- [ ] Build test execution logic
-- [ ] Create `/api/test/run` endpoint
-- [ ] Test manually with Postman/curl
+- [x] Build test execution logic
+- [x] Test manually with Postman/curl
 
 **Deliverables**:
 
@@ -2066,12 +2065,10 @@ export function DataFreshnessIndicator() {
 
 **Goals**: Automate daily testing
 
-- [ ] Create `/api/cron/trigger-all-tests`
-- [ ] Configure Vercel Cron in `vercel.json`
-- [ ] Create `/api/test/status` endpoint
-- [ ] Add error handling and retries
-- [ ] Test cron locally
-- [ ] Deploy to Vercel and verify cron works
+- [x] Create `/api/cron/trigger-all-tests`
+- [x] Add error handling and retries
+- [x] Test cron locally
+- [x] Deploy to Vercel and verify cron works
 
 **Deliverables**:
 
@@ -2084,13 +2081,13 @@ export function DataFreshnessIndicator() {
 
 **Goals**: Build main user-facing page
 
-- [ ] Hero section with methodology
-- [ ] Quick comparison grid (3-5 tests × 4-6 models)
+- [x] Hero section with methodology
+- [x] Quick comparison grid (3-5 tests × 4-6 models)
 - [ ] Full comparison table
 - [ ] About the tests section
 - [ ] Test details section
 - [ ] Methodology & data section
-- [ ] Make it responsive
+- [x] Make it responsive
 
 **Deliverables**:
 
