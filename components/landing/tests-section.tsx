@@ -25,7 +25,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
   return (
     <section
       id="challenges"
-      className="relative overflow-hidden bg-dark-50/60 py-20"
+      className="relative overflow-hidden bg-dark-50/50 py-20"
     >
       <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-accent-red/10 blur-3xl" />
       <div className="absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-accent-orange/10 blur-3xl" />
@@ -49,7 +49,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
             return (
               <Link
                 key={test._id}
-                href={`/test/${test.slug}`}
+                href={`/challenges/${test.slug}`}
                 className="group rounded-2xl border border-dark-200 bg-dark-100 p-6 shadow-sm transition-all hover:border-accent-red/50 hover:shadow-glow"
               >
                 <div className="mb-4 flex items-start justify-between gap-3">
@@ -88,11 +88,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
           })}
 
           <Link
-            href={
-              featuredChallenges[0]
-                ? `/test/${featuredChallenges[0].slug}`
-                : "#challenges"
-            }
+            href="/challenges"
             className="group flex flex-col items-center justify-center rounded-2xl border border-dark-200 bg-dark-100 p-6 text-center transition-all hover:border-accent-red/50 hover:shadow-glow"
           >
             <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-dark-200 bg-dark-50 transition-transform group-hover:scale-110">

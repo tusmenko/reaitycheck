@@ -65,15 +65,15 @@ export function HeroSection({
             </div>
           </div>
           <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">Daily</div>
+            <div className="mb-1 text-3xl font-bold text-white">{modelCount}</div>
             <div className="text-sm font-medium uppercase tracking-wide text-gray-500">
-              Automated Runs
+              Providers
             </div>
           </div>
           <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">Open</div>
+            <div className="mb-1 text-3xl font-bold text-white">Daily</div>
             <div className="text-sm font-medium uppercase tracking-wide text-gray-500">
-              Methodology
+              Automated Runs
             </div>
           </div>
         </div>

@@ -1,6 +1,13 @@
 import Link from "next/link";
 import type { LeaderboardEntry } from "@/lib/types";
-import { Trophy, ArrowRight } from "lucide-react";
+import {
+  Trophy,
+  ArrowRight,
+  Bot,
+  BrainCircuit,
+  Zap,
+  LucideIcon,
+} from "lucide-react";
 
 function modelDetailHref(
   provider: string,
@@ -14,6 +21,19 @@ function modelDetailHref(
 
 interface LeaderboardSectionProps {
   leaderboard: LeaderboardEntry[];
+}
+
+const TOP_RANK_ICONS: Record<number, LucideIcon> = {
+  1: Bot,
+  2: BrainCircuit,
+  3: Zap,
+};
+
+function avatarGradientByRank(rank: number) {
+  if (rank === 1) return "from-orange-400 to-red-500";
+  if (rank === 2) return "from-purple-500 to-indigo-600";
+  if (rank === 3) return "from-gray-600 to-gray-800";
+  return "from-dark-300 to-dark-500";
 }
 
 export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
@@ -31,13 +51,13 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               Models ranked by how often they survive our challenge sets.
             </p>
           </div>
-          <a
-            href="#test-runs"
+          <Link
+            href="/benchmark"
             className="group hidden items-center font-medium text-accent-red transition-colors hover:text-accent-orange sm:flex"
           >
             View benchmark table
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -49,6 +69,8 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               .slice(0, 2)
               .map((part) => part[0]?.toUpperCase())
               .join("");
+            const RankIcon = TOP_RANK_ICONS[entry.rank] ?? Trophy;
+            const avatarGradient = avatarGradientByRank(entry.rank);
 
             return (
               <Link
@@ -62,12 +84,14 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               >
                 <article className="relative h-full overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
                   <div className="absolute right-6 top-6 opacity-5 transition-opacity group-hover:opacity-10">
-                    <Trophy className="h-24 w-24 text-white" />
+                    <RankIcon className="h-24 w-24 text-white" />
                   </div>
 
                   <div className="mb-6 flex items-start justify-between gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-accent-red to-accent-orange text-sm font-bold text-white shadow-lg">
+                      <div
+                        className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br text-sm font-bold text-white shadow-lg ${avatarGradient}`}
+                      >
                         {initials}
                       </div>
                       <div>
@@ -80,9 +104,16 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                       </div>
                     </div>
 
-                    <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
-                      #{entry.rank}
-                    </span>
+                    {entry.rank === 1 ? (
+                      <span className="inline-flex items-center rounded-full border border-green-800 bg-green-900/30 px-2.5 py-1 text-xs font-medium text-green-400">
+                        <Trophy className="mr-1.5 h-3 w-3 text-yellow-500" />
+                        #{entry.rank}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
+                        #{entry.rank}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">

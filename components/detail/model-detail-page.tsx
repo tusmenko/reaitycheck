@@ -75,18 +75,18 @@ export function ModelDetailPage({
   const resilienceRate =
     totalTests > 0
       ? (breakdown.filter((e) => e.latestRun && e.latestRun.isCorrect).length /
-          totalTests) *
-        100
+        totalTests) *
+      100
       : 0;
   const runsWithTime = breakdown.filter((e) => e.latestRun);
   const avgResponseTimeMs =
     runsWithTime.length > 0
       ? Math.round(
-          runsWithTime.reduce(
-            (acc, e) => acc + (e.latestRun?.executionTimeMs ?? 0),
-            0
-          ) / runsWithTime.length
-        )
+        runsWithTime.reduce(
+          (acc, e) => acc + (e.latestRun?.executionTimeMs ?? 0),
+          0
+        ) / runsWithTime.length
+      )
       : 0;
   const toughestBreakers = [...breakdown]
     .filter((e) => e.latestRun && !e.latestRun.isCorrect)
@@ -173,7 +173,7 @@ export function ModelDetailPage({
               return (
                 <Link
                   key={entry.test._id}
-                  href={`/test/${entry.test.slug}`}
+                  href={`/challenges/${entry.test.slug}`}
                   className="block"
                 >
                   <Card className="transition-colors hover:bg-muted/50">
@@ -232,7 +232,7 @@ export function ModelDetailPage({
                   <TableRow key={entry.test._id}>
                     <TableCell className="font-medium">
                       <Link
-                        href={`/test/${entry.test.slug}`}
+                        href={`/challenges/${entry.test.slug}`}
                         className="text-primary underline-offset-4 hover:underline"
                       >
                         {entry.test.name}

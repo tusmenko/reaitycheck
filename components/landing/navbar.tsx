@@ -10,29 +10,29 @@ export function Navbar() {
             <Skull className="h-5 w-5" />
           </div>
           <span className="font-display text-xl font-bold tracking-tight text-white">
-            RealityCheck
+            ReAItyCheck
           </span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          <a
-            href="#models"
+          <Link
+            href="/#models"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Models
-          </a>
-          <a
-            href="#challenges"
+          </Link>
+          <Link
+            href="/#challenges"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Challenges
-          </a>
-          <a
-            href="#test-runs"
+          </Link>
+          <Link
+            href="/benchmark"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Benchmarks
-          </a>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -44,12 +44,12 @@ export function Navbar() {
           >
             <Github className="h-5 w-5" />
           </Link>
-          <a
-            href="#challenges"
+          <Link
+            href="/#challenges"
             className="hidden rounded-full bg-linear-to-r from-accent-red to-accent-orange px-5 py-2.5 text-sm font-medium text-dark-50 transition-all hover:shadow-glow sm:inline-flex"
           >
-            Submit Model
-          </a>
+            Submit Challenge
+          </Link>
           <button
             type="button"
             className="text-gray-400 md:hidden"
