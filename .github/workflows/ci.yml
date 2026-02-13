@@ -10,8 +10,7 @@ on:
 jobs:
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
-    env:
-      CONVEX_DEPLOYMENT: ${{ vars.CONVEX_DEPLOYMENT }}
+    environment: Production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
