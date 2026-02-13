@@ -1,6 +1,6 @@
 "use node";
 
-import { action } from "../_generated/server";
+import { action, internalAction } from "../_generated/server";
 import { api, internal } from "../_generated/api";
 import { v } from "convex/values";
 import { callModel } from "./openrouter";
@@ -9,14 +9,8 @@ import { validate } from "./validators";
 const TEMPERATURE = 0.7;
 const DEFAULT_MAX_TOKENS = 500;
 const DELAY_BETWEEN_REQUESTS_MS = 8_000; // ~7.5 req/min, safely under free-tier 8/min
-const MAX_RETRIES = 2;
-const RETRY_BACKOFF_MS = 15_000;
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function formatError(error: unknown): { message: string; raw: string } {
+function formatError(error: unknown): string {
   if (error instanceof Error) {
     const status = "status" in error ? (error as { status: number }).status : undefined;
     const code = "code" in error ? (error as { code: string }).code : undefined;
@@ -25,122 +19,151 @@ function formatError(error: unknown): { message: string; raw: string } {
       code ? `code=${code}` : null,
       error.message,
     ].filter(Boolean);
-    return { message: parts.join(" | "), raw: parts.join(" | ") };
+    return parts.join(" | ");
   }
-  return { message: String(error), raw: String(error) };
+  return String(error);
 }
 
-async function callWithRetry(
-  apiKey: string,
-  apiIdentifier: string,
-  prompt: string,
-  options: { temperature: number; maxTokens: number }
-) {
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      return await callModel(apiKey, apiIdentifier, prompt, options);
-    } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      const isRetryable = msg.includes("429") || msg.includes("rate limit");
-      if (isRetryable && attempt < MAX_RETRIES) {
-        const backoff = RETRY_BACKOFF_MS * (attempt + 1);
-        console.log(`    ↻ Rate limited, retrying in ${backoff / 1000}s (attempt ${attempt + 1}/${MAX_RETRIES})`);
-        await sleep(backoff);
-        continue;
-      }
-      throw error;
-    }
-  }
-  throw new Error("Unreachable");
-}
-
-export const runAllTests = action({
-  args: {},
-  handler: async (ctx) => {
+// Internal action: execute a single test for one model (scheduled by orchestrator)
+export const executeScheduledTest = internalAction({
+  args: {
+    testCaseId: v.id("testCases"),
+    modelId: v.id("aiModels"),
+    testName: v.string(),
+    prompt: v.string(),
+    expectedAnswer: v.string(),
+    validationType: v.string(),
+    validationConfig: v.optional(
+      v.object({
+        acceptableAnswers: v.optional(v.array(v.string())),
+        caseSensitive: v.optional(v.boolean()),
+        customValidatorName: v.optional(v.string()),
+      })
+    ),
+    modelName: v.string(),
+    apiIdentifier: v.string(),
+    maxTokens: v.number(),
+  },
+  handler: async (ctx, args) => {
     const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
       throw new Error("OPENROUTER_API_KEY environment variable is not set");
     }
 
-    const tests = await ctx.runQuery(api.queries.getActiveTestCases);
-    const models = await ctx.runQuery(api.queries.getActiveModels);
+    try {
+      const result = await callModel(apiKey, args.apiIdentifier, args.prompt, {
+        temperature: TEMPERATURE,
+        maxTokens: args.maxTokens,
+      });
 
-    const summary = { total: 0, passed: 0, failed: 0, errors: 0 };
+      const validation = validate(
+        args.validationType,
+        args.validationConfig,
+        args.expectedAnswer,
+        result.content
+      );
 
-    console.log(`Starting test run: ${models.length} models × ${tests.length} tests = ${models.length * tests.length} total`);
+      const icon = validation.isCorrect ? "PASS" : "FAIL";
+      console.log(
+        `[${icon}] ${args.modelName} > ${args.testName} | ` +
+          `expected="${args.expectedAnswer}" got="${validation.parsedAnswer}" | ` +
+          `${result.executionTimeMs}ms`
+      );
 
-    for (const model of models) {
-      const maxTokens = model.maxTokens ?? DEFAULT_MAX_TOKENS;
-      console.log(`\n── Model: ${model.modelName} (${model.apiIdentifier}) | maxTokens: ${maxTokens} ──`);
+      await ctx.runMutation(internal.mutations.insertTestRun, {
+        testCaseId: args.testCaseId,
+        modelId: args.modelId,
+        status: "success",
+        rawResponse: result.content,
+        parsedAnswer: validation.parsedAnswer,
+        isCorrect: validation.isCorrect,
+        executionTimeMs: result.executionTimeMs,
+        tokensUsed: result.tokensUsed,
+        temperature: TEMPERATURE,
+        maxTokens: args.maxTokens,
+      });
+    } catch (error) {
+      const errorMessage = formatError(error);
+      console.log(`[ERR!] ${args.modelName} > ${args.testName} | ${errorMessage}`);
 
-      for (const test of tests) {
-        summary.total++;
-
-        try {
-          const result = await callWithRetry(apiKey, model.apiIdentifier, test.prompt, {
-            temperature: TEMPERATURE,
-            maxTokens,
-          });
-
-          const validation = validate(
-            test.validationType,
-            test.validationConfig,
-            test.expectedAnswer,
-            result.content
-          );
-
-          if (validation.isCorrect) {
-            summary.passed++;
-          } else {
-            summary.failed++;
-          }
-
-          const icon = validation.isCorrect ? "PASS" : "FAIL";
-          console.log(`  [${icon}] ${test.name} | expected="${test.expectedAnswer}" got="${validation.parsedAnswer}" | ${result.executionTimeMs}ms`);
-
-          await ctx.runMutation(internal.mutations.insertTestRun, {
-            testCaseId: test._id,
-            modelId: model._id,
-            status: "success",
-            rawResponse: result.content,
-            parsedAnswer: validation.parsedAnswer,
-            isCorrect: validation.isCorrect,
-            executionTimeMs: result.executionTimeMs,
-            tokensUsed: result.tokensUsed,
-            temperature: TEMPERATURE,
-            maxTokens,
-          });
-        } catch (error) {
-          summary.errors++;
-
-          const { message: errorMessage, raw } = formatError(error);
-
-          console.log(`  [ERR!] ${test.name} | ${errorMessage}`);
-
-          await ctx.runMutation(internal.mutations.insertTestRun, {
-            testCaseId: test._id,
-            modelId: model._id,
-            status: "error",
-            rawResponse: raw,
-            parsedAnswer: undefined,
-            isCorrect: false,
-            executionTimeMs: 0,
-            errorMessage,
-            temperature: TEMPERATURE,
-            maxTokens,
-          });
-        }
-
-        // Rate limit delay between requests
-        await sleep(DELAY_BETWEEN_REQUESTS_MS);
-      }
+      await ctx.runMutation(internal.mutations.insertTestRun, {
+        testCaseId: args.testCaseId,
+        modelId: args.modelId,
+        status: "error",
+        rawResponse: "",
+        parsedAnswer: undefined,
+        isCorrect: false,
+        executionTimeMs: 0,
+        errorMessage,
+        temperature: TEMPERATURE,
+        maxTokens: args.maxTokens,
+      });
     }
-
-    console.log(`\nDone: ${summary.passed} passed, ${summary.failed} failed, ${summary.errors} errors (${summary.total} total)`);
-    return summary;
   },
 });
 
+// Orchestrator: schedules all test executions with staggered delays, then exits
+export const orchestrateAllTests = action({
+  args: {},
+  handler: async (ctx) => {
+    const tests = await ctx.runQuery(api.queries.getActiveTestCases);
+    const models = await ctx.runQuery(api.queries.getActiveModels);
+
+    const total = models.length * tests.length;
+    console.log(
+      `Orchestrating test run: ${models.length} models × ${tests.length} tests = ${total} executions`
+    );
+
+    let delayMs = 0;
+    let scheduled = 0;
+
+    for (const model of models) {
+      const maxTokens = model.maxTokens ?? DEFAULT_MAX_TOKENS;
+
+      for (const test of tests) {
+        await ctx.scheduler.runAfter(
+          delayMs,
+          internal.actions.runTests.executeScheduledTest,
+          {
+            testCaseId: test._id,
+            modelId: model._id,
+            testName: test.name,
+            prompt: test.prompt,
+            expectedAnswer: test.expectedAnswer,
+            validationType: test.validationType,
+            validationConfig: test.validationConfig,
+            modelName: model.modelName,
+            apiIdentifier: model.apiIdentifier,
+            maxTokens,
+          }
+        );
+
+        scheduled++;
+        delayMs += DELAY_BETWEEN_REQUESTS_MS;
+      }
+    }
+
+    const durationMinutes = Math.ceil(delayMs / 60_000);
+    console.log(
+      `Scheduled ${scheduled} tests (staggered over ~${durationMinutes} minutes)`
+    );
+
+    return { scheduled, estimatedDurationMinutes: durationMinutes };
+  },
+});
+
+// Deprecated: redirects to orchestrateAllTests
+export const runAllTests = action({
+  args: {},
+  handler: async (ctx): Promise<{ scheduled: number; estimatedDurationMinutes: number }> => {
+    console.warn(
+      "runAllTests is deprecated — redirecting to orchestrateAllTests"
+    );
+    return await ctx.runAction(api.actions.runTests.orchestrateAllTests);
+  },
+});
+
+// Manual single test run (for dashboard use)
 export const runSingleTest = action({
   args: {
     testSlug: v.string(),
@@ -177,7 +200,7 @@ export const runSingleTest = action({
 
     const maxTokens = model.maxTokens ?? DEFAULT_MAX_TOKENS;
 
-    const result = await callWithRetry(apiKey, model.apiIdentifier, test.prompt, {
+    const result = await callModel(apiKey, model.apiIdentifier, test.prompt, {
       temperature: TEMPERATURE,
       maxTokens,
     });
