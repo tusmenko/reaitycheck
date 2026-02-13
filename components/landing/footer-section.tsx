@@ -1,36 +1,21 @@
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import Image from "next/image";
+import { Github } from "lucide-react";
 
 export function FooterSection() {
   return (
-    <footer className="py-8">
-      <Separator className="mb-8" />
-      <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-between">
-        <p className="inline-flex items-center gap-2">
-          <Image
-            src="/icon.svg"
-            alt=""
-            width={20}
-            height={20}
-            className="h-5 w-5"
-          />
-          Ignore hype. Take a reAIity check.
-        </p>
-        <Link
-          href="https://github.com/tusmenko/reaitycheck"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2"
-        >
-          <Image
-            height="20"
-            width="20"
-            alt="GitHub"
-            src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/github.svg"
-          />
-          GitHub
-        </Link>
+    <footer className=" border-dark-200 bg-dark-50  pb-8">
+      <div className="flex flex-col items-center justify-between gap-4 border-t border-dark-200 px-6 pt-8 text-sm text-gray-500 md:flex-row">
+        <p>© 2026 ReAIityCheck by Eugene Tusmenko</p>
+        <div className="flex items-center gap-6">
+          <Link
+            href="https://github.com/tusmenko/reaitycheck"
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-gray-300"
+          >
+            <Github className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     </footer>
   );

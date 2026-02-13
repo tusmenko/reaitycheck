@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendIndicator } from "@/components/custom/trend-indicator";
-import type { LeaderboardEntry, Provider } from "@/lib/types";
-import { Trophy } from "lucide-react";
+import type { LeaderboardEntry } from "@/lib/types";
+import {
+  Trophy,
+  ArrowRight,
+  Bot,
+  BrainCircuit,
+  Zap,
+  LucideIcon,
+} from "lucide-react";
 
 function modelDetailHref(
   provider: string,
@@ -15,93 +19,126 @@ function modelDetailHref(
   return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
 }
 
-const PROVIDER_STYLES: Partial<Record<Provider, string>> = {
-  openai: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  anthropic:
-    "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  google: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  meta: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-};
-
-const RANK_STYLES: Record<number, string> = {
-  1: "border-yellow-400 dark:border-yellow-500",
-  2: "border-gray-300 dark:border-gray-500",
-  3: "border-amber-600 dark:border-amber-700",
-};
-
 interface LeaderboardSectionProps {
   leaderboard: LeaderboardEntry[];
 }
 
+const TOP_RANK_ICONS: Record<number, LucideIcon> = {
+  1: Bot,
+  2: BrainCircuit,
+  3: Zap,
+};
+
+function avatarGradientByRank(rank: number) {
+  if (rank === 1) return "from-orange-400 to-red-500";
+  if (rank === 2) return "from-purple-500 to-indigo-600";
+  if (rank === 3) return "from-gray-600 to-gray-800";
+  return "from-dark-300 to-dark-500";
+}
+
 export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
+  const topModels = leaderboard.slice(0, 6);
+
   return (
-    <section className="py-16">
-      <div className="mb-8 flex items-center gap-2">
-        <Trophy className="h-6 w-6" />
-        <h2 className="text-3xl font-bold tracking-tight">Leaderboard</h2>
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {leaderboard.map((entry) => (
+    <section id="models" className="relative bg-dark-50 py-20">
+      <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+        <div className="mb-12 flex items-end justify-between">
+          <div>
+            <h2 className="font-display text-3xl font-bold text-white">
+              Top Survivors
+            </h2>
+            <p className="mt-3 text-gray-400">
+              Models ranked by how often they survive our challenge sets.
+            </p>
+          </div>
           <Link
-            key={entry.model._id}
-            href={modelDetailHref(
-              entry.model.provider,
-              entry.model.slug,
-              entry.model.apiIdentifier
-            )}
-            className="block"
+            href="/benchmark"
+            className="group hidden items-center font-medium text-accent-red transition-colors hover:text-accent-orange sm:flex"
           >
-            <Card
-              className={`relative transition-colors hover:bg-muted/50 ${RANK_STYLES[entry.rank] ? `border-2 ${RANK_STYLES[entry.rank]}` : ""}`}
-            >
-              {entry.rank <= 3 && (
-                <div className="absolute -top-3 left-4">
-                  <Badge
-                    variant="default"
-                    className={
-                      entry.rank === 1
-                        ? "bg-yellow-500 text-black"
-                        : entry.rank === 2
-                          ? "bg-gray-400 text-black"
-                          : "bg-amber-700 text-white"
-                    }
-                  >
-                    #{entry.rank}
-                  </Badge>
-                </div>
-              )}
-
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">
-                    {entry.model.modelName}
-                  </CardTitle>
-                <Badge
-                  variant="outline"
-                  className={PROVIDER_STYLES[entry.model.provider]}
-                >
-                  {entry.model.provider}
-                </Badge>
-              </div>
-            </CardHeader>
-
-            <CardContent>
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-3xl font-bold">
-                    {Math.round(entry.successRate * 100)}%
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {entry.successfulRuns}/{entry.totalRuns} passed
-                  </p>
-                </div>
-                <TrendIndicator trend={entry.trend} />
-              </div>
-            </CardContent>
-            </Card>
+            View benchmark table
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
-        ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {topModels.map((entry) => {
+            const success = Math.round(entry.successRate * 100);
+            const failure = Math.max(0, 100 - success);
+            const initials = entry.model.modelName
+              .split(" ")
+              .slice(0, 2)
+              .map((part) => part[0]?.toUpperCase())
+              .join("");
+            const RankIcon = TOP_RANK_ICONS[entry.rank] ?? Trophy;
+            const avatarGradient = avatarGradientByRank(entry.rank);
+
+            return (
+              <Link
+                key={entry.model._id}
+                href={modelDetailHref(
+                  entry.model.provider,
+                  entry.model.slug,
+                  entry.model.apiIdentifier
+                )}
+                className="group block h-full"
+              >
+                <article className="relative h-full overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
+                  <div className="absolute right-6 top-6 opacity-5 transition-opacity group-hover:opacity-10">
+                    <RankIcon className="h-24 w-24 text-white" />
+                  </div>
+
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br text-sm font-bold text-white shadow-lg ${avatarGradient}`}
+                      >
+                        {initials}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white transition-colors group-hover:text-accent-red">
+                          {entry.model.modelName}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {entry.model.provider}
+                        </p>
+                      </div>
+                    </div>
+
+                    {entry.rank === 1 ? (
+                      <span className="inline-flex items-center rounded-full border border-green-800 bg-green-900/30 px-2.5 py-1 text-xs font-medium text-green-400">
+                        <Trophy className="mr-1.5 h-3 w-3 text-yellow-500" />
+                        #{entry.rank}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
+                        #{entry.rank}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                      <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
+                        Failure Rate
+                      </div>
+                      <div className="text-2xl font-bold text-accent-red">
+                        {failure}%
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                      <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
+                        Survived
+                      </div>
+                      <div className="text-2xl font-bold text-brand-500">
+                        {success}%
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
