@@ -8,6 +8,11 @@
  * @module
  */
 
+import type * as actions_openrouter from "../actions/openrouter.js";
+import type * as actions_runTests from "../actions/runTests.js";
+import type * as actions_validators from "../actions/validators.js";
+import type * as crons from "../crons.js";
+import type * as mutations from "../mutations.js";
 import type * as queries from "../queries.js";
 import type * as seed from "../seed.js";
 import type * as seeds_aiModels from "../seeds/aiModels.js";
@@ -20,6 +25,11 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "actions/openrouter": typeof actions_openrouter;
+  "actions/runTests": typeof actions_runTests;
+  "actions/validators": typeof actions_validators;
+  crons: typeof crons;
+  mutations: typeof mutations;
   queries: typeof queries;
   seed: typeof seed;
   "seeds/aiModels": typeof seeds_aiModels;

@@ -2,48 +2,38 @@ import { mutation } from "./_generated/server";
 import { testCases } from "./seeds/testCases";
 import { aiModels } from "./seeds/aiModels";
 
-// Pass/fail map: apiIdentifier → set of slugs that pass
+// Pass/fail map: apiIdentifier → set of slugs that pass (placeholder until real runs)
 const PASS_MAP: Record<string, Set<string>> = {
-  "openai/gpt-4o": new Set([
-    "strawberry-problem",
-    "alices-brother-problem",
-    "i-dont-know-test",
-    "minute-moment-riddle",
-    "reverse-word-test",
-    "multi-step-arithmetic",
-    "ten-step-instructions",
-  ]), // 7/9
-  "openai/gpt-4o-mini": new Set([
+  "meta-llama/llama-3.3-70b-instruct:free": new Set([
     "minute-moment-riddle",
     "multi-step-arithmetic",
     "i-dont-know-test",
-    "ten-step-instructions",
-  ]), // 4/9
-  "anthropic/claude-opus-4.5": new Set([
-    "strawberry-problem",
-    "alices-brother-problem",
-    "fabricated-citations",
-    "i-dont-know-test",
-    "minute-moment-riddle",
-    "reverse-word-test",
-    "multi-step-arithmetic",
-  ]), // 7/9
-  "anthropic/claude-sonnet-4.5": new Set([
-    "strawberry-problem",
-    "i-dont-know-test",
-    "minute-moment-riddle",
-    "multi-step-arithmetic",
-    "alices-brother-problem",
-  ]), // 5/9
-  "google/gemini-2.0-flash-exp": new Set([
-    "minute-moment-riddle",
-    "multi-step-arithmetic",
-    "alices-brother-problem",
   ]), // 3/9
-  "meta-llama/llama-3.3-70b-instruct": new Set([
+  "deepseek/deepseek-r1-0528:free": new Set([
+    "strawberry-problem",
+    "alices-brother-problem",
+    "i-dont-know-test",
+    "minute-moment-riddle",
+    "reverse-word-test",
+    "multi-step-arithmetic",
+  ]), // 6/9
+  "qwen/qwen3-next-80b-a3b-instruct:free": new Set([
+    "strawberry-problem",
+    "alices-brother-problem",
+    "i-dont-know-test",
+    "minute-moment-riddle",
+    "multi-step-arithmetic",
+  ]), // 5/9
+  "google/gemma-3-27b-it:free": new Set([
     "minute-moment-riddle",
     "multi-step-arithmetic",
   ]), // 2/9
+  "mistralai/mistral-small-3.1-24b-instruct:free": new Set([
+    "minute-moment-riddle",
+    "multi-step-arithmetic",
+    "i-dont-know-test",
+    "alices-brother-problem",
+  ]), // 4/9
 };
 
 export const seedDatabase = mutation({

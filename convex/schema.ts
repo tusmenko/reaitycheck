@@ -33,6 +33,7 @@ export default defineSchema({
     apiIdentifier: v.string(),
     contextWindow: v.optional(v.number()),
     costPer1kTokens: v.optional(v.number()),
+    maxTokens: v.optional(v.number()),
     isActive: v.boolean(),
   })
     .index("by_provider", ["provider"])

@@ -1,4 +1,4 @@
-export type Provider = "openai" | "anthropic" | "google" | "meta";
+export type Provider = "openai" | "anthropic" | "google" | "meta" | "deepseek" | "alibaba" | "mistral";
 export type Difficulty = "easy" | "medium" | "hard";
 export type Trend = "up" | "down" | "stable";
 
