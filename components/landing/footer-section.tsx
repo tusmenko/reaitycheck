@@ -1,4 +1,6 @@
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import Image from "next/image";
 
 export function FooterSection() {
   return (
@@ -6,9 +8,22 @@ export function FooterSection() {
       <Separator className="mb-8" />
       <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-between">
         <p>
-          ReAIity Checker — No hype. No marketing. Just honest data.
+          Ignore hype. Take a reAIity check.
         </p>
-        <p>Open source project</p>
+        <Link
+          href="https://github.com/tusmenko/reaitycheck"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2"
+        >
+          <Image
+            height="20"
+            width="20"
+            alt="GitHub"
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/github.svg"
+          />
+          GitHub
+        </Link>
       </div>
     </footer>
   );

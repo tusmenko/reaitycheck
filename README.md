@@ -79,4 +79,4 @@ are you comfortable with how they behave on simple problems?
 - Not the definitive ranking
 - Not an anti-AI statement
 
-**[reaitycheck.com](https://www.reaitycheck.com/)** - Skip hype. Take a reAIity check.
+**[reaitycheck.com](https://www.reaitycheck.com/)** - Ignore hype. Take a reAIity check.

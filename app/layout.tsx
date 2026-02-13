@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ReAIity Checker - See Where AI Actually Fails",
+  title: "ReAIity Check - Know your tools limitations",
   description:
-    "Daily automated testing of viral AI failure cases. Track real-world limitations of GPT-4o, Claude, Gemini, and more.",
+    "Daily automated testing of viral AI failure cases. Track real-world limitations of the most popular models.",
 };
 
 export default function RootLayout({
