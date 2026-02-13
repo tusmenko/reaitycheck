@@ -1,21 +1,33 @@
 import Link from "next/link";
 import type { TestCase, AIModel, ComparisonCell } from "@/lib/types";
+import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import { ChevronRight, Skull } from "lucide-react";
+
+function providerPageHref(provider: string) {
+  return `/models/${encodeURIComponent(provider)}`;
+}
+
+function providerDisplayName(provider: string) {
+  return provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
+}
 
 function modelDetailHref(
   provider: string,
   slug: string | undefined,
   apiIdentifier: string
 ) {
-  const s = slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+  const s =
+    slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
+  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
 }
 
 interface ComparisonGridSectionProps {
   tests: TestCase[];
   models: AIModel[];
   grid: ComparisonCell[];
-  /** When "full", show all models and tests and a "Back to overview" footer. When "preview" (default), show first 4 models and 8 tests with "Full benchmark" link. */
+  /** "provider" = columns are providers (aggregated failure rate). "model" = columns are models (per-model failure rate). */
+  granularity?: "provider" | "model";
+  /** When "full", show all providers/models and tests and a "Back to overview" footer. When "preview" (default), show first 6 providers or 4 models and 8 tests with "Full benchmark" link. */
   variant?: "preview" | "full";
 }
 
@@ -29,13 +41,36 @@ function getResult(
   );
 }
 
+function getProviderFailureRate(
+  grid: ComparisonCell[],
+  testCaseId: string,
+  provider: string,
+  models: AIModel[]
+): number | null {
+  const providerModels = models.filter((m) => m.provider === provider);
+  const cells = providerModels
+    .map((m) => getResult(grid, testCaseId, m._id))
+    .filter((c): c is ComparisonCell => c != null);
+  if (cells.length === 0) return null;
+  const avgSuccess =
+    cells.reduce((sum, c) => sum + c.successRate, 0) / cells.length;
+  return 1 - avgSuccess;
+}
+
 export function ComparisonGridSection({
   tests,
   models,
   grid,
+  granularity = "provider",
   variant = "preview",
 }: ComparisonGridSectionProps) {
-  const tableModels = variant === "full" ? models : models.slice(0, 4);
+  const allProviders = Array.from(
+    new Set(models.map((m) => m.provider))
+  ).sort();
+  const tableProviders =
+    variant === "full" ? allProviders : allProviders.slice(0, 6);
+  const tableModels =
+    variant === "full" ? models : models.slice(0, 4);
   const tableTests = variant === "full" ? tests : tests.slice(0, 8);
 
   function failureBadgeClass(failureRate: number) {
@@ -54,7 +89,9 @@ export function ComparisonGridSection({
               Live Benchmarks
             </h2>
             <p className="mt-2 text-gray-400">
-              Failure-rate snapshot across current challenge suites.
+              {granularity === "model"
+                ? "Failure-rate snapshot across current challenge suites."
+                : "Failure-rate snapshot by provider (averaged across their models)."}
             </p>
           </div>
         </div>
@@ -67,23 +104,37 @@ export function ComparisonGridSection({
                   <th className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
                     Challenge Suite
                   </th>
-                  {tableModels.map((model) => (
-                    <th
-                      key={model._id}
-                      className="px-6 py-5 text-center text-xs font-semibold uppercase tracking-wider text-gray-400"
-                    >
-                      <Link
-                        href={modelDetailHref(
-                          model.provider,
-                          model.slug,
-                          model.apiIdentifier
-                        )}
-                        className="transition-colors hover:text-white"
+                  {granularity === "model"
+                    ? tableModels.map((model) => (
+                      <th
+                        key={model._id}
+                        className="px-6 py-5 text-center text-xs font-semibold uppercase tracking-wider text-gray-400"
                       >
-                        {model.modelName}
-                      </Link>
-                    </th>
-                  ))}
+                        <Link
+                          href={modelDetailHref(
+                            model.provider,
+                            model.slug,
+                            model.apiIdentifier
+                          )}
+                          className="transition-colors hover:text-white"
+                        >
+                          {model.modelName}
+                        </Link>
+                      </th>
+                    ))
+                    : tableProviders.map((provider) => (
+                      <th
+                        key={provider}
+                        className="px-6 py-5 text-center text-xs font-semibold uppercase tracking-wider text-gray-400"
+                      >
+                        <Link
+                          href={providerPageHref(provider)}
+                          className="transition-colors hover:text-white"
+                        >
+                          {providerDisplayName(provider)}
+                        </Link>
+                      </th>
+                    ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-dark-200">
@@ -100,26 +151,45 @@ export function ComparisonGridSection({
                         {test.category.replaceAll("_", " ")}
                       </div>
                     </td>
-                    {tableModels.map((model) => {
-                      const cell = getResult(grid, test._id, model._id);
-                      const failureRate = cell
-                        ? Math.max(0, Math.round((1 - cell.successRate) * 100))
-                        : null;
-
-                      return (
-                        <td key={model._id} className="px-6 py-6 text-center">
-                          {failureRate === null ? (
-                            <span className="text-sm text-gray-500">N/A</span>
-                          ) : (
-                            <span
-                              className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-bold ${failureBadgeClass(failureRate)}`}
-                            >
-                              {failureRate}%
+                    {granularity === "model"
+                      ? tableModels.map((model) => {
+                        const cell = getResult(grid, test._id, model._id);
+                        return (
+                          <td key={model._id} className="px-6 py-6 text-center">
+                            <span className="inline-flex items-center justify-center">
+                              <TestRunStatusIcon cell={cell} />
                             </span>
-                          )}
-                        </td>
-                      );
-                    })}
+                          </td>
+                        );
+                      })
+                      : tableProviders.map((provider) => {
+                        const failureRateRatio = getProviderFailureRate(
+                          grid,
+                          test._id,
+                          provider,
+                          models
+                        );
+                        const failureRate =
+                          failureRateRatio != null
+                            ? Math.max(
+                              0,
+                              Math.round(failureRateRatio * 100)
+                            )
+                            : null;
+                        return (
+                          <td key={provider} className="px-6 py-6 text-center">
+                            {failureRate === null ? (
+                              <span className="text-sm text-gray-500">N/A</span>
+                            ) : (
+                              <span
+                                className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-bold ${failureBadgeClass(failureRate)}`}
+                              >
+                                {failureRate}%
+                              </span>
+                            )}
+                          </td>
+                        );
+                      })}
                   </tr>
                 ))}
               </tbody>
@@ -160,12 +230,12 @@ export function ComparisonGridSection({
                   Submit your edge case. If it breaks major models, we add it to
                   the gauntlet and credit the submission.
                 </p>
-                <a
-                  href="#challenges"
+                <Link
+                  href="/submit-challenge"
                   className="inline-flex rounded-full bg-linear-to-r from-accent-red to-accent-orange px-8 py-3 font-bold text-white shadow-lg transition-all hover:shadow-glow"
                 >
                   Submit Challenge
-                </a>
+                </Link>
               </div>
 
               <div className="shrink-0">

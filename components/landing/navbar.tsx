@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Menu, Skull } from "lucide-react";
+import { Github, Skull } from "lucide-react";
 
 export function Navbar() {
   return (
@@ -16,13 +16,13 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           <Link
-            href="/#models"
+            href="/models"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Models
           </Link>
           <Link
-            href="/#challenges"
+            href="/challenges"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Challenges
@@ -45,18 +45,11 @@ export function Navbar() {
             <Github className="h-5 w-5" />
           </Link>
           <Link
-            href="/#challenges"
+            href="/submit-challenge"
             className="hidden rounded-full bg-linear-to-r from-accent-red to-accent-orange px-5 py-2.5 text-sm font-medium text-dark-50 transition-all hover:shadow-glow sm:inline-flex"
           >
             Submit Challenge
           </Link>
-          <button
-            type="button"
-            className="text-gray-400 md:hidden"
-            aria-label="Open menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
         </div>
       </div>
     </nav>

@@ -54,6 +54,7 @@ export function BenchmarkPageContent({
           tests={testCases}
           models={aiModels}
           grid={comparisonGrid}
+          granularity="model"
           variant="full"
         />
       </main>
