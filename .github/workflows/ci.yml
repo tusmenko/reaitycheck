@@ -9,7 +9,7 @@ on:
 
 jobs:
   # Build needs NEXT_PUBLIC_CONVEX_URL so ConvexReactClient doesn't throw; placeholder is enough (no real calls).
-  # Deploy jobs use their GitHub environment for CONVEX_DEPLOY_KEY and CONVEX_DEPLOYMENT.
+  # Deploy: Production uses repo secret + variable (env injection unreliable). Development uses environment.
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
     env:
@@ -67,6 +67,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Deploy Convex to Production
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+          CONVEX_DEPLOYMENT: ${{ vars.CONVEX_DEPLOYMENT }}
         run: npx convex deploy
 
   deploy-development:
