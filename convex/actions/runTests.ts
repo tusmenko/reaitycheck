@@ -107,6 +107,8 @@ export const runAllTests = action({
             isCorrect: validation.isCorrect,
             executionTimeMs: result.executionTimeMs,
             tokensUsed: result.tokensUsed,
+            temperature: TEMPERATURE,
+            maxTokens,
           });
         } catch (error) {
           summary.errors++;
@@ -124,6 +126,8 @@ export const runAllTests = action({
             isCorrect: false,
             executionTimeMs: 0,
             errorMessage,
+            temperature: TEMPERATURE,
+            maxTokens,
           });
         }
 
@@ -194,6 +198,8 @@ export const runSingleTest = action({
       isCorrect: validation.isCorrect,
       executionTimeMs: result.executionTimeMs,
       tokensUsed: result.tokensUsed,
+      temperature: TEMPERATURE,
+      maxTokens,
     });
 
     return {

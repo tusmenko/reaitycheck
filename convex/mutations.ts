@@ -18,13 +18,14 @@ export const insertTestRun = internalMutation({
       })
     ),
     errorMessage: v.optional(v.string()),
+    temperature: v.number(),
+    maxTokens: v.number(),
   },
   handler: async (ctx, args) => {
+    const { ...rest } = args;
     return await ctx.db.insert("testRuns", {
-      ...args,
+      ...rest,
       executedAt: Date.now(),
-      temperature: 0.7,
-      maxTokens: 500,
     });
   },
 });

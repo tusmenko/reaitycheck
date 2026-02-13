@@ -1,0 +1,43 @@
+---
+description: Add ADR entries when architectural decisions are made during planning
+alwaysApply: true
+---
+
+# Architecture Decisions Log
+
+When planning work that involves **architectural decisions**, add a new entry to the decisions log.
+
+**Location**: `docs/decisions-log/` — see [TEMPLATE.md](docs/decisions-log/TEMPLATE.md) for format and steps.
+
+## When to Add an ADR
+
+Add an entry when a decision involves:
+
+- **App layout / structure** — routing, folder structure, module boundaries, monorepo vs multi-repo
+- **New technologies or services** — databases, frameworks, third-party APIs, SDKs, infra
+- **Deployment & infra** — hosting, CI/CD, environments, scaling
+- **Data architecture** — sync strategy, caching, migration approach
+- **Auth / security model** — auth strategy, session handling, API security
+- **Integrations** — how external systems are integrated, patterns (sync vs async)
+- **Performance / reliability** — queuing, retries, circuit breakers, observability approach
+
+## When NOT to Add an ADR
+
+Do **not** add entries for:
+
+- Plain functional changes — new features, bug fixes, small improvements
+- UI-only changes — layout tweaks, styling, component variants
+- Content or copy updates
+- Configuration tweaks without architectural impact
+- Refactors that don’t change architecture (e.g. extracting a helper)
+
+## Format
+
+Each ADR must include:
+
+1. **AI proposal** — what was suggested
+2. **Human alternative** — what the user proposed (if any)
+3. **Decision** — what was chosen and why
+4. **Consequences** — benefits and trade-offs
+
+Follow the structure in `docs/decisions-log/TEMPLATE.md` and update `README.md` with the new ADR.
