@@ -68,6 +68,7 @@ export function LandingPage({
     modelId: cell.modelId,
     isCorrect: cell.isCorrect,
     successRate: cell.successRate,
+    status: cell.status as ComparisonCell["status"],
   }));
 
   const lastUpdated = lastRunTime ? new Date(lastRunTime) : new Date();

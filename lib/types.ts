@@ -53,4 +53,5 @@ export interface ComparisonCell {
   modelId: string;
   isCorrect: boolean;
   successRate: number;
+  status?: "success" | "failed" | "error" | "timeout";
 }

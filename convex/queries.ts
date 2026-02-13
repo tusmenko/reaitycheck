@@ -69,23 +69,36 @@ export const getComparisonGrid = query({
     // Group by test+model, keep latest run per pair
     const latestByPair = new Map<
       string,
-      { testCaseId: string; modelId: string; isCorrect: boolean; successRate: number }
+      {
+        testCaseId: string;
+        modelId: string;
+        isCorrect: boolean;
+        successRate: number;
+        status: string;
+        executedAt: number;
+      }
     >();
 
     for (const run of allRuns) {
       const key = `${run.testCaseId}:${run.modelId}`;
       const existing = latestByPair.get(key);
-      if (!existing || run.executedAt > (allRuns.find((r) => r.testCaseId === existing.testCaseId && r.modelId === existing.modelId)?.executedAt ?? 0)) {
+      if (!existing || run.executedAt > existing.executedAt) {
         latestByPair.set(key, {
           testCaseId: run.testCaseId,
           modelId: run.modelId,
           isCorrect: run.isCorrect,
           successRate: run.isCorrect ? 1 : 0,
+          status: run.status,
+          executedAt: run.executedAt,
         });
       }
     }
 
-    return Array.from(latestByPair.values());
+    return Array.from(latestByPair.values()).map((entry) => {
+      const { executedAt, ...rest } = entry;
+      void executedAt; // Used for comparison only, omit from result
+      return rest;
+    });
   },
 });
 

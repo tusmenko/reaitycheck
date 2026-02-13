@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import type { TestCase, AIModel, ComparisonCell } from "@/lib/types";
 
 interface ComparisonGridSectionProps {
@@ -61,8 +62,8 @@ export function ComparisonGridSection({
                   const cell = getResult(grid, test._id, model._id);
                   return (
                     <TableCell key={model._id} className="text-center">
-                      <span className="text-lg">
-                        {cell?.isCorrect ? "\u2705" : "\u274C"}
+                      <span className="inline-flex items-center justify-center">
+                        <TestRunStatusIcon cell={cell} />
                       </span>
                     </TableCell>
                   );
