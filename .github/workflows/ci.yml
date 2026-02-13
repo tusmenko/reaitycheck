@@ -8,11 +8,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  # No environment: build runs on all branches and PRs; uses repo variable for codegen.
+  # No env vars or Convex credentials: uses committed convex/_generated/. Deploy jobs handle env.
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
-    env:
-      CONVEX_DEPLOYMENT: ${{ vars.CONVEX_DEPLOYMENT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,9 +28,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Convex codegen
-        run: npx convex codegen
 
       - name: Lint
         run: pnpm run lint
