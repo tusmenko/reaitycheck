@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReAIity Check
 
-## Getting Started
+> AI is coming for your job.  
+> But first, let’s see if it can handle edge cases.
 
-First, run the development server:
+**ReAIity Check** started as a reaction to the current AI hype cycle —  
+claims of inevitable AI dominance, agent-driven development replacing engineers, and the growing belief that competence is optional.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project exists to test that belief against reality.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**[Try it live →](https://www.reaitycheck.com/)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Why this exists
 
-## Learn More
+We are told that:
 
-To learn more about Next.js, take a look at the following resources:
+- AI agents will replace most roles in IT
+- architecture and decision-making can be delegated
+- trusting agents is already a requirement
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+At the same time, models:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- fail basic logical traps,
+- hallucinate confidently,
+- misunderstand simple constraints,
+- break on edge cases a human handles instinctively.
+- default to popular decisions that may not fit your use case
 
-## Deploy on Vercel
+This repository treats that contradiction as a starting point.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What this project does
+
+- Runs the same non-trivial prompts across popular models and agents
+- Tracks results across versions and time
+- Surfaces failures benchmarks tend to average out
+- Focuses on meme edge cases, not academic scores
+
+Examples: Strawberry Problem, Alice's Brother, Fabricated Citations, ets.
+
+The goal is simple:
+**track progress until agents can solve simple edge-case problems at least as reliably as humans.**
+
+That point might arrive.
+When it does — *we are, in fact, blessed / fucked.*
+
+---
+
+## The meta-experiment
+
+This project is built mostly with AI agents (Claude + Cursor), with minimal manual coding.
+
+It deliberately asks:
+
+- where agents help,
+- where they mislead,
+- and how often they appear correct while being wrong.
+
+---
+
+## The core question
+
+AI agents are powerful tools.
+They can significantly increase productivity.
+
+But they do not replace competence.
+
+Before trusting them with architecture, decisions, or jobs —
+are you comfortable with how they behave on simple problems?
+
+---
+
+## What this is not
+
+- Not a scientific benchmark
+- Not the definitive ranking
+- Not an anti-AI statement
+
+**[reaitycheck.com](https://www.reaitycheck.com/)** - Skip hype. Take a reAIity check.
