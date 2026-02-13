@@ -3,12 +3,14 @@ import { formatDistanceToNow } from "date-fns";
 interface HeroSectionProps {
   modelCount: number;
   testCount: number;
+  providerCount: number;
   lastUpdated: Date;
 }
 
 export function HeroSection({
   modelCount,
   testCount,
+  providerCount,
   lastUpdated,
 }: HeroSectionProps) {
   const freshness = formatDistanceToNow(lastUpdated, { addSuffix: true });
@@ -65,7 +67,7 @@ export function HeroSection({
             </div>
           </div>
           <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">{modelCount}</div>
+            <div className="mb-1 text-3xl font-bold text-white">{providerCount}</div>
             <div className="text-sm font-medium uppercase tracking-wide text-gray-500">
               Providers
             </div>

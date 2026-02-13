@@ -4,6 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Color and shadow values below mirror docs/Reference.html (body #09090b, dark palette, accent, shadows). */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -162,5 +163,10 @@
     background: rgb(24 24 27 / 0.6);
     backdrop-filter: blur(10px);
     border: 1px solid rgb(63 63 70 / 0.5);
+  }
+
+  /* Reference: Deadly Challenges section uses bg-dark-50/50 → rgb(24 24 27 / 0.5). */
+  .bg-dark-50\/50 {
+    background-color: rgb(24 24 27 / 0.5);
   }
 }

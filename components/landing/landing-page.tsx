@@ -74,12 +74,13 @@ export function LandingPage({
   const lastUpdated = lastRunTime ? new Date(lastRunTime) : new Date();
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-dark-50">
+    <div className="relative min-h-screen overflow-x-hidden bg-background">
       <Navbar />
 
       <HeroSection
         modelCount={aiModels.length}
         testCount={testCases.length}
+        providerCount={new Set(aiModels.map((m) => m.provider)).size}
         lastUpdated={lastUpdated}
       />
 
