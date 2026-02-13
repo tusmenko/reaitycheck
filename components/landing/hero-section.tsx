@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { DataFreshnessIndicator } from "@/components/custom/data-freshness-indicator";
 import { FlaskConical, BrainCircuit } from "lucide-react";
@@ -15,15 +16,31 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section className="py-20 text-center">
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-        ReAIity Check
-      </h1>
+      <div className="flex items-center justify-center gap-3">
+        <Image
+          src="/icon.svg"
+          alt="ReAIity Check"
+          width={56}
+          height={56}
+          className="h-12 w-12 sm:h-14 sm:w-14"
+          priority
+        />
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          ReAIity Check
+        </h1>
+      </div>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-        See Where AI Actually Fails
+        Know your tools&apos; limitations.
       </p>
       <p className="mx-auto mt-2 max-w-xl text-muted-foreground">
-        AI benchmarks tell you where models excel. We show you where they
-        consistently fail — with daily automated testing and full transparency.
+        We run the same edge-case and viral failure prompts across popular
+        models, surface where they consistently fail, and track results over
+        time. Built with AI agents to see where they mislead — full
+        transparency.
+      </p>
+      <p className="mx-auto mt-3 max-w-xl text-sm font-medium text-muted-foreground">
+        Track progress until agents can solve simple edge-case problems at least
+        as reliably as humans.
       </p>
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

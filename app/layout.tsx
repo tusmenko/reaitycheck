@@ -14,9 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ReAIity Check - Know your tools limitations",
+  title: "ReAIity Check — Know your tools' limitations",
   description:
-    "Daily automated testing of viral AI failure cases. Track real-world limitations of the most popular models.",
+    "Daily automated testing of viral and edge-case AI failure cases. Track real-world limitations of the most popular models.",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

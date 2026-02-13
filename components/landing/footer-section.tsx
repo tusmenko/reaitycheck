@@ -7,7 +7,14 @@ export function FooterSection() {
     <footer className="py-8">
       <Separator className="mb-8" />
       <div className="flex flex-col items-center gap-2 text-sm text-muted-foreground sm:flex-row sm:justify-between">
-        <p>
+        <p className="inline-flex items-center gap-2">
+          <Image
+            src="/icon.svg"
+            alt=""
+            width={20}
+            height={20}
+            className="h-5 w-5"
+          />
           Ignore hype. Take a reAIity check.
         </p>
         <Link
