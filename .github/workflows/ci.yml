@@ -8,9 +8,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  # No env vars or Convex credentials: uses committed convex/_generated/. Deploy jobs handle env.
+  # Build needs NEXT_PUBLIC_CONVEX_URL so ConvexReactClient doesn't throw; placeholder is enough (no real calls).
+  # Deploy jobs use their GitHub environment for CONVEX_DEPLOY_KEY and CONVEX_DEPLOYMENT.
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_CONVEX_URL: https://ci-placeholder.convex.cloud
     steps:
       - name: Checkout
         uses: actions/checkout@v4
