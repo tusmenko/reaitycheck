@@ -7,8 +7,8 @@ import { HeroSection } from "./hero-section";
 import { LeaderboardSection } from "./leaderboard-section";
 import { ComparisonGridSection } from "./comparison-grid-section";
 import { TestsSection } from "./tests-section";
-import { MethodologySection } from "./methodology-section";
 import { FooterSection } from "./footer-section";
+import { Navbar } from "./navbar";
 
 interface LandingPageProps {
   preloadedTests: Preloaded<typeof api.queries.getActiveTestCases>;
@@ -74,20 +74,25 @@ export function LandingPage({
   const lastUpdated = lastRunTime ? new Date(lastRunTime) : new Date();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-x-hidden bg-dark-50">
+      <Navbar />
+
       <HeroSection
         modelCount={aiModels.length}
         testCount={testCases.length}
         lastUpdated={lastUpdated}
       />
-      <LeaderboardSection leaderboard={leaderboardEntries} />
-      <ComparisonGridSection
-        tests={testCases}
-        models={aiModels}
-        grid={comparisonGrid}
-      />
-      <TestsSection tests={testCases} />
-      <MethodologySection lastUpdated={lastUpdated} />
+
+      <main className="relative z-10">
+        <LeaderboardSection leaderboard={leaderboardEntries} />
+        <TestsSection tests={testCases} />
+        <ComparisonGridSection
+          tests={testCases}
+          models={aiModels}
+          grid={comparisonGrid}
+        />
+      </main>
+
       <FooterSection />
     </div>
   );
