@@ -40,7 +40,7 @@ function formatCategory(category: string) {
 
 function modelDetailHref(provider: string, slug: string | undefined, apiIdentifier: string) {
   const s = slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
 }
 
 interface TestDetailPageProps {

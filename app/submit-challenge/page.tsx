@@ -131,10 +131,15 @@ export default function SubmitChallengePage() {
           turnstileToken,
         }),
       });
-      const json = (await res.json()) as { success?: boolean; error?: string };
+      const json = (await res.json()) as {
+        success?: boolean;
+        error?: string;
+        code?: string;
+      };
       if (!res.ok) {
         setSubmitError(json.error ?? "Submission failed. Please try again.");
-        if (res.status === 400) {
+        // Only reset Turnstile when the token was invalid/expired, not for rate limit or other errors
+        if (res.status === 400 && json.code === "turnstile_invalid") {
           setTurnstileToken(null);
           setTurnstileKey((k) => k + 1);
         }

@@ -113,12 +113,18 @@ export async function POST(request: Request) {
       codes.includes("invalid-input-response")
     ) {
       return NextResponse.json(
-        { error: "Verification expired or already used. Please complete the challenge again." },
+        {
+          error: "Verification expired or already used. Please complete the challenge again.",
+          code: "turnstile_invalid",
+        },
         { status: 400 }
       );
     }
     return NextResponse.json(
-      { error: "Verification failed. Please try again." },
+      {
+        error: "Verification failed. Please try again.",
+        code: "turnstile_invalid",
+      },
       { status: 400 }
     );
   }
