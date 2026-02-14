@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MemenessStars } from "@/components/custom/memeness-stars";
+import { modelDetailHref, formatCategory } from "@/lib/model-detail-utils";
 import { Check, X, Eye } from "lucide-react";
 
 const DIFFICULTY_STYLES = {
@@ -30,18 +31,6 @@ const DIFFICULTY_STYLES = {
     "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
   hard: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
 };
-
-function formatCategory(category: string) {
-  return category
-    .split("_")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
-
-function modelDetailHref(provider: string, slug: string | undefined, apiIdentifier: string) {
-  const s = slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
-}
 
 interface TestDetailPageProps {
   preloadedTest: Preloaded<typeof api.queries.getTestBySlug>;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { LeaderboardEntry } from "@/lib/types";
+import { modelDetailHref } from "@/lib/model-detail-utils";
 import {
   Trophy,
   ArrowRight,
@@ -8,16 +9,6 @@ import {
   Award,
   LucideIcon,
 } from "lucide-react";
-
-function modelDetailHref(
-  provider: string,
-  slug: string | undefined,
-  apiIdentifier: string
-) {
-  const s =
-    slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
-}
 
 interface LeaderboardSectionProps {
   leaderboard: LeaderboardEntry[];

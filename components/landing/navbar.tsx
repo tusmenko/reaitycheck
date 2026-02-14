@@ -16,7 +16,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           <Link
-            href="/models"
+            href="/providers"
             className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
           >
             Models

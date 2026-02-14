@@ -154,6 +154,133 @@ export const getActiveModels = query({
   },
 });
 
+export const getModelsByProvider = query({
+  args: { provider: v.string() },
+  handler: async (ctx, { provider }) => {
+    return await ctx.db
+      .query("aiModels")
+      .withIndex("by_provider", (q) => q.eq("provider", provider))
+      .filter((q) => q.eq(q.field("isActive"), true))
+      .collect();
+  },
+});
+
+export const getProviderLeaderboard = query({
+  args: { provider: v.string() },
+  handler: async (ctx, { provider }) => {
+    const models = await ctx.db
+      .query("aiModels")
+      .withIndex("by_provider", (q) => q.eq("provider", provider))
+      .filter((q) => q.eq(q.field("isActive"), true))
+      .collect();
+
+    if (models.length === 0) return { entries: [], providerAvgResponseTimeMs: 0 };
+
+    const allRuns = await ctx.db.query("testRuns").collect();
+    const modelIds = new Set(models.map((m) => m._id));
+
+    const entries = models.map((model) => {
+      const runs = allRuns.filter(
+        (r) => r.modelId === model._id && r.status === "success"
+      );
+      const successfulRuns = runs.filter((r) => r.isCorrect).length;
+      const totalRuns = runs.length;
+      const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+      const runsWithTime = runs.filter((r) => r.executionTimeMs != null);
+      const avgExecutionTimeMs =
+        runsWithTime.length > 0
+          ? Math.round(
+              runsWithTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
+                runsWithTime.length
+            )
+          : 0;
+
+      return {
+        model,
+        totalRuns,
+        successfulRuns,
+        successRate,
+        trend: (successRate >= 0.7
+          ? "up"
+          : successRate <= 0.25
+            ? "down"
+            : "stable") as "up" | "down" | "stable",
+        rank: 0,
+        avgExecutionTimeMs,
+      };
+    });
+
+    entries.sort((a, b) => b.successRate - a.successRate);
+    entries.forEach((e, i) => (e.rank = i + 1));
+
+    const allProviderRuns = allRuns.filter((r) => modelIds.has(r.modelId));
+    const withTime = allProviderRuns.filter((r) => r.executionTimeMs != null);
+    const providerAvgResponseTimeMs =
+      withTime.length > 0
+        ? Math.round(
+            withTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
+              withTime.length
+          )
+        : 0;
+
+    return { entries, providerAvgResponseTimeMs };
+  },
+});
+
+export const getProviderBreakdown = query({
+  args: { provider: v.string() },
+  handler: async (ctx, { provider }) => {
+    const models = await ctx.db
+      .query("aiModels")
+      .withIndex("by_provider", (q) => q.eq("provider", provider))
+      .filter((q) => q.eq(q.field("isActive"), true))
+      .collect();
+
+    if (models.length === 0) return [];
+
+    const tests = await ctx.db
+      .query("testCases")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+
+    const allRuns = await ctx.db.query("testRuns").collect();
+    const latestByPair = new Map<
+      string,
+      { isCorrect: boolean; executedAt: number }
+    >();
+    for (const run of allRuns) {
+      if (models.some((m) => m._id === run.modelId)) {
+        const key = `${run.testCaseId}:${run.modelId}`;
+        const existing = latestByPair.get(key);
+        if (!existing || run.executedAt > existing.executedAt) {
+          latestByPair.set(key, {
+            isCorrect: run.isCorrect,
+            executedAt: run.executedAt,
+          });
+        }
+      }
+    }
+
+    const result = tests.map((test) => {
+      let passed = 0;
+      let total = 0;
+      for (const model of models) {
+        const key = `${test._id}:${model._id}`;
+        const latest = latestByPair.get(key);
+        if (latest) {
+          total += 1;
+          if (latest.isCorrect) passed += 1;
+        }
+      }
+      const providerPassRate = total > 0 ? passed / total : 0;
+      return { test, providerPassRate };
+    });
+
+    result.sort((a, b) => a.providerPassRate - b.providerPassRate);
+    return result;
+  },
+});
+
 export const getLeaderboard = query({
   args: {},
   handler: async (ctx) => {

@@ -1,24 +1,14 @@
 import Link from "next/link";
 import type { TestCase, AIModel, ComparisonCell } from "@/lib/types";
 import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
+import {
+  modelDetailHref,
+  providerDisplayName,
+} from "@/lib/model-detail-utils";
 import { ChevronRight, Skull } from "lucide-react";
 
 function providerPageHref(provider: string) {
-  return `/models/${encodeURIComponent(provider)}`;
-}
-
-function providerDisplayName(provider: string) {
-  return provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
-}
-
-function modelDetailHref(
-  provider: string,
-  slug: string | undefined,
-  apiIdentifier: string
-) {
-  const s =
-    slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+  return `/providers/${encodeURIComponent(provider)}`;
 }
 
 interface ComparisonGridSectionProps {

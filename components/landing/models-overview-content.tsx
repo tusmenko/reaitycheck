@@ -3,18 +3,15 @@
 import { usePreloadedQuery, Preloaded } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
+import { providerDisplayName } from "@/lib/model-detail-utils";
 import { ChevronRight } from "lucide-react";
 
 interface ModelsOverviewContentProps {
   preloadedModels: Preloaded<typeof api.queries.getActiveModels>;
 }
 
-function providerDisplayName(provider: string) {
-  return provider.charAt(0).toUpperCase() + provider.slice(1).toLowerCase();
-}
-
 function providerPageHref(provider: string) {
-  return `/models/${encodeURIComponent(provider)}`;
+  return `/providers/${encodeURIComponent(provider)}`;
 }
 
 export function ModelsOverviewContent({
@@ -63,15 +60,6 @@ export function ModelsOverviewContent({
             </p>
           )}
 
-          <div className="mt-10">
-            <Link
-              href="/"
-              className="inline-flex items-center text-sm font-medium text-accent-red transition-colors hover:text-accent-orange"
-            >
-              Back to Homepage
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
         </section>
       </main>
     </div>
