@@ -274,7 +274,7 @@ function updateTodoWithProjectLinks(
   lineIndices: number[],
   urls: string[]
 ): void {
-  let content = readFileSync(todoPath, "utf-8");
+  const content = readFileSync(todoPath, "utf-8");
   const lines = content.split(/\r?\n/);
   for (let k = 0; k < lineIndices.length && k < urls.length; k++) {
     const idx = lineIndices[k];
