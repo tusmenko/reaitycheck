@@ -26,9 +26,9 @@ export function ModelsOverviewContent({
   const providers = Array.from(new Set(models.map((m) => m.provider))).sort();
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-dark-50">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
       <Navbar />
-      <main className="relative z-10 min-h-[80vh] px-6 pb-16 pt-28 lg:px-12">
+      <main className="relative z-10 flex-1 px-6 pb-16 pt-28 lg:px-12">
         <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
 
