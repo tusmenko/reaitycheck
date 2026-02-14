@@ -70,8 +70,8 @@ export function TestDetailPage({
   const breakRate =
     totalModels > 0
       ? (breakdown.filter((e) => e.latestRun && !e.latestRun.isCorrect).length /
-          totalModels) *
-        100
+        totalModels) *
+      100
       : 0;
   const difficulty = (test.difficulty ?? "medium") as keyof typeof DIFFICULTY_STYLES;
 
@@ -87,7 +87,7 @@ export function TestDetailPage({
         </div>
         <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          This breaker cracked {modelsCracked} out of {totalModels} models
+          This breaker cracked {modelsCracked} out of {totalModels} top models
         </p>
         <div className="mt-4 rounded-lg border bg-muted/50 p-4">
           <p className="font-mono text-sm leading-relaxed whitespace-pre-wrap">

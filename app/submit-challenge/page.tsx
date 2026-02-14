@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { Turnstile } from "@marsidev/react-turnstile";
 import {
   MAX_EXPECTED_RESULT,
   MAX_MODEL_FAILURE_INSIGHT,
@@ -94,11 +93,13 @@ const defaultValues: ChallengeFormValues = {
   rulesAccepted: false,
 };
 
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY ?? "";
+
 export default function SubmitChallengePage() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-
-  const submitChallenge = useMutation(api.mutations.submitChallenge);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   const {
     register,
@@ -112,20 +113,36 @@ export default function SubmitChallengePage() {
 
   async function onSubmit(data: ChallengeFormValues) {
     setSubmitError(null);
+    if (!turnstileToken) {
+      setSubmitError("Please complete the verification challenge.");
+      return;
+    }
     try {
-      await submitChallenge({
-        prompt: data.prompt,
-        expectedResult: data.expectedResult,
-        trickDescription: data.trickDescription,
-        modelFailureInsight: data.modelFailureInsight || undefined,
-        submitterName: data.submitterName || undefined,
-        submitterLink: data.submitterLink || undefined,
+      const res = await fetch("/api/submit-challenge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: data.prompt,
+          expectedResult: data.expectedResult,
+          trickDescription: data.trickDescription,
+          modelFailureInsight: data.modelFailureInsight,
+          submitterName: data.submitterName,
+          submitterLink: data.submitterLink,
+          turnstileToken,
+        }),
       });
+      const json = (await res.json()) as { success?: boolean; error?: string };
+      if (!res.ok) {
+        setSubmitError(json.error ?? "Submission failed. Please try again.");
+        if (res.status === 400) {
+          setTurnstileToken(null);
+          setTurnstileKey((k) => k + 1);
+        }
+        return;
+      }
       setSubmitted(true);
-    } catch (err) {
-      setSubmitError(
-        err instanceof Error ? err.message : "Submission failed. Please try again."
-      );
+    } catch {
+      setSubmitError("Submission failed. Please try again.");
     }
   }
 
@@ -300,7 +317,7 @@ export default function SubmitChallengePage() {
                     id="rulesAccepted"
                     type="checkbox"
                     {...register("rulesAccepted")}
-                    className="mt-1 h-4 w-4 rounded border-dark-300 bg-dark-200 text-accent-red focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-dark-300 bg-dark-200 text-accent-red focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0"
                   />
                   <label
                     htmlFor="rulesAccepted"
@@ -332,7 +349,11 @@ export default function SubmitChallengePage() {
                 <div className="flex justify-end">
                   <Button
                     type="submit"
-                    disabled={isSubmitting || !isValid}
+                    disabled={
+                      isSubmitting ||
+                      !isValid ||
+                      (!!turnstileSiteKey && !turnstileToken)
+                    }
                     className="rounded-full bg-linear-to-r cursor-pointer from-accent-red to-accent-orange px-8 py-3 font-semibold text-dark-50 transition-all hover:shadow-glow disabled:opacity-70 disabled:cursor-not-allowed "
                   >
                     {isSubmitting ? (
@@ -346,6 +367,20 @@ export default function SubmitChallengePage() {
                   </Button>
                 </div>
               </form>
+              {turnstileSiteKey && (
+                <div
+                  className="absolute bottom-6 right-6 z-0"
+                  aria-hidden
+                >
+                  <Turnstile
+                    key={turnstileKey}
+                    siteKey={turnstileSiteKey}
+                    onSuccess={setTurnstileToken}
+                    onExpire={() => setTurnstileToken(null)}
+                    options={{ theme: "dark", size: "invisible" }}
+                  />
+                </div>
+              )}
             </>
           )}
         </section>
