@@ -151,7 +151,7 @@ export const getComparisonGrid = query({
   handler: async (ctx) => {
     const allRuns = await ctx.db.query("testRuns").collect();
 
-    // Group by test+model, keep latest run per pair
+    // Group by test+model, keep latest run per pair (include parsedAnswer for answer popup)
     const latestByPair = new Map<
       string,
       {
@@ -161,6 +161,8 @@ export const getComparisonGrid = query({
         successRate: number;
         status: string;
         executedAt: number;
+        parsedAnswer?: string;
+        rawResponse?: string;
       }
     >();
 
@@ -175,15 +177,22 @@ export const getComparisonGrid = query({
           successRate: run.isCorrect ? 1 : 0,
           status: run.status,
           executedAt: run.executedAt,
+          parsedAnswer: run.parsedAnswer,
+          rawResponse: run.rawResponse,
         });
       }
     }
 
-    return Array.from(latestByPair.values()).map((entry) => {
-      const { executedAt, ...rest } = entry;
-      void executedAt; // Used for comparison only, omit from result
-      return rest;
-    });
+    return Array.from(latestByPair.values()).map((entry) => ({
+      testCaseId: entry.testCaseId,
+      modelId: entry.modelId,
+      isCorrect: entry.isCorrect,
+      successRate: entry.successRate,
+      status: entry.status,
+      // Explicitly include so they are never stripped from JSON (undefined would be omitted)
+      parsedAnswer: entry.parsedAnswer ?? null,
+      rawResponse: entry.rawResponse ?? "",
+    }));
   },
 });
 

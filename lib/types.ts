@@ -55,4 +55,8 @@ export interface ComparisonCell {
   isCorrect: boolean;
   successRate: number;
   status?: "success" | "failed" | "error" | "timeout";
+  /** From latest run: model's extracted answer (for answer popup) */
+  parsedAnswer?: string;
+  /** From latest run: raw API response (optional, for answer popup) */
+  rawResponse?: string;
 }

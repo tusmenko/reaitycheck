@@ -157,7 +157,10 @@ export function ComparisonGridSection({
                         return (
                           <td key={model._id} className="px-6 py-6 text-center">
                             <span className="inline-flex items-center justify-center">
-                              <TestRunStatusIcon cell={cell} />
+                              <TestRunStatusIcon
+                                cell={cell}
+                                expectedAnswer={test.expectedAnswer}
+                              />
                             </span>
                           </td>
                         );

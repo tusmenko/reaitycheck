@@ -9,17 +9,15 @@ export const metadata = {
 };
 
 export default async function BenchmarkPage() {
-  const [preloadedTests, preloadedModels, preloadedGrid] = await Promise.all([
+  const [preloadedTests, preloadedModels] = await Promise.all([
     preloadQuery(api.queries.getActiveTestCases),
     preloadQuery(api.queries.getActiveModels),
-    preloadQuery(api.queries.getComparisonGrid),
   ]);
 
   return (
     <BenchmarkPageContent
       preloadedTests={preloadedTests}
       preloadedModels={preloadedModels}
-      preloadedGrid={preloadedGrid}
     />
   );
 }
