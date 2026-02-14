@@ -75,6 +75,11 @@ const challengeFormSchema = z.object({
     .refine((s) => s === "" || isValidHttpUrl(s), {
       message: "Link must be a valid http or https URL.",
     }),
+  rulesAccepted: z
+    .boolean()
+    .refine((v) => v === true, {
+      message: "You must agree to the submission rules.",
+    }),
 });
 
 type ChallengeFormValues = z.infer<typeof challengeFormSchema>;
@@ -86,6 +91,7 @@ const defaultValues: ChallengeFormValues = {
   modelFailureInsight: "",
   submitterName: "",
   submitterLink: "",
+  rulesAccepted: false,
 };
 
 export default function SubmitChallengePage() {
@@ -97,7 +103,7 @@ export default function SubmitChallengePage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<ChallengeFormValues>({
     resolver: zodResolver(challengeFormSchema),
     mode: "onChange",
@@ -253,7 +259,7 @@ export default function SubmitChallengePage() {
                 </div>
                 <div>
                   <label htmlFor="submitterName" className={labelClass}>
-                    Your name{" "}
+                    Your nickname {" "}
                     <span className="text-gray-500">(optional)</span>
                   </label>
                   <input
@@ -289,6 +295,35 @@ export default function SubmitChallengePage() {
                     </p>
                   )}
                 </div>
+                <div className="flex items-start gap-3">
+                  <input
+                    id="rulesAccepted"
+                    type="checkbox"
+                    {...register("rulesAccepted")}
+                    className="mt-1 h-4 w-4 rounded border-dark-300 bg-dark-200 text-accent-red focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0"
+                  />
+                  <label
+                    htmlFor="rulesAccepted"
+                    className="text-sm text-gray-300"
+                  >
+                    I have read and agree to the{" "}
+                    <Link
+                      href="/submit-challenge/rules"
+                      className="font-medium text-accent-red underline hover:text-accent-orange"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Submission rules
+                    </Link>{" "}
+                    and the license I grant there. I will not submit personal,
+                    confidential, or policy-violating content.
+                  </label>
+                </div>
+                {errors.rulesAccepted && (
+                  <p className="mt-1 text-sm text-red-400">
+                    {errors.rulesAccepted.message}
+                  </p>
+                )}
                 {submitError && (
                   <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
                     {submitError}
@@ -297,8 +332,8 @@ export default function SubmitChallengePage() {
                 <div className="flex justify-end">
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="rounded-full bg-linear-to-r from-accent-red to-accent-orange px-8 py-3 font-semibold text-dark-50 transition-all hover:shadow-glow disabled:opacity-70"
+                    disabled={isSubmitting || !isValid}
+                    className="rounded-full bg-linear-to-r cursor-pointer from-accent-red to-accent-orange px-8 py-3 font-semibold text-dark-50 transition-all hover:shadow-glow disabled:opacity-70 disabled:cursor-not-allowed "
                   >
                     {isSubmitting ? (
                       <>

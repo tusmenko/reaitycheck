@@ -8,6 +8,7 @@
 - [x] **Redesign pages** — More fancy and playful, but minimalistic.
 - [ ] **Pick top-10 models for testing from OpenRouter**
 - [ ] **Challanges overview page**
+- [ ] **About page**
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing).
 
 ## Post-MVP
@@ -21,13 +22,16 @@
 ### Social
 
 - [x] **Test suggestions form** — Test, success criteria, description.
+- - [x] **Rules checkbox** - Prepare rules and limitations.
 - [ ] **Authorization**
 - [ ] **Voting** - Vote for memeness.
 - [ ] **Report** - Report if the test has faulty conditions.
 - [ ] **Cabinet** — Manage your tests / breakers.
+- [ ] **Take a challange** - but as human
 
 ### Technical
 
 - [ ] **Split validation job from task execution job**
+- [ ] **Add captcha with Cloudlare**
 - [ ] **Setup queue for challanges run scheduling**
 - [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress
