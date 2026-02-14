@@ -10,6 +10,8 @@
 - [ ] **Challanges overview page**
 - [ ] **About page**
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing).
+- [ ] **UX Review**
+- - How failed answer looks like?
 
 ## Post-MVP
 
@@ -35,3 +37,4 @@
 - [x] **Add captcha with Cloudlare**
 - [ ] **Setup queue for challanges run scheduling**
 - [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress
+- [ ] **Error monitoring** - Setup Sentry

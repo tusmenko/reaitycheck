@@ -5,7 +5,7 @@ const crons = cronJobs();
 
 crons.daily(
   "orchestrate all tests",
-  { hourUTC: 3, minuteUTC: 0 },
+  { hourUTC: 12, minuteUTC: 0 },
   api.actions.runTests.orchestrateAllTests
 );
 

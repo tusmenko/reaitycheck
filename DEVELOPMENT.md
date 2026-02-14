@@ -3,7 +3,7 @@
 ## Overview
 
 - **Stack**: Next.js 16 (App Router), React 19, Convex (backend and real-time), OpenRouter for LLM calls, Tailwind and shadcn/ui, Vitest.
-- **Purpose**: The frontend reads test cases, models, leaderboard, and comparison grid from Convex. Automated tests run via a Convex cron (daily 03:00 UTC) that calls OpenRouter and writes results to Convex.
+- **Purpose**: The frontend reads test cases, models, leaderboard, and comparison grid from Convex. Automated tests run via a Convex cron (daily 12:00 UTC) that calls OpenRouter and writes results to Convex.
 
 ## Project structure
 
@@ -22,7 +22,7 @@
 
 ### Test execution flow
 
-- The cron ([convex/crons.ts](convex/crons.ts)) runs daily at 03:00 UTC and invokes `api.actions.runTests.runAllTests`.
+- The cron ([convex/crons.ts](convex/crons.ts)) runs daily at 12:00 UTC and invokes `api.actions.runTests.runAllTests`.
 - [runTests.ts](convex/actions/runTests.ts) loads active tests and models via queries, calls [openrouter.ts](convex/actions/openrouter.ts) for each (model × test), validates with [validators.ts](convex/actions/validators.ts), then calls the internal mutation [insertTestRun](convex/mutations.ts) to store each result in testRuns.
 
 ```mermaid
