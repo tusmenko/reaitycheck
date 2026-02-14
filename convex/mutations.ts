@@ -97,24 +97,32 @@ export const submitChallenge = mutation({
       }
     }
 
-    const windowStart = Date.now() - RATE_LIMIT_WINDOW_MS;
+    const submittedAt = Date.now();
+    const windowStart = submittedAt - RATE_LIMIT_WINDOW_MS;
+
+    // Insert first, then enforce rate limit by counting (including this insert).
+    // If over limit, throw to roll back the insert. This prevents concurrent
+    // requests from all passing the check then all inserting.
+    const id = await ctx.db.insert("challengeSubmissions", {
+      prompt: trimmedPrompt,
+      expectedResult: trimmedExpected,
+      trickDescription: trimmedTrick,
+      modelFailureInsight: modelFailureInsight,
+      submitterName: submitterName,
+      submitterLink: submitterLink,
+      submittedAt,
+      status: "pending",
+    });
+
     const recentCount = await ctx.db
       .query("challengeSubmissions")
       .withIndex("by_submitted_at", (q) => q.gte("submittedAt", windowStart))
       .collect();
-    if (recentCount.length >= RATE_LIMIT_MAX_PER_WINDOW) {
+
+    if (recentCount.length > RATE_LIMIT_MAX_PER_WINDOW) {
       throw new Error("Too many submissions. Please try again in a minute.");
     }
 
-    return await ctx.db.insert("challengeSubmissions", {
-      prompt: trimmedPrompt,
-      expectedResult: trimmedExpected,
-      trickDescription: trimmedTrick,
-      modelFailureInsight: modelFailureInsight || undefined,
-      submitterName: submitterName || undefined,
-      submitterLink: submitterLink || undefined,
-      submittedAt: Date.now(),
-      status: "pending",
-    });
+    return id;
   },
 });
