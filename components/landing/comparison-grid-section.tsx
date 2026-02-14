@@ -182,7 +182,7 @@ export function ComparisonGridSection({
                               <span className="text-sm text-gray-500">N/A</span>
                             ) : (
                               <span
-                                className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-bold ${failureBadgeClass(failureRate)}`}
+                                className={`inline-flex w-14 items-center justify-center rounded-full border px-3 py-1 text-sm font-bold ${failureBadgeClass(failureRate)}`}
                               >
                                 {failureRate}%
                               </span>
