@@ -16,13 +16,7 @@ function getRemoteIp(request: Request): string | undefined {
 
 export async function POST(request: Request) {
   const secret = process.env.TURNSTILE_SECRETKEY;
-  if (!secret) {
-    console.error("TURNSTILE_SECRETKEY is not set");
-    return NextResponse.json(
-      { error: "Server configuration error. Please try again later." },
-      { status: 500 }
-    );
-  }
+  const turnstileEnabled = Boolean(secret?.trim());
 
   let body: unknown;
   try {
@@ -34,16 +28,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const requiredFields = ["prompt", "expectedResult", "trickDescription"];
+  if (turnstileEnabled) requiredFields.push("turnstileToken");
+
   if (
     !body ||
     typeof body !== "object" ||
-    !("prompt" in body) ||
-    !("expectedResult" in body) ||
-    !("trickDescription" in body) ||
-    !("turnstileToken" in body)
+    requiredFields.some((f) => !(f in body))
   ) {
     return NextResponse.json(
-      { error: "Missing required fields: prompt, expectedResult, trickDescription, turnstileToken." },
+      {
+        error: turnstileEnabled
+          ? "Missing required fields: prompt, expectedResult, trickDescription, turnstileToken."
+          : "Missing required fields: prompt, expectedResult, trickDescription.",
+      },
       { status: 400 }
     );
   }
@@ -63,70 +61,72 @@ export async function POST(request: Request) {
     modelFailureInsight?: string;
     submitterName?: string;
     submitterLink?: string;
-    turnstileToken: string;
+    turnstileToken?: string;
   };
 
-  if (typeof turnstileToken !== "string" || !turnstileToken.trim()) {
-    return NextResponse.json(
-      { error: "Verification is required. Please complete the challenge." },
-      { status: 400 }
-    );
-  }
+  if (turnstileEnabled) {
+    if (typeof turnstileToken !== "string" || !turnstileToken.trim()) {
+      return NextResponse.json(
+        { error: "Verification is required. Please complete the challenge." },
+        { status: 400 }
+      );
+    }
 
-  const remoteip = getRemoteIp(request);
-  const formData = new FormData();
-  formData.append("secret", secret);
-  formData.append("response", turnstileToken.trim());
-  if (remoteip) formData.append("remoteip", remoteip);
+    const remoteip = getRemoteIp(request);
+    const formData = new FormData();
+    formData.append("secret", secret!);
+    formData.append("response", turnstileToken.trim());
+    if (remoteip) formData.append("remoteip", remoteip);
 
-  let siteverifyRes: Response;
-  try {
-    siteverifyRes = await fetch(SITEVERIFY_URL, {
-      method: "POST",
-      body: formData,
-    });
-  } catch (err) {
-    console.error("Turnstile siteverify request failed:", err);
-    return NextResponse.json(
-      { error: "Verification failed. Please try again." },
-      { status: 502 }
-    );
-  }
+    let siteverifyRes: Response;
+    try {
+      siteverifyRes = await fetch(SITEVERIFY_URL, {
+        method: "POST",
+        body: formData,
+      });
+    } catch (err) {
+      console.error("Turnstile siteverify request failed:", err);
+      return NextResponse.json(
+        { error: "Verification failed. Please try again." },
+        { status: 502 }
+      );
+    }
 
-  let result: { success?: boolean; "error-codes"?: string[] };
-  try {
-    result = (await siteverifyRes.json()) as {
-      success?: boolean;
-      "error-codes"?: string[];
-    };
-  } catch {
-    return NextResponse.json(
-      { error: "Verification failed. Please try again." },
-      { status: 502 }
-    );
-  }
+    let result: { success?: boolean; "error-codes"?: string[] };
+    try {
+      result = (await siteverifyRes.json()) as {
+        success?: boolean;
+        "error-codes"?: string[];
+      };
+    } catch {
+      return NextResponse.json(
+        { error: "Verification failed. Please try again." },
+        { status: 502 }
+      );
+    }
 
-  if (!result.success) {
-    const codes = result["error-codes"] ?? [];
-    if (
-      codes.includes("timeout-or-duplicate") ||
-      codes.includes("invalid-input-response")
-    ) {
+    if (!result.success) {
+      const codes = result["error-codes"] ?? [];
+      if (
+        codes.includes("timeout-or-duplicate") ||
+        codes.includes("invalid-input-response")
+      ) {
+        return NextResponse.json(
+          {
+            error: "Verification expired or already used. Please complete the challenge again.",
+            code: "turnstile_invalid",
+          },
+          { status: 400 }
+        );
+      }
       return NextResponse.json(
         {
-          error: "Verification expired or already used. Please complete the challenge again.",
+          error: "Verification failed. Please try again.",
           code: "turnstile_invalid",
         },
         { status: 400 }
       );
     }
-    return NextResponse.json(
-      {
-        error: "Verification failed. Please try again.",
-        code: "turnstile_invalid",
-      },
-      { status: 400 }
-    );
   }
 
   try {

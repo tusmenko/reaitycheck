@@ -113,7 +113,7 @@ export default function SubmitChallengePage() {
 
   async function onSubmit(data: ChallengeFormValues) {
     setSubmitError(null);
-    if (!turnstileToken) {
+    if (turnstileSiteKey && !turnstileToken) {
       setSubmitError("Please complete the verification challenge.");
       return;
     }
@@ -128,7 +128,9 @@ export default function SubmitChallengePage() {
           modelFailureInsight: data.modelFailureInsight,
           submitterName: data.submitterName,
           submitterLink: data.submitterLink,
-          turnstileToken,
+          ...(turnstileSiteKey && turnstileToken
+            ? { turnstileToken }
+            : {}),
         }),
       });
       const json = (await res.json()) as {
