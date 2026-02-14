@@ -35,6 +35,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local GH project config (copy from gh-project.config.example.json)
+scripts/gh-project.config.json
+
 # vercel
 .vercel
 

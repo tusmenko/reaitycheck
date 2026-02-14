@@ -4,37 +4,39 @@
 
 - [x] **Add licensing** — Clarify learning purposes; don’t create a product that competes.
 - [x] **Update landing page header** — Better reveal application goals (align with README.md).
-- [ ] **Create app logo**
+- [ ] **Create app logo** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQts)
 - [x] **Redesign pages** — More fancy and playful, but minimalistic.
-- [ ] **Pick top-10 models for testing from OpenRouter**
-- [ ] **Challanges overview page**
-- [ ] **About page**
-- [ ] **Reconsider challanges** — Review and refine test set (remove non-failing).
-- [ ] **UX Review**
+- [ ] **Pick top-10 models for testing from OpenRouter** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQt0)
+- [ ] **Challanges overview page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQuU)
+- [ ] **About page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQu8)
+- [ ] **Reconsider challanges** — Review and refine test set (remove non-failing). [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvQ)
+- [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
 
 ## Post-MVP
 
-- [ ] **Agentic suggestion pre-validation**:
-- - [ ] Run verification request for rules violation check
-- - [ ] Extract validation criterias
-- - [ ] Assign category\labels
-- - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder
+- [ ] **Agentic suggestion pre-validation**: [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQv4)
+- - [ ] Run verification request for rules violation check [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQwU)
+- - [ ] Extract validation criterias [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQww)
+- - [ ] Assign category\labels [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxM)
+- - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxc)
 
 ### Social
 
 - [x] **Test suggestions form** — Test, success criteria, description.
 - - [x] **Rules checkbox** - Prepare rules and limitations.
-- [ ] **Authorization**
-- [ ] **Voting** - Vote for memeness.
-- [ ] **Report** - Report if the test has faulty conditions.
-- [ ] **Cabinet** — Manage your tests / breakers.
-- [ ] **Take a challange** - but as human
+- [ ] **Authorization** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxs)
+- [ ] **Voting** - Vote for memeness. [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQyA)
+- [ ] **Report** - Report if the test has faulty conditions. [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQyc)
+- [ ] **Cabinet** — Manage your tests / breakers. [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQyo)
+- [ ] **Take a challange** - but as human [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQy4)
 
 ### Technical
 
-- [ ] **Split validation job from task execution job**
+- [ ] **Split validation job from task execution job** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzA)
 - [x] **Add captcha with Cloudlare**
-- [ ] **Setup queue for challanges run scheduling**
-- [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress
-- [ ] **Error monitoring** - Setup Sentry
+- [ ] **Setup queue for challanges run scheduling** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzU)
+- [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzk)
+- [ ] **Error monitoring** - Setup Sentry [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQz8)
+- [ ] **Provide OpenRouter with app identification** - for better logging and credits management [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQ0U)
+
