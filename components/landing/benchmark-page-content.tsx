@@ -47,7 +47,7 @@ export function BenchmarkPageContent({
   }));
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-dark-50">
+    <div className="relative min-h-screen h-full overflow-x-hidden bg-background">
       <Navbar />
       <main className="relative z-10 pt-20">
         <ComparisonGridSection

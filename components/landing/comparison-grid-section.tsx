@@ -81,7 +81,7 @@ export function ComparisonGridSection({
   }
 
   return (
-    <section id="test-runs" className="bg-dark-50 py-20">
+    <section id="test-runs" className="bg-background py-20">
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

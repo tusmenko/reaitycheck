@@ -67,4 +67,17 @@ export default defineSchema({
     .index("by_model", ["modelId"])
     .index("by_executed_at", ["executedAt"])
     .index("by_test_and_model", ["testCaseId", "modelId"]),
+
+  challengeSubmissions: defineTable({
+    prompt: v.string(),
+    expectedResult: v.string(),
+    trickDescription: v.string(),
+    modelFailureInsight: v.optional(v.string()),
+    submitterName: v.optional(v.string()),
+    submitterLink: v.optional(v.string()),
+    submittedAt: v.number(),
+    status: v.string(),
+  })
+    .index("by_status", ["status"])
+    .index("by_submitted_at", ["submittedAt"]),
 });

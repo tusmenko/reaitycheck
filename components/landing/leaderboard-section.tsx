@@ -16,7 +16,7 @@ function modelDetailHref(
 ) {
   const s =
     slug ?? apiIdentifier.split("/")[1]?.replace(/:/g, "-") ?? "";
-  return `/model/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
+  return `/models/${encodeURIComponent(provider)}/${encodeURIComponent(s)}`;
 }
 
 interface LeaderboardSectionProps {

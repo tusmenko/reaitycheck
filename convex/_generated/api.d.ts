@@ -11,6 +11,7 @@
 import type * as actions_openrouter from "../actions/openrouter.js";
 import type * as actions_runTests from "../actions/runTests.js";
 import type * as actions_validators from "../actions/validators.js";
+import type * as challengeSubmissionLimits from "../challengeSubmissionLimits.js";
 import type * as crons from "../crons.js";
 import type * as mutations from "../mutations.js";
 import type * as queries from "../queries.js";
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   "actions/openrouter": typeof actions_openrouter;
   "actions/runTests": typeof actions_runTests;
   "actions/validators": typeof actions_validators;
+  challengeSubmissionLimits: typeof challengeSubmissionLimits;
   crons: typeof crons;
   mutations: typeof mutations;
   queries: typeof queries;
