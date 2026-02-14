@@ -2,19 +2,32 @@
 
 ## MVP
 
-- [ ] **Add licensing** — Clarify learning purposes; don’t create a product that competes.
-- [ ] **Update landing page header** — Better reveal application goals (align with README.md).
+- [x] **Add licensing** — Clarify learning purposes; don’t create a product that competes.
+- [x] **Update landing page header** — Better reveal application goals (align with README.md).
 - [ ] **Create app logo**
-- [ ] **Redesign pages** — More fancy and playful, but minimalistic.
+- [x] **Redesign pages** — More fancy and playful, but minimalistic.
 - [ ] **Pick top-10 models for testing from OpenRouter**
-- [ ] **Reconsider tests** — Review and refine test set (remove non-failing).
+- [ ] **Challanges overview page**
+- [ ] **Reconsider challanges** — Review and refine test set (remove non-failing).
 
 ## Post-MVP
 
+- [ ] **Agentic suggestion pre-validation**:
+- - [ ] Run verification request for rules violation check
+- - [ ] Extract validation criterias
+- - [ ] Assign category\labels
+- - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder
+
 ### Social
 
-- [ ] **Test suggestions form** — Test, success criteria, description.
+- [x] **Test suggestions form** — Test, success criteria, description.
 - [ ] **Authorization**
 - [ ] **Voting** - Vote for memeness.
 - [ ] **Report** - Report if the test has faulty conditions.
 - [ ] **Cabinet** — Manage your tests / breakers.
+
+### Technical
+
+- [ ] **Split validation job from task execution job**
+- [ ] **Setup queue for challanges run scheduling**
+- [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress
