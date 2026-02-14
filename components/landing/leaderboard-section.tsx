@@ -119,18 +119,18 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
                       <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
-                        Failure Rate
-                      </div>
-                      <div className="text-2xl font-bold text-accent-red">
-                        {failure}%
-                      </div>
-                    </div>
-                    <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
-                      <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
                         Survived
                       </div>
                       <div className="text-2xl font-bold text-brand-500">
                         {success}%
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                      <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
+                        Failure Rate
+                      </div>
+                      <div className="text-2xl font-bold text-accent-red">
+                        {failure}%
                       </div>
                     </div>
                   </div>
