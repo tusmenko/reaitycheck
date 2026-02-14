@@ -32,6 +32,6 @@
 ### Technical
 
 - [ ] **Split validation job from task execution job**
-- [ ] **Add captcha with Cloudlare**
+- [x] **Add captcha with Cloudlare**
 - [ ] **Setup queue for challanges run scheduling**
 - [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress
