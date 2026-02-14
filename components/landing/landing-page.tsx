@@ -7,9 +7,6 @@ import { HeroSection } from "./hero-section";
 import { LeaderboardSection } from "./leaderboard-section";
 import { ComparisonGridSection } from "./comparison-grid-section";
 import { TestsSection } from "./tests-section";
-import { FooterSection } from "./footer-section";
-import { Navbar } from "./navbar";
-
 interface LandingPageProps {
   preloadedTests: Preloaded<typeof api.queries.getActiveTestCasesWithKillRates>;
   preloadedModels: Preloaded<typeof api.queries.getActiveModels>;
@@ -75,8 +72,6 @@ export function LandingPage({
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background">
-      <Navbar />
-
       <HeroSection
         modelCount={aiModels.length}
         testCount={testCases.length}
@@ -93,8 +88,6 @@ export function LandingPage({
           grid={comparisonGrid}
         />
       </main>
-
-      <FooterSection />
     </div>
   );
 }

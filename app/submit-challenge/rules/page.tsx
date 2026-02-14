@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { Navbar } from "@/components/landing/navbar";
 
 export default function SubmitChallengeRulesPage() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background">
-      <Navbar />
-      <main className="relative min-h-screen overflow-hidden px-6 pb-16 pt-28 lg:px-12">
+    <div className="relative min-h-screen bg-background">
+      <main className="relative min-h-screen px-6 pb-16 pt-8 lg:px-12">
         <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
 

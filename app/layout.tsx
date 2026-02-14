@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter, Poppins } from "next/font/google";
 import { ConvexClientProvider } from "./convex-provider";
+import { Navbar } from "@/components/landing/navbar";
+import { FooterSection } from "@/components/landing/footer-section";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,7 +41,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${poppins.variable} ${geistMono.variable} antialiased`}
       >
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <ConvexClientProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <div className="flex-1 pt-20">{children}</div>
+            <FooterSection />
+          </div>
+        </ConvexClientProvider>
       </body>
     </html>
   );

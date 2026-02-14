@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function ChallengesPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-dark-50 px-6 pb-16 pt-28 lg:px-12">
+    <main className="relative h-full bg-background px-6 pb-16 pt-8 lg:px-12">
       <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
       <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
 

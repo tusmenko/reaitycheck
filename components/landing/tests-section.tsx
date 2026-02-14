@@ -25,7 +25,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
   return (
     <section
       id="challenges"
-      className="relative overflow-hidden bg-dark-50/50 py-20"
+      className="relative bg-dark-50/50 py-20"
     >
       <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-accent-red/10 blur-3xl" />
       <div className="absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-accent-orange/10 blur-3xl" />

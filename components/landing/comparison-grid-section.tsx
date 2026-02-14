@@ -220,7 +220,7 @@ export function ComparisonGridSection({
         </div>
 
         {variant === "preview" && (
-          <div className="relative mt-16 overflow-hidden rounded-3xl border border-dark-200 bg-linear-to-br from-dark-100 to-dark-50 p-10 text-center lg:p-16 lg:text-left">
+          <div className="relative mt-16 rounded-3xl border border-dark-200 bg-linear-to-br from-dark-100 to-dark-50 p-10 text-center lg:p-16 lg:text-left">
             <div className="pattern-bg absolute inset-0 opacity-10" />
             <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent-red/20 blur-3xl" />
 

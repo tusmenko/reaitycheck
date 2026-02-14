@@ -90,7 +90,7 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                 )}
                 className="group block h-full"
               >
-                <article className="relative h-full overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
+                <article className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
                   <div className="absolute right-6 top-6 opacity-5 transition-opacity group-hover:opacity-10">
                     <RankIcon className={`h-24 w-24 ${rankIconColor}`} />
                   </div>
@@ -117,7 +117,7 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="mt-auto grid grid-cols-2 gap-4">
                     <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
                       <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
                         Survived

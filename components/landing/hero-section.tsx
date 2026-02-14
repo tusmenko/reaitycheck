@@ -16,7 +16,7 @@ export function HeroSection({
   const freshness = formatDistanceToNow(lastUpdated, { addSuffix: true });
 
   return (
-    <section className="relative overflow-hidden pb-20 pt-32 lg:pb-28 lg:pt-40">
+    <section className="relative pb-20 pt-32 lg:pb-28 lg:pt-28">
       <div className="pattern-bg absolute inset-0" />
       <div className="absolute right-0 top-20 -z-0 h-[36rem] w-[36rem] rounded-full bg-accent-red/10 blur-3xl" />
       <div className="absolute bottom-0 left-0 -z-0 h-[24rem] w-[24rem] rounded-full bg-accent-orange/10 blur-3xl" />

@@ -3,8 +3,6 @@
 import { usePreloadedQuery, useQuery, Preloaded } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { TestCase, AIModel, ComparisonCell } from "@/lib/types";
-import { Navbar } from "./navbar";
-import { FooterSection } from "./footer-section";
 import { ComparisonGridSection } from "./comparison-grid-section";
 
 interface BenchmarkPageContentProps {
@@ -46,8 +44,7 @@ export function BenchmarkPageContent({
 
   return (
     <div className="relative min-h-screen h-full overflow-x-hidden bg-background">
-      <Navbar />
-      <main className="relative z-10 pt-20">
+      <main className="relative z-10">
         {grid === undefined ? (
           <section className="bg-background py-20">
             <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
@@ -64,7 +61,6 @@ export function BenchmarkPageContent({
           />
         )}
       </main>
-      <FooterSection />
     </div>
   );
 }
