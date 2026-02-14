@@ -21,7 +21,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye } from "lucide-react";
+import { Check, X, Eye, Skull, Target, Swords } from "lucide-react";
+
+const TOUGHEST_BREAKER_RANKS = [
+  { Icon: Skull, iconColor: "text-red-400" },
+  { Icon: Target, iconColor: "text-orange-400" },
+  { Icon: Swords, iconColor: "text-slate-400" },
+] as const;
+
+function passRateColorClass(pct: number): string {
+  if (pct <= 25) return "text-red-400";
+  if (pct <= 50) return "text-amber-400";
+  if (pct <= 75) return "text-yellow-400";
+  return "text-brand-500";
+}
 
 const PROVIDER_STYLES: Partial<Record<string, string>> = {
   openai: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
@@ -89,7 +102,7 @@ export function ModelDetailPage({
       )
       : 0;
   const toughestBreakers = [...breakdown]
-    .filter((e) => e.latestRun && !e.latestRun.isCorrect)
+    .filter((e) => e.latestRun != null)
     .sort((a, b) => a.successRate - b.successRate)
     .slice(0, 3);
 
@@ -167,38 +180,56 @@ export function ModelDetailPage({
       {toughestBreakers.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-4 text-xl font-semibold">Toughest Breakers</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {toughestBreakers.map((entry) => {
-              const difficulty = (entry.test.difficulty ?? "medium") as keyof typeof DIFFICULTY_STYLES;
+          <div
+            className={`grid gap-8 ${
+              toughestBreakers.length === 1
+                ? "grid-cols-1"
+                : toughestBreakers.length === 2
+                  ? "grid-cols-1 md:grid-cols-2"
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
+            {toughestBreakers.map((entry, index) => {
+              const rank = index + 1;
+              const { Icon, iconColor } = TOUGHEST_BREAKER_RANKS[index];
+              const passRatePct = Math.round(entry.successRate * 100);
               return (
                 <Link
                   key={entry.test._id}
                   href={`/challenges/${entry.test.slug}`}
-                  className="block"
+                  className="group block h-full"
                 >
-                  <Card className="transition-colors hover:bg-muted/50">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">
-                        {entry.test.name}
-                      </CardTitle>
-                      <div className="flex gap-2">
-                        <Badge variant="outline" className="text-xs">
+                  <article className="relative h-full overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
+                    <div
+                      className={`absolute right-6 top-6 opacity-5 transition-opacity group-hover:opacity-10 ${iconColor}`}
+                    >
+                      <Icon className="h-24 w-24" />
+                    </div>
+
+                    <div className="mb-6 flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white transition-colors group-hover:text-accent-red">
+                          {entry.test.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">
                           {formatCategory(entry.test.category)}
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className={DIFFICULTY_STYLES[difficulty]}
-                        >
-                          {difficulty}
-                        </Badge>
+                        </p>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Success rate: {Math.round(entry.successRate * 100)}%
-                      </p>
-                    </CardContent>
-                  </Card>
+
+                      <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
+                        #{rank}
+                      </span>
+                    </div>
+
+                    <div className="rounded-xl border border-dark-200 bg-dark-50 p-4">
+                      <div className="mb-2 text-xs font-semibold uppercase text-gray-500">
+                        Pass rate
+                      </div>
+                      <div className={`text-2xl font-bold ${passRateColorClass(passRatePct)}`}>
+                        {passRatePct}%
+                      </div>
+                    </div>
+                  </article>
                 </Link>
               );
             })}

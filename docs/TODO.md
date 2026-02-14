@@ -12,6 +12,7 @@
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing). [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvQ)
 - [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
+- [ ] **UX Review** Review copy, wording and naming consistency, tone of voice
 
 ## Post-MVP
 
@@ -39,4 +40,3 @@
 - [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzk)
 - [ ] **Error monitoring** - Setup Sentry [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQz8)
 - [ ] **Provide OpenRouter with app identification** - for better logging and credits management [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQ0U)
-
