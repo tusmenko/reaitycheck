@@ -4,8 +4,8 @@ import {
   Trophy,
   ArrowRight,
   Bot,
-  BrainCircuit,
-  Zap,
+  Brain,
+  Award,
   LucideIcon,
 } from "lucide-react";
 
@@ -24,9 +24,9 @@ interface LeaderboardSectionProps {
 }
 
 const TOP_RANK_ICONS: Record<number, LucideIcon> = {
-  1: Bot,
-  2: BrainCircuit,
-  3: Zap,
+  1: Trophy,
+  2: Brain,
+  3: Bot,
 };
 
 function avatarGradientByRank(rank: number) {
@@ -34,6 +34,13 @@ function avatarGradientByRank(rank: number) {
   if (rank === 2) return "from-purple-500 to-indigo-600";
   if (rank === 3) return "from-gray-600 to-gray-800";
   return "from-dark-300 to-dark-500";
+}
+
+function rankIconColorByRank(rank: number) {
+  if (rank === 1) return "text-yellow-400";
+  if (rank === 2) return "text-gray-300";
+  if (rank === 3) return "text-amber-600";
+  return "text-white";
 }
 
 export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
@@ -69,8 +76,9 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               .slice(0, 2)
               .map((part) => part[0]?.toUpperCase())
               .join("");
-            const RankIcon = TOP_RANK_ICONS[entry.rank] ?? Trophy;
+            const RankIcon = TOP_RANK_ICONS[entry.rank] ?? Award;
             const avatarGradient = avatarGradientByRank(entry.rank);
+            const rankIconColor = rankIconColorByRank(entry.rank);
 
             return (
               <Link
@@ -84,7 +92,7 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               >
                 <article className="relative h-full overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 p-8 shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover">
                   <div className="absolute right-6 top-6 opacity-5 transition-opacity group-hover:opacity-10">
-                    <RankIcon className="h-24 w-24 text-white" />
+                    <RankIcon className={`h-24 w-24 ${rankIconColor}`} />
                   </div>
 
                   <div className="mb-6 flex items-start justify-between gap-4">
@@ -104,16 +112,9 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                       </div>
                     </div>
 
-                    {entry.rank === 1 ? (
-                      <span className="inline-flex items-center rounded-full border border-green-800 bg-green-900/30 px-2.5 py-1 text-xs font-medium text-green-400">
-                        <Trophy className="mr-1.5 h-3 w-3 text-yellow-500" />
-                        #{entry.rank}
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
-                        #{entry.rank}
-                      </span>
-                    )}
+                    <span className="inline-flex items-center rounded-full border border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium text-gray-300">
+                      #{entry.rank}
+                    </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
