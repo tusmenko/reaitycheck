@@ -96,6 +96,54 @@ export const getActiveTestCases = query({
   },
 });
 
+/** Active tests with kill rate from latest run per model: % of models that failed (isCorrect false). */
+export const getActiveTestCasesWithKillRates = query({
+  args: {},
+  handler: async (ctx) => {
+    const tests = await ctx.db
+      .query("testCases")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+    const models = await ctx.db
+      .query("aiModels")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+
+    const allRuns = await ctx.db.query("testRuns").collect();
+    // Latest run per (testCaseId, modelId)
+    const latestByPair = new Map<string, { isCorrect: boolean; executedAt: number }>();
+    for (const run of allRuns) {
+      const key = `${run.testCaseId}:${run.modelId}`;
+      const existing = latestByPair.get(key);
+      if (!existing || run.executedAt > existing.executedAt) {
+        latestByPair.set(key, { isCorrect: run.isCorrect, executedAt: run.executedAt });
+      }
+    }
+
+    const testsWithRates = tests.map((test) => {
+      let failed = 0;
+      let total = 0;
+      for (const model of models) {
+        const key = `${test._id}:${model._id}`;
+        const latest = latestByPair.get(key);
+        if (latest) {
+          total += 1;
+          if (!latest.isCorrect) failed += 1;
+        }
+      }
+      const killRate =
+        total > 0 ? Math.round((failed / total) * 100) : null;
+      return { ...test, killRate };
+    });
+
+    return testsWithRates.sort((a, b) => {
+      const rateA = a.killRate ?? -1;
+      const rateB = b.killRate ?? -1;
+      return rateB - rateA;
+    });
+  },
+});
+
 export const getActiveModels = query({
   args: {},
   handler: async (ctx) => {

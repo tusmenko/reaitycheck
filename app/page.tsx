@@ -10,7 +10,7 @@ export default async function Home() {
     preloadedGrid,
     preloadedLastRun,
   ] = await Promise.all([
-    preloadQuery(api.queries.getActiveTestCases),
+    preloadQuery(api.queries.getActiveTestCasesWithKillRates),
     preloadQuery(api.queries.getActiveModels),
     preloadQuery(api.queries.getLeaderboard),
     preloadQuery(api.queries.getComparisonGrid),

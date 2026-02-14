@@ -11,7 +11,7 @@ import { FooterSection } from "./footer-section";
 import { Navbar } from "./navbar";
 
 interface LandingPageProps {
-  preloadedTests: Preloaded<typeof api.queries.getActiveTestCases>;
+  preloadedTests: Preloaded<typeof api.queries.getActiveTestCasesWithKillRates>;
   preloadedModels: Preloaded<typeof api.queries.getActiveModels>;
   preloadedLeaderboard: Preloaded<typeof api.queries.getLeaderboard>;
   preloadedGrid: Preloaded<typeof api.queries.getComparisonGrid>;

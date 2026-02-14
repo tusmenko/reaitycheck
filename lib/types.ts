@@ -14,6 +14,8 @@ export interface TestCase {
   tags: string[];
   difficulty: Difficulty;
   isActive: boolean;
+  /** When set, actual kill rate from runs (% of models that failed). Null = no runs yet. */
+  killRate?: number | null;
 }
 
 export interface AIModel {

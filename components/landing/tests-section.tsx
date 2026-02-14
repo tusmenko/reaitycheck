@@ -45,7 +45,12 @@ export function TestsSection({ tests }: TestsSectionProps) {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featuredChallenges.map((test) => {
-            const killRate = Math.min(95, Math.max(5, test.memenessScore * 10));
+            // Use actual kill rate from runs when available; null = no runs; fallback to memeness-based for legacy
+            const killRate =
+              test.killRate != null
+                ? test.killRate
+                : Math.min(95, Math.max(5, test.memenessScore * 10));
+            const hasRealKillRate = test.killRate != null;
             return (
               <Link
                 key={test._id}
@@ -76,7 +81,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
                       Kill Rate
                     </span>
                     <span className="text-sm font-bold text-accent-red">
-                      {killRate}%
+                      {hasRealKillRate ? `${killRate}%` : "—"}
                     </span>
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
