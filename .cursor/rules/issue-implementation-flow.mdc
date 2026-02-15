@@ -9,7 +9,7 @@ When you are asked to **implement a project issue**, **pick an issue from the pr
 
 **[docs/issue-implementation-flow.md](docs/issue-implementation-flow.md)**
 
-That flow covers: prerequisites (e.g. `gh auth status`), picking only **Ready** + **ai-friendly** issues, creating the branch (prefer `gh issue develop`, then fallback to manual), setting status to In progress, implementation plan (including **link to the GitHub issue**), implementation and commits (one per step if multistep), and PR with structured description and `Closes #N`.
+That flow covers: prerequisites (GitHub MCP + git), picking only **Ready** + **ai-friendly** issues, creating the branch (MCP **`create_branch`** then git checkout, or fallback to local git only), setting status to In progress via **Projects toolset**, implementation plan (including **link to the GitHub issue**), implementation and commits (one per step if multistep), and PR via **`create_pull_request`** with body containing `Closes #N`.
 
 Do not skip steps. When in doubt, open the doc and follow it.
 
@@ -17,16 +17,6 @@ Do not skip steps. When in doubt, open the doc and follow it.
 
 ## Set issue Status to "In progress" (after creating the branch)
 
-Right after creating and checking out the branch for the issue (via `gh issue develop` or manually), set that issue's **project Status to "In progress"**. Only for issues on the **ReAItyCheck project** (project 2, owner @me).
+Required whether the branch was created via MCP **`create_branch`** or locally (fallback). Set the issue's **project Status to "In progress"** (ReAItyCheck project only). Use the **Projects toolset** to update the project item's Status. If the tool is unavailable, add an issue comment asking the user to move the card to In progress.
 
-1. Note the **issue number** (e.g. `3`).
-2. Resolve the **project item ID** (replace `3` with the issue number):
-   ```bash
-   ITEM_ID=$(gh project item-list 2 --owner @me -L 100 --format json | jq -r '.items[] | select(.content.number == 3) | .id')
-   ```
-3. Set the item's Status to **In progress**:
-   ```bash
-   gh project item-edit --id "$ITEM_ID" --project-id PVT_kwHOAqmy8c4BPKom --field-id PVTSSF_lAHOAqmy8c4BPKomzg9p7fs --single-select-option-id 47fc9ee4
-   ```
-
-**ReAItyCheck project IDs:** Project `PVT_kwHOAqmy8c4BPKom`, Status field `PVTSSF_lAHOAqmy8c4BPKomzg9p7fs`, "In progress" option `47fc9ee4`. Requires `gh` and network.
+**ReAItyCheck project IDs:** Project `PVT_kwHOAqmy8c4BPKom`, Status field `PVTSSF_lAHOAqmy8c4BPKomzg9p7fs`, "In progress" option `47fc9ee4`.
