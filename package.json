@@ -10,7 +10,9 @@
     "type-check": "next typegen && tsc --noEmit",
     "prepare": "husky",
     "test": "vitest run",
-    "todo-to-gh": "tsx scripts/todo-to-gh.ts"
+    "todo-to-gh": "tsx scripts/todo-to-gh.ts",
+    "sync-models": "tsx scripts/sync-top-models.ts",
+    "sync-models:prod": "tsx scripts/sync-top-models.ts --prod"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
@@ -41,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "husky": "^9.1.7",

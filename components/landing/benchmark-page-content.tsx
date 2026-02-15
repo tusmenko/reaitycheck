@@ -31,7 +31,10 @@ export function BenchmarkPageContent({
     provider: m.provider as AIModel["provider"],
     modelVersion: m.modelVersion ?? "",
     contextWindow: m.contextWindow ?? 0,
-    costPer1kTokens: m.costPer1kTokens ?? 0,
+    inputCostPer1MTokens: m.inputCostPer1MTokens,
+    outputCostPer1MTokens: m.outputCostPer1MTokens,
+    maxCompletionTokens: m.maxCompletionTokens,
+    isFree: m.isFree,
   }));
 
   // Pass grid as-is so we don't drop any keys Convex returns (e.g. rawResponse, parsedAnswer)
