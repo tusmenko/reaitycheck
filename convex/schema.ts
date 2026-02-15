@@ -6,8 +6,6 @@ export default defineSchema({
     name: v.string(),
     slug: v.string(),
     category: v.string(),
-    // Optional only for migration: remove from all docs then delete this line. See docs/deployment.md.
-    difficulty: v.optional(v.string()),
     prompt: v.string(),
     expectedAnswer: v.string(),
     explanation: v.optional(v.string()),

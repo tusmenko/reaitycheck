@@ -54,6 +54,8 @@ We’ve added back `difficulty` as **optional** in `convex/schema.ts` and a one-
 5. **Optional cleanup**  
    Remove or comment out `removeDifficultyFromTestCases` from `convex/migrations.ts` so it isn’t run again.
 
+**Dev and prod are separate.** Run the migration once per deployment that has old data: **dev** — `npx convex run migrations:removeDifficultyFromTestCases`; **prod** — add `--prod`.
+
 ## CI: Convex deploy on `main`
 
 - **Secret**: `CONVEX_DEPLOY_KEY` (repository secret).  
@@ -61,8 +63,8 @@ We’ve added back `difficulty` as **optional** in `convex/schema.ts` and a one-
 
 - **Variable**: `CONVEX_DEPLOYMENT` (optional; can be set in the Production environment for the deploy job).
 
-- The `deploy-production` job in [.github/workflows/ci.yml](../.github/workflows/ci.yml) runs only on **push to `main`** and runs `npx convex deploy`.  
-  Production schema and functions update **only when this step succeeds**.
+- The `deploy-production` job runs on **push to `main`** and runs `npx convex deploy`.  
+  Production schema and functions update only when deploy succeeds.
 
 ## Checklist for future schema changes
 
