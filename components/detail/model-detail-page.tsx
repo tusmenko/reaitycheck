@@ -166,17 +166,17 @@ export function ModelDetailPage({
           <Card className="py-2">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
-                Cost
+                Cost (Input)
               </CardTitle>
             </CardHeader>
             <CardContent className="px-3 pb-2">
               <p className="text-base font-bold">
-                {model.costPer1kTokens != null ? (
+                {model.inputCostPer1MTokens != null ? (
                   <>
-                    ${model.costPer1kTokens}
+                    ${model.inputCostPer1MTokens.toFixed(2)}
                     <span className="text-xs font-normal text-muted-foreground">
                       {" "}
-                      /1k tokens
+                      /1M tokens
                     </span>
                   </>
                 ) : (
@@ -188,13 +188,35 @@ export function ModelDetailPage({
           <Card className="py-2">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
-                Max tokens
+                Cost (Output)
               </CardTitle>
             </CardHeader>
             <CardContent className="px-3 pb-2">
               <p className="text-base font-bold">
-                {model.maxTokens != null
-                  ? model.maxTokens.toLocaleString()
+                {model.outputCostPer1MTokens != null ? (
+                  <>
+                    ${model.outputCostPer1MTokens.toFixed(2)}
+                    <span className="text-xs font-normal text-muted-foreground">
+                      {" "}
+                      /1M tokens
+                    </span>
+                  </>
+                ) : (
+                  "–"
+                )}
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Max completion tokens
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">
+                {model.maxCompletionTokens != null
+                  ? model.maxCompletionTokens.toLocaleString()
                   : "–"}
               </p>
             </CardContent>

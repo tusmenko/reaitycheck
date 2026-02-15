@@ -40,7 +40,10 @@ export function LandingPage({
     provider: m.provider as AIModel["provider"],
     modelVersion: m.modelVersion ?? "",
     contextWindow: m.contextWindow ?? 0,
-    costPer1kTokens: m.costPer1kTokens ?? 0,
+    inputCostPer1MTokens: m.inputCostPer1MTokens,
+    outputCostPer1MTokens: m.outputCostPer1MTokens,
+    maxCompletionTokens: m.maxCompletionTokens,
+    isFree: m.isFree,
   }));
 
   const leaderboardEntries: LeaderboardEntry[] = leaderboard.map((entry) => ({
@@ -50,7 +53,10 @@ export function LandingPage({
       provider: entry.model.provider as AIModel["provider"],
       modelVersion: entry.model.modelVersion ?? "",
       contextWindow: entry.model.contextWindow ?? 0,
-      costPer1kTokens: entry.model.costPer1kTokens ?? 0,
+      inputCostPer1MTokens: entry.model.inputCostPer1MTokens,
+      outputCostPer1MTokens: entry.model.outputCostPer1MTokens,
+      maxCompletionTokens: entry.model.maxCompletionTokens,
+      isFree: entry.model.isFree,
     },
     totalRuns: entry.totalRuns,
     successfulRuns: entry.successfulRuns,

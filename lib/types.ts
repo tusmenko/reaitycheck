@@ -24,7 +24,10 @@ export interface AIModel {
   apiIdentifier: string;
   slug?: string;
   contextWindow: number;
-  costPer1kTokens: number;
+  inputCostPer1MTokens?: number;
+  outputCostPer1MTokens?: number;
+  maxCompletionTokens?: number;
+  isFree?: boolean;
   isActive: boolean;
 }
 

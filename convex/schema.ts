@@ -35,11 +35,20 @@ export default defineSchema({
     costPer1kTokens: v.optional(v.number()),
     maxTokens: v.optional(v.number()),
     isActive: v.boolean(),
+    updatedAt: v.optional(v.number()),
+    syncedFromOpenRouter: v.optional(v.boolean()),
+    isFree: v.optional(v.boolean()),
+    openRouterCreatedAt: v.optional(v.number()),
+    inputCostPer1MTokens: v.optional(v.number()),
+    outputCostPer1MTokens: v.optional(v.number()),
+    maxCompletionTokens: v.optional(v.number()),
+    description: v.optional(v.string()),
   })
     .index("by_provider", ["provider"])
     .index("by_active", ["isActive"])
     .index("by_provider_and_name", ["provider", "modelName"])
-    .index("by_slug", ["slug"]),
+    .index("by_slug", ["slug"])
+    .index("by_api_identifier", ["apiIdentifier"]),
 
   testRuns: defineTable({
     testCaseId: v.id("testCases"),

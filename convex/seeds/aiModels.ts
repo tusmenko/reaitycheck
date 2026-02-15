@@ -8,6 +8,9 @@ export const aiModels = [
     costPer1kTokens: 0,
     maxTokens: 500,
     isActive: true,
+    syncedFromOpenRouter: false,
+    isFree: true,
+    updatedAt: Date.now(),
   },
   {
     provider: "deepseek",
@@ -18,6 +21,9 @@ export const aiModels = [
     costPer1kTokens: 0,
     maxTokens: 8000,
     isActive: true,
+    syncedFromOpenRouter: false,
+    isFree: true,
+    updatedAt: Date.now(),
   },
   {
     provider: "qwen",
@@ -28,6 +34,9 @@ export const aiModels = [
     costPer1kTokens: 0,
     maxTokens: 500,
     isActive: true,
+    syncedFromOpenRouter: false,
+    isFree: true,
+    updatedAt: Date.now(),
   },
   {
     provider: "google",
@@ -38,6 +47,9 @@ export const aiModels = [
     costPer1kTokens: 0,
     maxTokens: 500,
     isActive: true,
+    syncedFromOpenRouter: false,
+    isFree: true,
+    updatedAt: Date.now(),
   },
   {
     provider: "mistral",
@@ -48,5 +60,8 @@ export const aiModels = [
     costPer1kTokens: 0,
     maxTokens: 500,
     isActive: true,
+    syncedFromOpenRouter: false,
+    isFree: true,
+    updatedAt: Date.now(),
   },
 ];
