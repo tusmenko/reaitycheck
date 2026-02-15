@@ -43,10 +43,12 @@ export function BenchmarkPageContent({
 
   return (
     <div className="relative min-h-screen h-full overflow-x-hidden bg-background">
-      <main className="relative z-10">
+      <main className="relative">
         {grid === undefined ? (
-          <section className="bg-background py-20">
-            <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+          <section className="relative bg-background px-6 pb-16 pt-8 lg:px-12">
+            <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
+            <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
+            <div className="relative z-10 mx-auto max-w-6xl">
               <p className="text-gray-400">Loading benchmark data…</p>
             </div>
           </section>
