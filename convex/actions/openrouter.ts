@@ -5,10 +5,17 @@ import OpenAI from "openai";
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 const REQUEST_TIMEOUT_MS = 30_000;
 
+const OPENROUTER_APP_TITLE = "ReAIity Check";
+const OPENROUTER_APP_URL = "https://www.reaitycheck.com/";
+
 function getClient(apiKey: string) {
   return new OpenAI({
     baseURL: OPENROUTER_BASE_URL,
     apiKey,
+    defaultHeaders: {
+      "HTTP-Referer": process.env.OPENROUTER_APP_URL ?? OPENROUTER_APP_URL,
+      "X-Title": process.env.OPENROUTER_APP_TITLE ?? OPENROUTER_APP_TITLE,
+    },
   });
 }
 
