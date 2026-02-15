@@ -19,7 +19,6 @@ export default defineSchema({
     ),
     memenessScore: v.number(),
     tags: v.array(v.string()),
-    difficulty: v.optional(v.string()),
     isActive: v.boolean(),
   })
     .index("by_slug", ["slug"])

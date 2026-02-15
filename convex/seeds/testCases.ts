@@ -15,7 +15,6 @@ export const testCases = [
     },
     memenessScore: 5,
     tags: ["viral", "tokenization", "counting"],
-    difficulty: "easy",
     isActive: true,
   },
   {
@@ -34,7 +33,6 @@ export const testCases = [
     },
     memenessScore: 4,
     tags: ["logic", "perspective", "family"],
-    difficulty: "medium",
     isActive: true,
   },
   {
@@ -51,7 +49,6 @@ export const testCases = [
     },
     memenessScore: 4,
     tags: ["recursion", "self-awareness", "meta"],
-    difficulty: "hard",
     isActive: true,
   },
   {
@@ -69,7 +66,6 @@ export const testCases = [
     },
     memenessScore: 5,
     tags: ["hallucination", "confabulation", "dangerous"],
-    difficulty: "hard",
     isActive: true,
   },
   {
@@ -96,7 +92,6 @@ export const testCases = [
     },
     memenessScore: 3,
     tags: ["instructions", "multi-task", "detail"],
-    difficulty: "hard",
     isActive: true,
   },
   {
@@ -113,7 +108,6 @@ export const testCases = [
     },
     memenessScore: 4,
     tags: ["humility", "honesty", "hallucination"],
-    difficulty: "medium",
     isActive: true,
   },
   {
@@ -132,7 +126,6 @@ export const testCases = [
     },
     memenessScore: 3,
     tags: ["riddle", "lateral-thinking", "classic"],
-    difficulty: "easy",
     isActive: true,
   },
   {
@@ -150,7 +143,6 @@ export const testCases = [
     },
     memenessScore: 4,
     tags: ["reversal", "manipulation", "character"],
-    difficulty: "easy",
     isActive: true,
   },
   {
@@ -169,7 +161,6 @@ export const testCases = [
     },
     memenessScore: 3,
     tags: ["math", "steps", "reasoning"],
-    difficulty: "easy",
     isActive: true,
   },
   {
@@ -188,7 +179,6 @@ export const testCases = [
     },
     memenessScore: 2,
     tags: ["chess", "notation", "specialized"],
-    difficulty: "easy",
     isActive: false,
   },
 ];

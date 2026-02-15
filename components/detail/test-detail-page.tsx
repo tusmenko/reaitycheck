@@ -24,13 +24,6 @@ import { MemenessStars } from "@/components/custom/memeness-stars";
 import { modelDetailHref, formatCategory } from "@/lib/model-detail-utils";
 import { Check, X, Eye } from "lucide-react";
 
-const DIFFICULTY_STYLES = {
-  easy: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  medium:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  hard: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-};
-
 interface TestDetailPageProps {
   preloadedTest: Preloaded<typeof api.queries.getTestBySlug>;
   preloadedBreakdown: Preloaded<typeof api.queries.getTestBreakdown>;
@@ -61,17 +54,12 @@ export function TestDetailPage({
         totalModels) *
       100
       : 0;
-  const difficulty = (test.difficulty ?? "medium") as keyof typeof DIFFICULTY_STYLES;
-
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="mb-10">
         <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <Badge variant="outline">{formatCategory(test.category)}</Badge>
-            <Badge variant="outline" className={DIFFICULTY_STYLES[difficulty]}>
-              {difficulty}
-            </Badge>
             <MemenessStars score={test.memenessScore} />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>

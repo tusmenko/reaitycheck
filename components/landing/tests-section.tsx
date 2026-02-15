@@ -1,12 +1,7 @@
 import Link from "next/link";
 import type { TestCase } from "@/lib/types";
+import { MemenessStars } from "@/components/custom/memeness-stars";
 import { ArrowRight } from "lucide-react";
-
-const DIFFICULTY_STYLES: Record<TestCase["difficulty"], string> = {
-  easy: "border-green-800 bg-green-900/30 text-green-400",
-  medium: "border-yellow-800 bg-yellow-900/30 text-yellow-400",
-  hard: "border-red-800 bg-red-900/30 text-red-400",
-};
 
 function formatCategory(category: string) {
   return category
@@ -61,11 +56,6 @@ export function TestsSection({ tests }: TestsSectionProps) {
                   <div className="rounded-lg border border-dark-300 bg-dark-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
                     {formatCategory(test.category)}
                   </div>
-                  <span
-                    className={`rounded-md border px-2.5 py-1 text-xs font-semibold capitalize ${DIFFICULTY_STYLES[test.difficulty]}`}
-                  >
-                    {test.difficulty}
-                  </span>
                 </div>
 
                 <h3 className="mb-2 text-lg font-bold text-white transition-colors group-hover:text-accent-red">
@@ -84,9 +74,7 @@ export function TestsSection({ tests }: TestsSectionProps) {
                       {hasRealKillRate ? `${killRate}%` : "—"}
                     </span>
                   </div>
-                  <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                    Meme {test.memenessScore}/10
-                  </span>
+                  <MemenessStars score={test.memenessScore} />
                 </div>
               </Link>
             );

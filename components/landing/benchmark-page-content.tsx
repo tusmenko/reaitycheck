@@ -22,7 +22,6 @@ export function BenchmarkPageContent({
   const testCases: TestCase[] = tests.map((t) => ({
     ...t,
     _id: t._id,
-    difficulty: (t.difficulty ?? "medium") as TestCase["difficulty"],
     explanation: t.explanation ?? "",
   }));
 

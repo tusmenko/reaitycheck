@@ -1,5 +1,4 @@
 export type Provider = "openai" | "anthropic" | "google" | "meta" | "deepseek" | "alibaba" | "mistral";
-export type Difficulty = "easy" | "medium" | "hard";
 export type Trend = "up" | "down" | "stable";
 
 export interface TestCase {
@@ -12,7 +11,6 @@ export interface TestCase {
   explanation: string;
   memenessScore: number;
   tags: string[];
-  difficulty: Difficulty;
   isActive: boolean;
   /** When set, actual kill rate from runs (% of models that failed). Null = no runs yet. */
   killRate?: number | null;

@@ -27,6 +27,14 @@ export function passRateColorClass(pct: number): string {
   return "text-brand-500";
 }
 
+/** High kill rate = red, low = green. Use for break/kill rate display. */
+export function killRateColorClass(pct: number): string {
+  if (pct >= 75) return "text-red-400";
+  if (pct >= 50) return "text-amber-400";
+  if (pct >= 25) return "text-yellow-400";
+  return "text-green-400";
+}
+
 export function formatCategory(category: string) {
   return category
     .split("_")

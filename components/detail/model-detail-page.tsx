@@ -46,13 +46,6 @@ const PROVIDER_STYLES: Partial<Record<string, string>> = {
   mistral: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200",
 };
 
-const DIFFICULTY_STYLES = {
-  easy: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  medium:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  hard: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-};
-
 function formatCategory(category: string) {
   return category
     .split("_")
@@ -153,12 +146,16 @@ export function ModelDetailPage({
             </CardHeader>
             <CardContent className="px-3 pb-2">
               <p className="text-base font-bold">
-                {model.contextWindow != null
-                  ? model.contextWindow.toLocaleString()
-                  : "–"}{" "}
-                <span className="text-xs font-normal text-muted-foreground">
-                  tokens
-                </span>
+                {model.contextWindow != null ? (
+                  <>
+                    {model.contextWindow.toLocaleString()}{" "}
+                    <span className="text-xs font-normal text-muted-foreground">
+                      tokens
+                    </span>
+                  </>
+                ) : (
+                  "–"
+                )}
               </p>
             </CardContent>
           </Card>
@@ -170,12 +167,17 @@ export function ModelDetailPage({
             </CardHeader>
             <CardContent className="px-3 pb-2">
               <p className="text-base font-bold">
-                {model.costPer1kTokens != null
-                  ? `$${model.costPer1kTokens}`
-                  : "–"}
-                <span className="text-xs font-normal text-muted-foreground">
-                  /1k tokens
-                </span>
+                {model.costPer1kTokens != null ? (
+                  <>
+                    ${model.costPer1kTokens}
+                    <span className="text-xs font-normal text-muted-foreground">
+                      {" "}
+                      /1k tokens
+                    </span>
+                  </>
+                ) : (
+                  "–"
+                )}
               </p>
             </CardContent>
           </Card>
@@ -273,7 +275,6 @@ export function ModelDetailPage({
               <TableRow>
                 <TableHead>Test</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead>Difficulty</TableHead>
                 <TableHead className="text-center">Latest Result</TableHead>
                 <TableHead className="text-center">Success Rate</TableHead>
                 <TableHead className="w-[100px]"></TableHead>
@@ -286,7 +287,6 @@ export function ModelDetailPage({
                   entry.totalRuns > 0
                     ? Math.round(entry.successRate * 100)
                     : 0;
-                const difficulty = (entry.test.difficulty ?? "medium") as keyof typeof DIFFICULTY_STYLES;
                 return (
                   <TableRow key={entry.test._id}>
                     <TableCell className="font-medium">
@@ -299,14 +299,6 @@ export function ModelDetailPage({
                     </TableCell>
                     <TableCell>
                       {formatCategory(entry.test.category)}
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={DIFFICULTY_STYLES[difficulty]}
-                      >
-                        {difficulty}
-                      </Badge>
                     </TableCell>
                     <TableCell className="text-center">
                       {entry.latestRun ? (
