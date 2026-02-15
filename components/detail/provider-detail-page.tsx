@@ -12,7 +12,7 @@ import {
   formatCategory,
   providerDisplayName,
 } from "@/lib/model-detail-utils";
-import { Skull, Target, Swords, Award, ChevronLeft } from "lucide-react";
+import { Skull, Target, Swords, Award } from "lucide-react";
 
 const TOUGHEST_BREAKER_RANKS = [
   { Icon: Skull, iconColor: "text-red-400" },
@@ -49,7 +49,7 @@ export function ProviderDetailPage({
   preloadedProviderLeaderboard,
   preloadedProviderBreakdown,
 }: ProviderDetailPageProps) {
-  const { entries, providerAvgResponseTimeMs } = usePreloadedQuery(
+  const { entries } = usePreloadedQuery(
     preloadedProviderLeaderboard
   );
   const breakdown = usePreloadedQuery(preloadedProviderBreakdown);
@@ -59,21 +59,14 @@ export function ProviderDetailPage({
     modelCount > 0
       ? (entries.reduce((sum, e) => sum + e.successRate, 0) / modelCount) * 100
       : 0;
-  const avgTestsSurvived =
-    modelCount > 0
-      ? Math.round(
-        entries.reduce((sum, e) => sum + e.successfulRuns, 0) / modelCount
-      )
-      : 0;
-  const avgTestsFailed =
-    modelCount > 0
-      ? Math.round(
-        entries.reduce(
-          (sum, e) => sum + (e.totalRuns - e.successfulRuns),
-          0
-        ) / modelCount
-      )
-      : 0;
+  const totalTestsSurvived = entries.reduce(
+    (sum, e) => sum + e.successfulRuns,
+    0
+  );
+  const totalTestsFailed = entries.reduce(
+    (sum, e) => sum + (e.totalRuns - e.successfulRuns),
+    0
+  );
 
   const toughestBreakers = breakdown.slice(0, 3);
 
@@ -81,78 +74,67 @@ export function ProviderDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <Link
-          href="/providers"
-          className="inline-flex items-center text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
-          <ChevronLeft className="mr-1 size-4" />
-          Back to providers
-        </Link>
-      </div>
 
-      <div className="mb-8">
-        <div className="mb-2">
-          <Badge
-            variant="outline"
-            className={
-              PROVIDER_STYLES[provider] ?? "bg-muted text-muted-foreground"
-            }
-          >
-            {provider}
-          </Badge>
+      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:gap-8 lg:gap-8">
+        {/* Left column: provider description */}
+        <div className="min-w-0">
+          <div className="mb-2">
+            <Badge
+              variant="outline"
+              className={
+                PROVIDER_STYLES[provider] ?? "bg-muted text-muted-foreground"
+              }
+            >
+              {provider}
+            </Badge>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">{displayName}</h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            {modelCount} model{modelCount !== 1 ? "s" : ""} tracked
+          </p>
+          {/* Average resilience bar */}
+          <div className="mt-3 flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-foreground">
+              Average resilience
+            </span>
+            <div className="flex items-center gap-3">
+              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-brand-500 transition-all"
+                  style={{ width: `${Math.min(100, Math.round(avgResilience))}%` }}
+                />
+              </div>
+              <span className="text-sm font-semibold tabular-nums">
+                {Math.round(avgResilience)}%
+              </span>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">{displayName}</h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          {modelCount} model{modelCount !== 1 ? "s" : ""} tracked,{" "}
-          {Math.round(avgResilience)}% average resilience
-        </p>
-      </div>
 
-      <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Resilience Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{Math.round(avgResilience)}%</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Tests Survived
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{avgTestsSurvived}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Tests Failed
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{avgTestsFailed}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Response Time
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {providerAvgResponseTimeMs} ms
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Right column: Tests Survived / Tests Failed counts */}
+        <div className="grid grid-cols-2 items-start gap-2 md:max-w-sm md:gap-4 md:w-80">
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Tests Survived
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">{totalTestsSurvived}</p>
+            </CardContent>
+          </Card>
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Tests Failed
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">{totalTestsFailed}</p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
       {toughestBreakers.length > 0 && (
         <section className="mb-10">

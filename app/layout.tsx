@@ -44,7 +44,7 @@ export default function RootLayout({
         <ConvexClientProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />
-            <div className="flex-1 pt-20">{children}</div>
+            <div className="content-below-nav flex-1 pt-20">{children}</div>
             <FooterSection />
           </div>
         </ConvexClientProvider>

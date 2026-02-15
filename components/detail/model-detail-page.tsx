@@ -84,7 +84,6 @@ export function ModelDetailPage({
   const testsSurvived = breakdown.filter(
     (e) => e.latestRun && e.latestRun.isCorrect
   ).length;
-  const testsFailed = totalTests - testsSurvived;
   const resilienceRate =
     totalTests > 0
       ? (breakdown.filter((e) => e.latestRun && e.latestRun.isCorrect).length /
@@ -108,86 +107,115 @@ export function ModelDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <div className="mb-2">
-          <Badge
-            variant="outline"
-            className={PROVIDER_STYLES[model.provider] ?? "bg-muted text-muted-foreground"}
-          >
-            {model.provider}
-          </Badge>
+      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:gap-8 lg:gap-8">
+        {/* Left column: model description */}
+        <div className="min-w-0">
+          <div className="mb-2">
+            <Link href={`/providers/${encodeURIComponent(model.provider)}`}>
+              <Badge
+                variant="outline"
+                className={PROVIDER_STYLES[model.provider] ?? "bg-muted text-muted-foreground"}
+              >
+                {model.provider}
+              </Badge>
+            </Link>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">{model.modelName}</h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            Survived {testsSurvived} out of {totalTests} breakers
+          </p>
+          {/* Resilience bar */}
+          <div className="mt-3 flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-foreground">
+              Resilience
+            </span>
+            <div className="flex items-center gap-3">
+              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-brand-500 transition-all"
+                  style={{ width: `${Math.min(100, Math.round(resilienceRate))}%` }}
+                />
+              </div>
+              <span className="text-sm font-semibold tabular-nums">
+                {Math.round(resilienceRate)}%
+              </span>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight">{model.modelName}</h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          Survived {testsSurvived} out of {totalTests} breakers
-        </p>
-        <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
-          {model.contextWindow != null && (
-            <span>Context: {model.contextWindow.toLocaleString()} tokens</span>
-          )}
-          {model.costPer1kTokens != null && (
-            <span>Cost: ${model.costPer1kTokens}/1k tokens</span>
-          )}
-          {model.maxTokens != null && (
-            <span>Max tokens: {model.maxTokens}</span>
-          )}
-        </div>
-      </div>
 
-      <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Resilience Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{Math.round(resilienceRate)}%</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Tests Survived
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{testsSurvived}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Tests Failed
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{testsFailed}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg Response Time
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{avgResponseTimeMs} ms</p>
-          </CardContent>
-        </Card>
-      </div>
+        {/* Right column: Context, Cost, Max tokens, Avg Response Time */}
+        <div className="grid grid-cols-2 items-start gap-2 md:max-w-sm md:gap-4 md:w-80">
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Context
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">
+                {model.contextWindow != null
+                  ? model.contextWindow.toLocaleString()
+                  : "–"}{" "}
+                <span className="text-xs font-normal text-muted-foreground">
+                  tokens
+                </span>
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Cost
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">
+                {model.costPer1kTokens != null
+                  ? `$${model.costPer1kTokens}`
+                  : "–"}
+                <span className="text-xs font-normal text-muted-foreground">
+                  /1k tokens
+                </span>
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Max tokens
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">
+                {model.maxTokens != null
+                  ? model.maxTokens.toLocaleString()
+                  : "–"}
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="py-2">
+            <CardHeader className="pb-0 px-3 pt-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground">
+                Avg Response Time
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-3 pb-2">
+              <p className="text-base font-bold">{avgResponseTimeMs} ms</p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
 
       {toughestBreakers.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-4 text-xl font-semibold">Toughest Breakers</h2>
           <div
-            className={`grid gap-8 ${
-              toughestBreakers.length === 1
+            className={`grid gap-8 ${toughestBreakers.length === 1
                 ? "grid-cols-1"
                 : toughestBreakers.length === 2
                   ? "grid-cols-1 md:grid-cols-2"
                   : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-            }`}
+              }`}
           >
             {toughestBreakers.map((entry, index) => {
               const rank = index + 1;

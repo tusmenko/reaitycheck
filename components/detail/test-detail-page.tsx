@@ -4,7 +4,6 @@ import { usePreloadedQuery, type Preloaded } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -66,67 +65,56 @@ export function TestDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <div className="mb-2 flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{formatCategory(test.category)}</Badge>
-          <Badge variant="outline" className={DIFFICULTY_STYLES[difficulty]}>
-            {difficulty}
-          </Badge>
-          <MemenessStars score={test.memenessScore} />
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          This breaker cracked {modelsCracked} out of {totalModels} top models
-        </p>
-        <div className="mt-4 rounded-lg border bg-muted/50 p-4">
-          <p className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
-            {test.prompt}
-          </p>
-        </div>
-      </div>
-
-      <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Break Rate
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{Math.round(breakRate)}%</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Models Cracked
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{modelsCracked}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Difficulty
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Badge className={DIFFICULTY_STYLES[difficulty]}>{difficulty}</Badge>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Virality
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+      <section className="mb-10">
+        <div className="min-w-0">
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <Badge variant="outline">{formatCategory(test.category)}</Badge>
+            <Badge variant="outline" className={DIFFICULTY_STYLES[difficulty]}>
+              {difficulty}
+            </Badge>
             <MemenessStars score={test.memenessScore} />
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            This breaker cracked {modelsCracked} out of {totalModels} top models
+          </p>
+          {/* Break rate bar */}
+          <div className="mt-3 flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-foreground">
+              Break rate
+            </span>
+            <div className="flex items-center gap-3">
+              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-destructive/80 transition-all"
+                  style={{ width: `${Math.min(100, Math.round(breakRate))}%` }}
+                />
+              </div>
+              <span className="text-sm font-semibold tabular-nums">
+                {Math.round(breakRate)}%
+              </span>
+            </div>
+          </div>
+          <div className="mt-4 rounded-lg border bg-muted/50 p-4">
+            <p className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
+              {test.prompt}
+            </p>
+          </div>
+          {/* Why it matters: right after challenge text */}
+          <div className="mt-6 rounded-lg border bg-muted/30 p-4">
+            <h2 className="mb-3 text-lg font-semibold">Why It Matters</h2>
+            {test.explanation && (
+              <p className="mb-4 text-muted-foreground">{test.explanation}</p>
+            )}
+            <p className="text-sm">
+              <span className="font-medium">Expected answer:</span>{" "}
+              <code className="rounded bg-muted px-1.5 py-0.5">
+                {test.expectedAnswer}
+              </code>
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section className="mb-10">
         <h2 className="mb-4 text-xl font-semibold">Victims</h2>
@@ -204,18 +192,6 @@ export function TestDetailPage({
         </div>
       </section>
 
-      <section className="rounded-lg border bg-muted/30 p-6">
-        <h2 className="mb-3 text-xl font-semibold">Why It Matters</h2>
-        {test.explanation && (
-          <p className="mb-4 text-muted-foreground">{test.explanation}</p>
-        )}
-        <p className="text-sm">
-          <span className="font-medium">Expected answer:</span>{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5">
-            {test.expectedAnswer}
-          </code>
-        </p>
-      </section>
     </div>
   );
 }

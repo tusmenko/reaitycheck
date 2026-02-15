@@ -135,6 +135,10 @@
   --sidebar-ring: #ef4444;
 }
 
+.content-below-nav > * {
+  scroll-margin-top: 10rem;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
