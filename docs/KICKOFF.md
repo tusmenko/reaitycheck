@@ -2190,8 +2190,8 @@ GROQ_API_KEY=gsk_...
 # API Secret (for manual test triggers)
 API_SECRET_KEY=<generate-random-secret>
 
-# Optional: Monitoring
-SENTRY_DSN=...
+# Optional: Monitoring (Sentry)
+NEXT_PUBLIC_SENTRY_DSN=https://...@...sentry.io/...
 ```
 
 ### Vercel Configuration
