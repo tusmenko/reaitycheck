@@ -28,6 +28,18 @@ function generateSlug(apiIdentifier: string): string {
 }
 
 /**
+ * Parse API pricing/value to a finite number. Returns undefined for missing,
+ * empty, or invalid data so we never store NaN in the database.
+ */
+function parseFiniteNumber(value: unknown): number | undefined {
+  if (value === null || value === undefined || value === "") {
+    return undefined;
+  }
+  const n = typeof value === "number" ? value : parseFloat(String(value));
+  return Number.isFinite(n) ? n : undefined;
+}
+
+/**
  * Type definitions for sync results
  */
 type SyncResultSuccess = {
@@ -121,7 +133,13 @@ export const syncTopModelsFromOpenRouter = action({
       }
 
       try {
-        const isFree = parseFloat(model.pricing.prompt) === 0;
+        const inputCostPerToken = parseFiniteNumber(
+          model.pricing?.prompt ?? model.pricing?.input
+        );
+        const outputCostPerToken = parseFiniteNumber(
+          model.pricing?.completion ?? model.pricing?.output
+        );
+        const isFree = (inputCostPerToken ?? 0) === 0;
         const provider = extractProvider(model.id);
         const slug = generateSlug(model.id);
 
@@ -134,9 +152,14 @@ export const syncTopModelsFromOpenRouter = action({
             slug,
             contextWindow: model.context_length || undefined,
             isFree,
-            inputCostPer1MTokens: parseFloat(model.pricing.prompt) * 1_000_000,
+            inputCostPer1MTokens:
+              inputCostPerToken != null
+                ? inputCostPerToken * 1_000_000
+                : undefined,
             outputCostPer1MTokens:
-              parseFloat(model.pricing.completion) * 1_000_000,
+              outputCostPerToken != null
+                ? outputCostPerToken * 1_000_000
+                : undefined,
             maxCompletionTokens:
               model.top_provider?.max_completion_tokens ?? undefined,
             description: model.description || undefined,
