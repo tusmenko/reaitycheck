@@ -73,17 +73,18 @@ export function ComparisonGridSection({
   return (
     <section id="test-runs" className="bg-background py-20">
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
-        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 className="font-display text-3xl font-bold text-white">
-              Live Benchmarks
-            </h2>
-            <p className="mt-2 text-gray-400">
-              {granularity === "model"
-                ? "Failure-rate snapshot across current challenge suites."
-                : "Failure-rate snapshot by provider (averaged across their models)."}
-            </p>
-          </div>
+        <div className="mb-16 text-center">
+          <span className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+            Benchmark
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
+            Providers Performance
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+            {granularity === "model"
+              ? "Failure-rate snapshot across current challenge suites."
+              : "Failure-rate snapshot by provider (averaged across their models)."}
+          </p>
         </div>
 
         <div className="overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 shadow-soft">

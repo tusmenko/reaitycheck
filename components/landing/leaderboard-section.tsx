@@ -40,22 +40,16 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
   return (
     <section id="models" className="relative bg-dark-50 py-20">
       <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
-        <div className="mb-12 flex items-end justify-between">
-          <div>
-            <h2 className="font-display text-3xl font-bold text-white">
-              Top Survivors
-            </h2>
-            <p className="mt-3 text-gray-400">
-              Models ranked by how often they survive our challenge sets.
-            </p>
-          </div>
-          <Link
-            href="/benchmark"
-            className="group hidden items-center font-medium text-accent-red transition-colors hover:text-accent-orange sm:flex"
-          >
-            View benchmark table
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+        <div className="mb-16 text-center">
+          <span className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+            Leaderboard
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
+            Top Survivors
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+            Models ranked by how often they survive our challenge sets.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -98,7 +92,7 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
                           {entry.model.modelName}
                         </h3>
                         <p className="text-sm text-gray-500">
-                          {entry.model.provider}
+                          by {entry.model.provider}
                         </p>
                       </div>
                     </div>
@@ -130,6 +124,21 @@ export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
               </Link>
             );
           })}
+
+          <Link
+            href="/benchmark"
+            className="group flex flex-col items-center justify-center rounded-3xl border border-dark-200 bg-dark-100 p-8 text-center shadow-card transition-all duration-300 hover:border-dark-300 hover:shadow-hover"
+          >
+            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-dark-200 bg-dark-50 transition-transform group-hover:scale-110">
+              <ArrowRight className="h-5 w-5 text-gray-500 group-hover:text-accent-red" />
+            </div>
+            <h3 className="mb-1 text-lg font-bold text-white">
+              View benchmark table
+            </h3>
+            <p className="text-sm text-gray-500">
+              See the full ranking and stats
+            </p>
+          </Link>
         </div>
       </div>
     </section>

@@ -52,15 +52,17 @@ export function TestsSection({ tests }: TestsSectionProps) {
                 href={`/challenges/${test.slug}`}
                 className="group rounded-2xl border border-dark-200 bg-dark-100 p-6 shadow-sm transition-all hover:border-accent-red/50 hover:shadow-glow"
               >
+
+                <h3 className="mb-2 text-lg font-bold text-white transition-colors group-hover:text-accent-red">
+                  {test.name}
+                </h3>
+
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <div className="rounded-lg border border-dark-300 bg-dark-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
                     {formatCategory(test.category)}
                   </div>
                 </div>
 
-                <h3 className="mb-2 text-lg font-bold text-white transition-colors group-hover:text-accent-red">
-                  {test.name}
-                </h3>
                 <p className="mb-6 line-clamp-2 text-sm text-gray-500">
                   {test.explanation || test.prompt}
                 </p>

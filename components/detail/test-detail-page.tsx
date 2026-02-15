@@ -68,12 +68,12 @@ export function TestDetailPage({
           </div>
           <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>
           <p className="mt-2 text-lg text-muted-foreground">
-            This breaker cracked {modelsCracked} out of {totalModels} top models
+            This challenge cracked {modelsCracked} out of {totalModels} top models
           </p>
           {/* Break rate (kill rate) bar */}
           <div className="mt-3 flex flex-col gap-2">
             <span className="text-sm font-medium text-muted-foreground">
-              Break rate
+              Kill rate
             </span>
             <div className="flex items-center gap-3">
               <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
