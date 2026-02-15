@@ -21,7 +21,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye, Skull, Target, Swords } from "lucide-react";
+import { Check, X, Eye, Skull, Target, Swords, ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { resilienceBarColor } from "@/lib/model-detail-utils";
 
 const TOUGHEST_BREAKER_RANKS = [
@@ -65,6 +66,7 @@ export function ModelDetailPage({
 }: ModelDetailPageProps) {
   const model = usePreloadedQuery(preloadedModel);
   const breakdown = usePreloadedQuery(preloadedBreakdown);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
   if (!model) {
     return (
@@ -84,16 +86,6 @@ export function ModelDetailPage({
         totalTests) *
       100
       : 0;
-  const runsWithTime = breakdown.filter((e) => e.latestRun);
-  const avgResponseTimeMs =
-    runsWithTime.length > 0
-      ? Math.round(
-        runsWithTime.reduce(
-          (acc, e) => acc + (e.latestRun?.executionTimeMs ?? 0),
-          0
-        ) / runsWithTime.length
-      )
-      : 0;
   const toughestBreakers = [...breakdown]
     .filter((e) => e.latestRun != null)
     .sort((a, b) => a.successRate - b.successRate)
@@ -101,7 +93,7 @@ export function ModelDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:gap-8 lg:gap-8">
+      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:items-start md:gap-8 lg:gap-8">
         {/* Left column: model description */}
         <div className="min-w-0">
           <div className="mb-2">
@@ -138,18 +130,48 @@ export function ModelDetailPage({
               </span>
             </div>
           </div>
+
+          {/* Description */}
+          {model.description && (
+            <div
+              className="mt-4 group cursor-pointer"
+              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+            >
+              <div className="relative">
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${isDescriptionExpanded ? "max-h-[1000px]" : "max-h-22"
+                    }`}
+                >
+                  <p className="text-sm text-muted-foreground leading-relaxed pb-2">
+                    {model.description}
+                  </p>
+                </div>
+                {!isDescriptionExpanded && (
+                  <div className="absolute bottom-0 left-0 right-0 h-8 bg-linear-to-t from-background via-background/80 to-transparent pointer-events-none" />
+                )}
+              </div>
+              <div className="mt-2 flex justify-center">
+                <ChevronDown
+                  className={`h-4 w-4 text-muted-foreground transition-all duration-300 ${isDescriptionExpanded
+                    ? "rotate-180 opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                    }`}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Right column: Context, Cost, Max tokens, Avg Response Time */}
-        <div className="grid grid-cols-2 items-start gap-2 md:max-w-sm md:gap-4 md:w-80">
-          <Card className="py-2">
+        {/* Right column: Context, Cost, Max tokens */}
+        <div className="grid grid-cols-2 auto-rows-fr gap-2 md:max-w-sm md:gap-4 md:w-80">
+          <Card className="py-2 flex flex-col">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
                 Context
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-3 pb-2">
-              <p className="text-base font-bold">
+            <CardContent className="px-3 pb-2 flex-1 flex items-center">
+              <p className="text-base font-bold break-words">
                 {model.contextWindow != null ? (
                   <>
                     {model.contextWindow.toLocaleString()}{" "}
@@ -163,14 +185,14 @@ export function ModelDetailPage({
               </p>
             </CardContent>
           </Card>
-          <Card className="py-2">
+          <Card className="py-2 flex flex-col">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
                 Cost (Input)
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-3 pb-2">
-              <p className="text-base font-bold">
+            <CardContent className="px-3 pb-2 flex-1 flex items-center">
+              <p className="text-base font-bold break-words">
                 {model.inputCostPer1MTokens != null ? (
                   <>
                     ${model.inputCostPer1MTokens.toFixed(2)}
@@ -185,14 +207,14 @@ export function ModelDetailPage({
               </p>
             </CardContent>
           </Card>
-          <Card className="py-2">
+          <Card className="py-2 flex flex-col">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
                 Cost (Output)
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-3 pb-2">
-              <p className="text-base font-bold">
+            <CardContent className="px-3 pb-2 flex-1 flex items-center">
+              <p className="text-base font-bold break-words">
                 {model.outputCostPer1MTokens != null ? (
                   <>
                     ${model.outputCostPer1MTokens.toFixed(2)}
@@ -207,28 +229,18 @@ export function ModelDetailPage({
               </p>
             </CardContent>
           </Card>
-          <Card className="py-2">
+          <Card className="py-2 flex flex-col">
             <CardHeader className="pb-0 px-3 pt-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
                 Max completion tokens
               </CardTitle>
             </CardHeader>
-            <CardContent className="px-3 pb-2">
-              <p className="text-base font-bold">
+            <CardContent className="px-3 pb-2 flex-1 flex items-center">
+              <p className="text-base font-bold break-words">
                 {model.maxCompletionTokens != null
                   ? model.maxCompletionTokens.toLocaleString()
                   : "–"}
               </p>
-            </CardContent>
-          </Card>
-          <Card className="py-2">
-            <CardHeader className="pb-0 px-3 pt-2">
-              <CardTitle className="text-xs font-medium text-muted-foreground">
-                Avg Response Time
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-3 pb-2">
-              <p className="text-base font-bold">{avgResponseTimeMs} ms</p>
             </CardContent>
           </Card>
         </div>
@@ -239,10 +251,10 @@ export function ModelDetailPage({
           <h2 className="mb-4 text-xl font-semibold">Toughest Breakers</h2>
           <div
             className={`grid gap-8 ${toughestBreakers.length === 1
-                ? "grid-cols-1"
-                : toughestBreakers.length === 2
-                  ? "grid-cols-1 md:grid-cols-2"
-                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              ? "grid-cols-1"
+              : toughestBreakers.length === 2
+                ? "grid-cols-1 md:grid-cols-2"
+                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               }`}
           >
             {toughestBreakers.map((entry, index) => {
