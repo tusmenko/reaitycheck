@@ -9,13 +9,10 @@ on:
 
 jobs:
   # Build needs NEXT_PUBLIC_CONVEX_URL so ConvexReactClient doesn't throw; placeholder is enough (no real calls).
-  # Deploy: Production uses repo secret + variable (env injection unreliable). Development uses environment.
-  # If deploy-production fails, production schema/functions are NOT updated (e.g. schema mismatch with existing data). See docs/deployment.md.
+  # Convex deploy runs only in deploy-production (main push) and deploy-development (workflow_dispatch). See docs/deployment.md.
   lint-typecheck-build-test:
     runs-on: ubuntu-latest
     env:
-      CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
-      CONVEX_DEPLOYMENT: ${{ vars.CONVEX_DEPLOYMENT }}
       NEXT_PUBLIC_CONVEX_URL: ${{ vars.CONVEX_URL || secrets.NEXT_PUBLIC_CONVEX_URL }}
     steps:
       - name: Checkout
@@ -34,9 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Deploy Convex
-        run: npx convex deploy
 
       - name: Lint
         run: pnpm run lint
