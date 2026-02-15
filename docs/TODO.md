@@ -7,12 +7,12 @@
 - [ ] **Create app logo** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQts)
 - [x] **Redesign pages** — More fancy and playful, but minimalistic.
 - [ ] **Pick top-10 models for testing from OpenRouter** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQt0)
-- [ ] **Challanges overview page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQuU)
+- [x] **Challanges overview page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQuU)
 - [ ] **About page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQu8)
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing). [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvQ)
 - [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
-- [ ] **UX Review** Review copy, wording and naming consistency, tone of voice
+- - Review copy, wording and naming consistency, tone of voice
 
 ## Post-MVP
 
