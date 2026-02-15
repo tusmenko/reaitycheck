@@ -13,6 +13,7 @@ import type * as actions_runTests from "../actions/runTests.js";
 import type * as actions_validators from "../actions/validators.js";
 import type * as challengeSubmissionLimits from "../challengeSubmissionLimits.js";
 import type * as crons from "../crons.js";
+import type * as migrations from "../migrations.js";
 import type * as mutations from "../mutations.js";
 import type * as queries from "../queries.js";
 import type * as seed from "../seed.js";
@@ -31,6 +32,7 @@ declare const fullApi: ApiFromModules<{
   "actions/validators": typeof actions_validators;
   challengeSubmissionLimits: typeof challengeSubmissionLimits;
   crons: typeof crons;
+  migrations: typeof migrations;
   mutations: typeof mutations;
   queries: typeof queries;
   seed: typeof seed;

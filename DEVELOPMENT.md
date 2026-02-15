@@ -56,3 +56,5 @@ flowchart LR
 ## CI and deployment
 
 GitHub Actions runs lint, type-check, build, and tests on every push and PR. To deploy the Convex backend on push to `main`, add a **Convex production deploy key** as a repository secret: **Settings → Secrets and variables → Actions → New repository secret** named `CONVEX_DEPLOY_KEY`. Create the key in the [Convex dashboard](https://dashboard.convex.dev) under your deployment (Deployment Settings → Deploy key).
+
+**Schema changes:** Production Convex schema only updates when `npx convex deploy` succeeds. If you remove or change a field, existing production data must match the new schema or the deploy step fails and production is not updated. See [docs/deployment.md](docs/deployment.md) for the process (optional → migrate → remove) and how to fix schema mismatch.
