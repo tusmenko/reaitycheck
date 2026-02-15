@@ -11,6 +11,7 @@ import {
   passRateColorClass,
   formatCategory,
   providerDisplayName,
+  resilienceBarColor,
 } from "@/lib/model-detail-utils";
 import { Skull, Target, Swords, Award } from "lucide-react";
 
@@ -98,10 +99,13 @@ export function ProviderDetailPage({
               Average resilience
             </span>
             <div className="flex items-center gap-3">
-              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-red-500/20 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-brand-500 transition-all"
-                  style={{ width: `${Math.min(100, Math.round(avgResilience))}%` }}
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.min(100, Math.round(avgResilience))}%`,
+                    backgroundColor: resilienceBarColor(avgResilience),
+                  }}
                 />
               </div>
               <span className="text-sm font-semibold tabular-nums">

@@ -35,6 +35,18 @@ export function killRateColorClass(pct: number): string {
   return "text-green-400";
 }
 
+/** Resilience bar fill: lower % = red, higher % = green. Returns CSS color. */
+export function resilienceBarColor(pct: number): string {
+  const hue = 120 * (pct / 100); // 0% → 0 (red), 100% → 120 (green)
+  return `hsl(${hue}, 70%, 45%)`;
+}
+
+/** Kill/break rate bar fill: lower % = green, higher % = red. Returns CSS color. */
+export function killRateBarColor(pct: number): string {
+  const hue = 120 * (1 - pct / 100); // 0% → 120 (green), 100% → 0 (red)
+  return `hsl(${hue}, 70%, 45%)`;
+}
+
 export function formatCategory(category: string) {
   return category
     .split("_")

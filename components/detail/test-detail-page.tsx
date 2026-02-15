@@ -21,7 +21,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { MemenessStars } from "@/components/custom/memeness-stars";
-import { modelDetailHref, formatCategory } from "@/lib/model-detail-utils";
+import {
+  modelDetailHref,
+  formatCategory,
+  killRateBarColor,
+} from "@/lib/model-detail-utils";
 import { Check, X, Eye } from "lucide-react";
 
 interface TestDetailPageProps {
@@ -66,7 +70,7 @@ export function TestDetailPage({
           <p className="mt-2 text-lg text-muted-foreground">
             This breaker cracked {modelsCracked} out of {totalModels} top models
           </p>
-          {/* Break rate bar */}
+          {/* Break rate (kill rate) bar */}
           <div className="mt-3 flex flex-col gap-2">
             <span className="text-sm font-medium text-muted-foreground">
               Break rate
@@ -74,8 +78,11 @@ export function TestDetailPage({
             <div className="flex items-center gap-3">
               <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-destructive/80 transition-all"
-                  style={{ width: `${Math.min(100, Math.round(breakRate))}%` }}
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.min(100, Math.round(breakRate))}%`,
+                    backgroundColor: killRateBarColor(breakRate),
+                  }}
                 />
               </div>
               <span className="text-sm font-semibold tabular-nums">

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check, X, Eye, Skull, Target, Swords } from "lucide-react";
+import { resilienceBarColor } from "@/lib/model-detail-utils";
 
 const TOUGHEST_BREAKER_RANKS = [
   { Icon: Skull, iconColor: "text-red-400" },
@@ -123,10 +124,13 @@ export function ModelDetailPage({
               Resilience
             </span>
             <div className="flex items-center gap-3">
-              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-red-500/20 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-brand-500 transition-all"
-                  style={{ width: `${Math.min(100, Math.round(resilienceRate))}%` }}
+                  className="h-full rounded-full transition-all"
+                  style={{
+                    width: `${Math.min(100, Math.round(resilienceRate))}%`,
+                    backgroundColor: resilienceBarColor(resilienceRate),
+                  }}
                 />
               </div>
               <span className="text-sm font-semibold tabular-nums">
