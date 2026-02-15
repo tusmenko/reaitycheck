@@ -8,6 +8,12 @@ export function FooterSection() {
         <p>© 2026 ReAIityCheck by Eugene Tusmenko</p>
         <div className="flex items-center gap-6">
           <Link
+            href="/about"
+            className="transition-colors hover:text-gray-300"
+          >
+            About
+          </Link>
+          <Link
             href="https://github.com/tusmenko/reaitycheck"
             target="_blank"
             rel="noreferrer"
