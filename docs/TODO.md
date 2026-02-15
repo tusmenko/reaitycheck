@@ -8,7 +8,7 @@
 - [x] **Redesign pages** — More fancy and playful, but minimalistic.
 - [ ] **Pick top-10 models for testing from OpenRouter** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQt0)
 - [x] **Challanges overview page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQuU)
-- [ ] **About page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQu8)
+- [x] **About page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQu8)
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing). [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvQ)
 - [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
@@ -40,5 +40,5 @@
 - [x] **Add captcha with Cloudlare**
 - [ ] **Setup queue for challanges run scheduling** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzU)
 - [ ] **Enhance validation error handing** - Prevent submitted data loss, show progress [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzk)
-- [ ] **Error monitoring** - Setup Sentry [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQz8)
-- [ ] **Provide OpenRouter with app identification** - for better logging and credits management [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQ0U)
+- [x] **Error monitoring** - Setup Sentry [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQz8)
+- [x] **Provide OpenRouter with app identification** - for better logging and credits management [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQ0U)
