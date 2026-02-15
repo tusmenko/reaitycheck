@@ -118,7 +118,7 @@ export const orchestrateAllTests = action({
     let scheduled = 0;
 
     for (const model of models) {
-      const maxTokens = model.maxTokens ?? DEFAULT_MAX_TOKENS;
+      const maxTokens = model.maxCompletionTokens ?? DEFAULT_MAX_TOKENS;
 
       for (const test of tests) {
         await ctx.scheduler.runAfter(
@@ -198,7 +198,7 @@ export const runSingleTest = action({
       throw new Error(`Model not found: ${modelApiIdentifier}`);
     }
 
-    const maxTokens = model.maxTokens ?? DEFAULT_MAX_TOKENS;
+    const maxTokens = model.maxCompletionTokens ?? DEFAULT_MAX_TOKENS;
 
     const result = await callModel(apiKey, model.apiIdentifier, test.prompt, {
       temperature: TEMPERATURE,

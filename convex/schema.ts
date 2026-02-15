@@ -32,8 +32,6 @@ export default defineSchema({
     apiIdentifier: v.string(),
     slug: v.optional(v.string()),
     contextWindow: v.optional(v.number()),
-    costPer1kTokens: v.optional(v.number()),
-    maxTokens: v.optional(v.number()),
     isActive: v.boolean(),
     updatedAt: v.optional(v.number()),
     syncedFromOpenRouter: v.optional(v.boolean()),
