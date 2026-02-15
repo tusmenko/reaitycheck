@@ -8,6 +8,7 @@ const mobileNavLinks = [
   { href: "/providers", label: "Models" },
   { href: "/challenges", label: "Challenges" },
   { href: "/benchmark", label: "Benchmarks" },
+  { href: "/about", label: "About" },
   { href: "/submit-challenge", label: "Submit Challenge" },
 ] as const;
 
@@ -44,6 +45,12 @@ export function Navbar() {
               className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
             >
               Benchmarks
+            </Link>
+            <Link
+              href="/about"
+              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
+            >
+              About
             </Link>
           </div>
 
