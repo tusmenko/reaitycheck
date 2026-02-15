@@ -54,7 +54,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <Link
               href="https://github.com/tusmenko/reaitycheck"
               target="_blank"
