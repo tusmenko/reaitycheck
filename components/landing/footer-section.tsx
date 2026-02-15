@@ -4,7 +4,7 @@ import { Github } from "lucide-react";
 export function FooterSection() {
   return (
     <footer className=" border-dark-200 bg-background pb-8">
-      <div className="flex flex-col items-center justify-between gap-4 border-t border-dark-200 px-6 pt-8 text-sm text-gray-500 md:flex-row">
+      <div className="flex flex-row flex-wrap items-center justify-between gap-4 border-t border-dark-200 px-6 pt-8 text-sm text-gray-500 sm:justify-between">
         <p>© 2026 ReAIityCheck by Eugene Tusmenko</p>
         <div className="flex items-center gap-6">
           <Link

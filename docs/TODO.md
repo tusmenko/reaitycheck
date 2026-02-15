@@ -21,6 +21,7 @@
 - - [ ] Extract validation criterias [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQww)
 - - [ ] Assign category\labels [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxM)
 - - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxc)
+- [ ] **Rank top-10 models by USAGE and by SCORE**
 
 ### Social
 
@@ -34,6 +35,7 @@
 
 ### Technical
 
+- [ ] **Refactor** - Clean Code, SOLID, DRY, proper componentisation, logic in hooks, ets.
 - [ ] **Split validation job from task execution job** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzA)
 - [x] **Add captcha with Cloudlare**
 - [ ] **Setup queue for challanges run scheduling** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQzU)
