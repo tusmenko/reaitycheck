@@ -6,14 +6,16 @@
 - [x] **Update landing page header** — Better reveal application goals (align with README.md).
 - [ ] **Create app logo** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQts)
 - [x] **Redesign pages** — More fancy and playful, but minimalistic.
-- [ ] **Pick top-10 models for testing from OpenRouter** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQt0)
+- [x] **Pick top-10 models for testing from OpenRouter** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQt0)
 - [x] **Challanges overview page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQuU)
 - [x] **About page** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQu8)
 - [ ] **Reconsider challanges** — Review and refine test set (remove non-failing). [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvQ)
 - [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
 - - Review copy, wording and naming consistency, tone of voice
-- [ ] **Challange submission rules** - describe the limitations
+- [x] **Challange submission rules** - describe the limitations
+- [ ] **Raw response in MD format** - on the Challange detail page
+- [x] **SEO-related tweaks**
 
 ## Post-MVP
 
@@ -23,6 +25,7 @@
 - - [ ] Assign category\labels [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxM)
 - - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxc)
 - [ ] **Rank top-10 models by USAGE and by SCORE**
+- [ ] **Import models icons**
 
 ### Social
 

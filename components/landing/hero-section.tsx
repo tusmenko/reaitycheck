@@ -32,9 +32,8 @@ export function HeroSection({
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 text-center lg:px-12">
         <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-dark-200 bg-dark-100 px-4 py-2 text-xs font-semibold text-accent-red shadow-sm">
           <span
-            className={`h-2 w-2 animate-pulse rounded-full ${
-              isFresh ? "bg-green-500" : "bg-accent-red"
-            }`}
+            className={`h-2 w-2 animate-pulse rounded-full ${isFresh ? "bg-green-500" : "bg-accent-red"
+              }`}
           />
           Live Benchmarks • Updated {freshness}
         </div>
@@ -48,6 +47,8 @@ export function HeroSection({
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-400 lg:text-xl">
           We run non-trivial prompts across popular models to surface failures
           that benchmark averages hide. No fluff, just edge cases.
+          <br />
+          And a bit of fun 🧪
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

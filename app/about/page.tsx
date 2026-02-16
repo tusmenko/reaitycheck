@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "About — ReAIty Check",
+  title: "About",
   description:
     "Why ReAIty Check exists, how the site works, and how we track AI limitations with edge-case challenges and live benchmarks.",
 };

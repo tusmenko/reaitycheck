@@ -6,7 +6,7 @@ import {
   providerDisplayName,
   failureRateBadgeClass,
 } from "@/lib/model-detail-utils";
-import { ChevronRight, Skull } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 function providerPageHref(provider: string) {
   return `/providers/${encodeURIComponent(provider)}`;
@@ -64,65 +64,8 @@ export function ComparisonGridSection({
     variant === "full" ? models : models.slice(0, 4);
   const tableTests = variant === "full" ? tests : tests.slice(0, 8);
 
-  return (
-    <section
-      id="test-runs"
-      className={
-        variant === "full"
-          ? "relative bg-background px-6 pb-16 pt-8 lg:px-12"
-          : "bg-background py-20"
-      }
-    >
-      {variant === "full" && (
-        <>
-          <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
-        </>
-      )}
-      <div
-        className={
-          variant === "full"
-            ? "relative z-10 mx-auto max-w-6xl"
-            : "mx-auto w-full max-w-[1440px] px-6 lg:px-12"
-        }
-      >
-        <div
-          className={
-            variant === "full"
-              ? "mb-16"
-              : "mb-16 text-center"
-          }
-        >
-          <p className="text-sm font-semibold uppercase tracking-wide text-accent-red">
-            Benchmark
-          </p>
-          {(variant === "full" ? (
-            <h1 className="mt-3 font-display text-4xl font-bold text-white lg:text-5xl">
-              {granularity === "model"
-                ? "Models Performance"
-                : "Providers Performance"}
-            </h1>
-          ) : (
-            <h2 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
-              {granularity === "model"
-                ? "Models Performance"
-                : "Providers Performance"}
-            </h2>
-          ))}
-          <p
-            className={
-              variant === "full"
-                ? "mt-4 max-w-2xl text-base text-gray-400 lg:text-lg"
-                : "mx-auto mt-4 max-w-2xl text-gray-400"
-            }
-          >
-            {granularity === "model"
-              ? "Failure-rate snapshot across current challenge suites."
-              : "Failure-rate snapshot by provider (averaged across their models)."}
-          </p>
-        </div>
-
-        <div className="overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 shadow-soft">
+  const tableContent = (
+    <div className="overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 shadow-soft">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[760px]">
               <thead>
@@ -244,54 +187,7 @@ export function ComparisonGridSection({
             )}
           </div>
         </div>
-
-        {variant === "preview" && (
-          <div className="relative mt-16 rounded-3xl border border-dark-200 bg-linear-to-br from-dark-100 to-dark-50 p-10 text-center lg:p-16 lg:text-left">
-            <div className="pattern-bg absolute inset-0 opacity-10" />
-            <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-accent-red/20 blur-3xl" />
-
-            <div className="relative z-10 flex flex-col items-center justify-between gap-10 lg:flex-row">
-              <div className="max-w-xl">
-                <h3 className="font-display text-3xl font-bold text-white">
-                  Have a tricky prompt?
-                </h3>
-                <p className="mb-8 mt-4 text-lg text-gray-400">
-                  Submit your edge case. If it breaks major models, we add it to
-                  the gauntlet and credit the submission.
-                </p>
-                <Link
-                  href="/submit-challenge"
-                  className="inline-flex rounded-full bg-linear-to-r from-accent-red to-accent-orange px-8 py-3 font-bold text-white shadow-lg transition-all hover:shadow-glow"
-                >
-                  Submit Challenge
-                </Link>
-              </div>
-
-              <div className="shrink-0">
-                <div className="w-64 rotate-3 rounded-2xl border border-dark-200 bg-dark-100/50 p-6 backdrop-blur-md transition-transform duration-500 hover:rotate-0">
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-accent-red/50 bg-accent-red/30 text-accent-red">
-                      <Skull className="h-4 w-4" />
-                    </div>
-                    <div className="h-2 w-24 rounded-full bg-gray-700" />
-                  </div>
-                  <div className="space-y-3">
-                    <div className="h-2 w-full rounded-full bg-gray-700" />
-                    <div className="h-2 w-3/4 rounded-full bg-gray-700" />
-                    <div className="h-2 w-5/6 rounded-full bg-gray-700" />
-                  </div>
-                  <div className="mt-6 rounded-lg border border-red-800 bg-red-900/30 p-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-red-400">
-                      <Skull className="h-3.5 w-3.5" />
-                      Model Eliminated
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
   );
+
+  return tableContent;
 }
