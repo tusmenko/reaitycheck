@@ -1,47 +1,73 @@
 "use client";
 
-import Link from "next/link";
 import { Coffee, Github, Menu, X } from "lucide-react";
-import { useNavbar } from "./useNavbar";
+import Link from "next/link";
 import { MOBILE_NAV_LINKS } from "./Navbar.constants";
+import { useNavbar } from "./useNavbar";
 
 export const Navbar = () => {
   const { menuOpen, handleToggleMenu, handleCloseMenu } = useNavbar();
 
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-dark-200 bg-dark-50/80 backdrop-blur-md">
-        <div className="mx-auto flex h-20 w-full max-w-[1440px] items-center justify-between px-6 lg:px-12">
+      <nav className="
+        fixed inset-x-0 top-0 z-50 border-b border-dark-200 bg-dark-50/80
+        backdrop-blur-md
+      ">
+        <div className="
+          mx-auto flex h-20 w-full max-w-[1440px] items-center justify-between
+          px-6
+          lg:px-12
+        ">
           <Link href="/" className="flex items-center gap-3">
             <div className="flex items-center">
               <span className="text-2xl font-bold text-white">Re</span>
-              <span className="inline-block px-2 py-1 mx-1 bg-linear-to-r from-accent-red to-accent-orange text-white text-lg font-bold rounded transform -rotate-6 shadow-lg">AI</span>
+              <span className="
+                mx-1 inline-block -rotate-6 transform rounded-sm bg-linear-to-r
+                from-accent-red to-accent-orange px-2 py-1 text-lg font-bold
+                text-white shadow-lg
+              ">AI</span>
               <span className="text-2xl font-bold text-white">ty Check</span>
             </div>
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="
+            hidden items-center gap-8
+            md:flex
+          ">
             <Link
               href="/providers"
-              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
+              className="
+                text-sm font-medium text-gray-400 transition-colors
+                hover:text-white
+              "
             >
               Models
             </Link>
             <Link
               href="/challenges"
-              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
+              className="
+                text-sm font-medium text-gray-400 transition-colors
+                hover:text-white
+              "
             >
               Challenges
             </Link>
             <Link
               href="/benchmark"
-              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
+              className="
+                text-sm font-medium text-gray-400 transition-colors
+                hover:text-white
+              "
             >
               Benchmarks
             </Link>
             <Link
               href="/about"
-              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
+              className="
+                text-sm font-medium text-gray-400 transition-colors
+                hover:text-white
+              "
             >
               About
             </Link>
@@ -52,7 +78,10 @@ export const Navbar = () => {
               href="https://github.com/tusmenko/reaitycheck"
               target="_blank"
               rel="noreferrer"
-              className="text-gray-400 transition-colors hover:text-white"
+              className="
+                text-gray-400 transition-colors
+                hover:text-white
+              "
             >
               <Github className="h-5 w-5" />
             </Link>
@@ -60,21 +89,35 @@ export const Navbar = () => {
               href="https://buymeacoffee.com/vksvjtzg2f"
               target="_blank"
               rel="noreferrer"
-              className="text-gray-400 transition-colors hover:text-yellow-500"
+              className="
+                text-gray-400 transition-colors
+                hover:text-yellow-500
+              "
               title="Support ReAIty Check via Buy Me a Coffee"
             >
               <Coffee className="h-5 w-5" />
             </Link>
             <Link
               href="/submit-challenge"
-              className="hidden rounded-full bg-linear-to-r from-accent-red to-accent-orange px-5 py-2.5 text-sm font-medium text-dark-50 transition-all hover:shadow-glow sm:inline-flex"
+              className="
+                hidden rounded-full bg-linear-to-r from-accent-red
+                to-accent-orange px-5 py-2.5 text-sm font-medium text-dark-50
+                transition-all
+                hover:shadow-glow
+                sm:inline-flex
+              "
             >
               Submit Challenge
             </Link>
             <button
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-400 transition-colors hover:text-white md:hidden"
+              className="
+                flex h-10 w-10 items-center justify-center rounded-lg
+                text-gray-400 transition-colors
+                hover:text-white
+                md:hidden
+              "
               onClick={handleToggleMenu}
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -88,24 +131,36 @@ export const Navbar = () => {
         <button
           type="button"
           aria-label="Close menu"
-          className="fixed inset-0 top-20 z-40 bg-black/50 md:hidden"
+          className="
+            fixed inset-0 top-20 z-40 bg-black/50
+            md:hidden
+          "
           onClick={handleCloseMenu}
         />
       )}
 
       {/* Mobile menu panel */}
       <div
-        className={`fixed left-0 right-0 top-20 z-50 border-b border-dark-200 bg-dark-50 px-6 py-6 transition-all duration-200 ease-out md:hidden ${menuOpen
-          ? "opacity-100 visible"
+        className={`
+          fixed top-20 right-0 left-0 z-50 border-b border-dark-200 bg-dark-50
+          px-6 py-6 transition-all duration-200 ease-out
+          md:hidden
+          ${menuOpen
+          ? "visible opacity-100"
           : "pointer-events-none invisible opacity-0"
-          }`}
+          }
+        `}
       >
         <div className="flex flex-col gap-1">
           {MOBILE_NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="rounded-lg px-3 py-3 text-sm font-medium text-gray-400 transition-colors hover:bg-dark-200 hover:text-white"
+              className="
+                rounded-lg px-3 py-3 text-sm font-medium text-gray-400
+                transition-colors
+                hover:bg-dark-200 hover:text-white
+              "
               onClick={handleCloseMenu}
             >
               {label}

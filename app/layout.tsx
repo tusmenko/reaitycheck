@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter, Poppins } from "next/font/google";
-import { ConvexClientProvider } from "./convex-provider";
-import { Navbar } from "@/components/landing/navbar";
 import { FooterSection } from "@/components/landing/footer-section";
+import { Navbar } from "@/components/landing/navbar";
+import { ConvexClientProvider } from "./convex-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,7 +24,8 @@ const geistMono = Geist_Mono({
 const siteUrl = "https://reaitycheck.com";
 const defaultTitle = "ReAIty Check — Know your AI tools' limitations";
 const description =
-  "Daily automated testing of viral and edge-case AI failure cases. Track real-world limitations of the most popular models.";
+  "Daily automated testing of viral and edge-case AI failure cases. " +
+  "Track real-world limitations of the most popular models.";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -78,9 +79,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${inter.variable} ${poppins.variable} ${geistMono.variable} antialiased`}
+        className={`
+          ${inter.variable}
+          ${poppins.variable}
+          ${geistMono.variable}
+          antialiased
+        `}
       >
         <script
           type="application/ld+json"
@@ -89,7 +95,7 @@ export default function RootLayout({
         <ConvexClientProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />
-            <div className="content-below-nav flex-1 pt-20">{children}</div>
+            <div className="flex-1 pt-20">{children}</div>
             <FooterSection />
           </div>
         </ConvexClientProvider>

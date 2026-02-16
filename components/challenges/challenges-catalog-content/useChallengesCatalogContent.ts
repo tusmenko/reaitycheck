@@ -1,6 +1,6 @@
 import { usePreloadedQuery } from "convex/react";
-import type { ChallengesCatalogContentProps } from "./ChallengesCatalogContent.types";
 import type { TestCase } from "@/lib/types";
+import type { ChallengesCatalogContentProps } from "./ChallengesCatalogContent.types";
 
 export const useChallengesCatalogContent = (
   preloadedTests: ChallengesCatalogContentProps["preloadedTests"]

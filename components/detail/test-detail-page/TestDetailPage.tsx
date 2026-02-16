@@ -1,7 +1,17 @@
 "use client";
 
+import { Check, X, Eye } from "lucide-react";
 import Link from "next/link";
+import { MemenessStars } from "@/components/custom/memeness-stars";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -11,20 +21,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { MemenessStars } from "@/components/custom/memeness-stars";
-import {
   modelDetailHref,
   formatCategory,
   killRateBarColor,
 } from "@/lib/model-detail-utils";
-import { Check, X, Eye } from "lucide-react";
 import { type TestDetailPageProps } from "./TestDetailPage.types";
 import { useTestDetailPage } from "./useTestDetailPage";
 
@@ -40,7 +40,11 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="
+      mx-auto max-w-6xl px-4 py-8
+      sm:px-6
+      lg:px-8
+    ">
       <section className="mb-10">
         <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -57,7 +61,10 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
               Kill rate
             </span>
             <div className="flex items-center gap-3">
-              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-muted overflow-hidden">
+              <div className="
+                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
+                bg-muted
+              ">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -72,7 +79,7 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
             </div>
           </div>
           <div className="mt-4 rounded-lg border bg-muted/50 p-4">
-            <p className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
+            <p className="font-mono text-sm/relaxed whitespace-pre-wrap">
               {test.prompt}
             </p>
           </div>
@@ -83,7 +90,7 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
             )}
             <p className="text-sm">
               <span className="font-medium">Expected answer:</span>{" "}
-              <code className="rounded bg-muted px-1.5 py-0.5">
+              <code className="rounded-sm bg-muted px-1.5 py-0.5">
                 {test.expectedAnswer}
               </code>
             </p>
@@ -122,7 +129,10 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                     <TableCell className="font-medium">
                       <Link
                         href={href}
-                        className="text-primary underline-offset-4 hover:underline"
+                        className="
+                          text-primary underline-offset-4
+                          hover:underline
+                        "
                       >
                         {entry.model.modelName}
                       </Link>
@@ -130,7 +140,10 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                     <TableCell className="text-center">
                       {entry.latestRun ? (
                         passed ? (
-                          <Check className="mx-auto size-5 text-green-600 dark:text-green-500" />
+                          <Check className="
+                            mx-auto size-5 text-green-600
+                            dark:text-green-500
+                          " />
                         ) : (
                           <X className="mx-auto size-5 text-destructive" />
                         )
@@ -147,11 +160,16 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                               <Eye className="size-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                          <DialogContent className="
+                            max-h-[80vh] max-w-2xl overflow-y-auto
+                          ">
                             <DialogHeader>
                               <DialogTitle>Raw response</DialogTitle>
                             </DialogHeader>
-                            <pre className="whitespace-pre-wrap wrap-break-word rounded bg-muted p-4 text-sm">
+                            <pre className="
+                              rounded-sm bg-muted p-4 text-sm wrap-break-word
+                              whitespace-pre-wrap
+                            ">
                               {entry.latestRun.rawResponse}
                             </pre>
                           </DialogContent>

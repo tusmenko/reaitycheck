@@ -1,0 +1,85 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import tsParser from "@typescript-eslint/parser";
+import typescriptEslintEslintPlugin from "@typescript-eslint/eslint-plugin";
+import globals from "globals";
+import js from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+import { FlatCompat } from "@eslint/eslintrc";
+
+const compat = new FlatCompat({
+    baseDirectory: import.meta.url,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all,
+});
+
+export default defineConfig([
+    ...nextVitals,
+    ...nextTs,
+    // Base configuration for all TypeScript files - COMMON RULES ONLY
+    {
+        files: ["**/*.ts", "**/*.tsx"],
+        languageOptions: {
+            parser: tsParser,
+            sourceType: "module",
+            globals: {
+                ...globals.node,
+            },
+        },
+        plugins: {
+            "@typescript-eslint": typescriptEslintEslintPlugin,
+            "@stylistic": stylistic,
+        },
+        extends: compat.extends("plugin:@typescript-eslint/recommended"),
+        rules: {
+            // Common TypeScript rules that apply to ALL projects
+            "quotes": ["error", "double"],
+            "semi": ["error", "always"],
+            "block-spacing": ["error", "always"],
+            "curly": ["error", "multi-line", "consistent"],
+            "no-multiple-empty-lines": ["error", {
+                "max": 1,
+                "maxEOF": 1,
+                "maxBOF": 0
+            }],
+            "eol-last": ["error", "always"],
+            "@stylistic/brace-style": ["error", "1tbs", {
+                allowSingleLine: true
+            }],
+            "@stylistic/max-len": ["error", {
+                code: 100,
+                ignoreUrls: true,
+                ignoreStrings: true,
+                ignoreTemplateLiterals: true,
+                ignoreRegExpLiterals: true,
+                ignoreComments: true,
+            }],
+            "@typescript-eslint/no-unused-vars": [
+                "warn",
+                {
+                    vars: "all",
+                    args: "after-used",
+                    ignoreRestSiblings: true,
+                    varsIgnorePattern: "^_",
+                    argsIgnorePattern: "^_",
+                },
+            ],
+            "@typescript-eslint/no-require-imports": "warn",
+            "@typescript-eslint/no-explicit-any": "warn",
+        },
+    },
+    {
+        files: ["**/*.spec.ts", "**/*.test.ts", "**/*.e2e-spec.ts"],
+        rules: {
+            "@typescript-eslint/no-explicit-any": "off",
+        },
+    },
+
+    // Global ignores - only truly global patterns
+    globalIgnores([
+        "**/eslintrc.config.cjs",
+        "**/node_modules/**",
+    ]),
+]);

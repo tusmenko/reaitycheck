@@ -14,15 +14,18 @@ export const ModelStatsCards = ({
   maxCompletionTokens,
 }: ModelStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-2 auto-rows-fr gap-2 md:max-w-sm md:gap-4 md:w-80">
-      <Card className="py-2 flex flex-col">
-        <CardHeader className="pb-0 px-3 pt-2">
+    <div className="
+      grid auto-rows-fr grid-cols-2 gap-2
+      md:w-80 md:max-w-sm md:gap-4
+    ">
+      <Card className="flex flex-col py-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Context
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-3 pb-2 flex-1 flex items-center">
-          <p className="text-base font-bold break-words">
+        <CardContent className="flex flex-1 items-center px-3 pb-2">
+          <p className="text-base font-bold wrap-break-word">
             {contextWindow != null ? (
               <>
                 {contextWindow.toLocaleString()}{" "}
@@ -36,14 +39,14 @@ export const ModelStatsCards = ({
           </p>
         </CardContent>
       </Card>
-      <Card className="py-2 flex flex-col">
-        <CardHeader className="pb-0 px-3 pt-2">
+      <Card className="flex flex-col py-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Cost (Input)
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-3 pb-2 flex-1 flex items-center">
-          <p className="text-base font-bold break-words">
+        <CardContent className="flex flex-1 items-center px-3 pb-2">
+          <p className="text-base font-bold wrap-break-word">
             {inputCostPer1MTokens != null ? (
               <>
                 ${inputCostPer1MTokens.toFixed(2)}
@@ -58,14 +61,14 @@ export const ModelStatsCards = ({
           </p>
         </CardContent>
       </Card>
-      <Card className="py-2 flex flex-col">
-        <CardHeader className="pb-0 px-3 pt-2">
+      <Card className="flex flex-col py-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Cost (Output)
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-3 pb-2 flex-1 flex items-center">
-          <p className="text-base font-bold break-words">
+        <CardContent className="flex flex-1 items-center px-3 pb-2">
+          <p className="text-base font-bold wrap-break-word">
             {outputCostPer1MTokens != null ? (
               <>
                 ${outputCostPer1MTokens.toFixed(2)}
@@ -80,14 +83,14 @@ export const ModelStatsCards = ({
           </p>
         </CardContent>
       </Card>
-      <Card className="py-2 flex flex-col">
-        <CardHeader className="pb-0 px-3 pt-2">
+      <Card className="flex flex-col py-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Max completion tokens
           </CardTitle>
         </CardHeader>
-        <CardContent className="px-3 pb-2 flex-1 flex items-center">
-          <p className="text-base font-bold break-words">
+        <CardContent className="flex flex-1 items-center px-3 pb-2">
+          <p className="text-base font-bold wrap-break-word">
             {maxCompletionTokens != null
               ? maxCompletionTokens.toLocaleString()
               : "–"}

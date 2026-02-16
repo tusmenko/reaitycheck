@@ -1,4 +1,13 @@
+import { Check, X, Eye } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -7,15 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Check, X, Eye } from "lucide-react";
 import { formatCategory } from "@/lib/model-detail-utils";
 
 interface TestRun {
@@ -64,7 +64,10 @@ export const BreakerResultsTable = ({ breakdown }: BreakerResultsTableProps) => 
                   <TableCell className="font-medium">
                     <Link
                       href={`/challenges/${entry.test.slug}`}
-                      className="text-primary underline-offset-4 hover:underline"
+                      className="
+                        text-primary underline-offset-4
+                        hover:underline
+                      "
                     >
                       {entry.test.name}
                     </Link>
@@ -73,7 +76,10 @@ export const BreakerResultsTable = ({ breakdown }: BreakerResultsTableProps) => 
                   <TableCell className="text-center">
                     {entry.latestRun ? (
                       passed ? (
-                        <Check className="mx-auto size-5 text-green-600 dark:text-green-500" />
+                        <Check className="
+                          mx-auto size-5 text-green-600
+                          dark:text-green-500
+                        " />
                       ) : (
                         <X className="mx-auto size-5 text-destructive" />
                       )
@@ -90,11 +96,16 @@ export const BreakerResultsTable = ({ breakdown }: BreakerResultsTableProps) => 
                             <Eye className="size-4" />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                        <DialogContent className="
+                          max-h-[80vh] max-w-2xl overflow-y-auto
+                        ">
                           <DialogHeader>
                             <DialogTitle>Raw response</DialogTitle>
                           </DialogHeader>
-                          <pre className="whitespace-pre-wrap wrap-break-word rounded bg-muted p-4 text-sm">
+                          <pre className="
+                            rounded-sm bg-muted p-4 text-sm wrap-break-word
+                            whitespace-pre-wrap
+                          ">
                             {entry.latestRun.rawResponse}
                           </pre>
                         </DialogContent>

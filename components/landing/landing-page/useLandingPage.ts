@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { usePreloadedQuery } from "convex/react";
+import { useState, useEffect } from "react";
 import type { TestCase, AIModel, LeaderboardEntry, ComparisonCell } from "@/lib/types";
 import type { LandingPageProps } from "./LandingPage.types";
 

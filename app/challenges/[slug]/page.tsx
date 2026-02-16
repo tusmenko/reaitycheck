@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { fetchQuery, preloadQuery } from "convex/nextjs";
-import { api } from "@/convex/_generated/api";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TestDetailPage } from "@/components/detail/test-detail-page";
+import { api } from "@/convex/_generated/api";
 
 const siteUrl = "https://reaitycheck.com";
 const siteName = "ReAIty Check";
