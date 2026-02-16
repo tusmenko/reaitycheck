@@ -3,9 +3,11 @@ import { api } from "./_generated/api";
 
 const crons = cronJobs();
 
-// Schedule daily test orchestration only when CRON_ORCHESTRATE_TESTS_UTC is set
-// (Convex Dashboard → Settings → Environment Variables). Format: "HH:mm" UTC, e.g. "12:00".
-// Leave unset in Dev to disable auto-run. Manual run: Dashboard → Functions → runTests → orchestrateAllTests.
+// Schedule daily test orchestration only when CRON_ORCHESTRATE_TESTS_UTC is
+// set (Convex Dashboard → Settings → Environment Variables).
+// Format: "HH:mm" UTC, e.g. "12:00".
+// Leave unset in Dev to disable auto-run. Manual run: Dashboard → Functions
+// → runTests → orchestrateAllTests.
 const cronTime = process.env.CRON_ORCHESTRATE_TESTS_UTC;
 if (cronTime) {
   const match = cronTime.trim().match(/^(\d{1,2}):(\d{2})$/);

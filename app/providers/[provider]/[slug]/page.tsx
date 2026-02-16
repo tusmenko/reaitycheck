@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
 import { fetchQuery, preloadQuery } from "convex/nextjs";
-import { api } from "@/convex/_generated/api";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ModelDetailPage } from "@/components/detail/model-detail-page";
+import { api } from "@/convex/_generated/api";
 
 const siteUrl = "https://reaitycheck.com";
 const siteName = "ReAIty Check";
@@ -17,8 +17,10 @@ export async function generateMetadata({
   if (!model) return {};
   const description =
     model.description && model.description.length > 0
-      ? model.description.slice(0, 160) + (model.description.length > 160 ? "..." : "")
-      : `Benchmark results and failure rate for ${model.modelName}. Compare with other models on ReAIty Check.`;
+      ? model.description.slice(0, 160) +
+        (model.description.length > 160 ? "..." : "")
+      : `Benchmark results and failure rate for ${model.modelName}. ` +
+        "Compare with other models on ReAIty Check.";
   const path = `/providers/${encodeURIComponent(model.provider)}/${encodeURIComponent(slug)}`;
   const fullTitle = `${model.modelName} — ${siteName}`;
   return {

@@ -35,7 +35,10 @@ export function killRateColorClass(pct: number): string {
   return "text-green-400";
 }
 
-/** Badge classes for failure/kill rate: bigger % = more red, smaller = more green. Aligns with killRateColorClass thresholds (25/50/75). */
+/**
+ * Badge classes for failure/kill rate: bigger % = more red, smaller = more
+ * green. Aligns with killRateColorClass thresholds (25/50/75).
+ */
 export function failureRateBadgeClass(pct: number): string {
   if (pct >= 75) return "border-red-800 bg-red-900/30 text-red-400";
   if (pct >= 50) return "border-amber-800 bg-amber-900/30 text-amber-400";

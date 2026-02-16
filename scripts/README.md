@@ -2,7 +2,7 @@
 
 ## TODO to GitHub Projects (draft issues)
 
-`todo-to-gh.ts` parses `docs/TODO.md` and creates **draft issues** in a GitHub Project via the `gh` CLI. Only **open** tasks (`[ ]`) are synced; completed items (`[x]`) are skipped. After each draft issue is created, the script appends a **Project** link to the corresponding line in the TODO file (e.g. ` [Project](https://github.com/...)`) so you can jump from the TODO to the item in the project.
+`todo-to-gh.ts` parses `docs/TODO.md` and creates **draft issues** in a GitHub Project via the `gh` CLI. Only **open** tasks (`[ ]`) are synced; completed items (`[x]`) are skipped. After each draft issue is created, the script appends a **Project** link to the corresponding line in the TODO file (e.g. `[Project](https://github.com/...)`) so you can jump from the TODO to the item in the project.
 
 ### Prerequisites
 
@@ -77,5 +77,5 @@ If Status or Phase/Epic are missing, draft issues are still created with title a
 ### Notes
 
 - **One-way sync**: TODO → Project only. Re-running the script creates **new** draft issues; it does not update or deduplicate existing ones.
-- **TODO links**: After creating draft issues, the script updates the TODO file in place, appending a ` [Project](url)` link to each corresponding task line. Lines that already contain a Project link are left unchanged.
+- **TODO links**: After creating draft issues, the script updates the TODO file in place, appending a `[Project](url)` link to each corresponding task line. Lines that already contain a Project link are left unchanged.
 - **Draft issues** live only in the project until you convert them to repo issues (e.g. from the project UI). No issues are created in the repository by this script.

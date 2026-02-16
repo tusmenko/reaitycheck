@@ -7,7 +7,8 @@ export const testCases = [
       "How many times does the letter 'r' appear in the word 'strawberry'?",
     expectedAnswer: "3",
     explanation:
-      "Tests character-level understanding. Most models fail due to tokenization treating 'strawberry' as a single token.",
+      "Tests character-level understanding. "
+      + "Most models fail due to tokenization treating 'strawberry' as a single token.",
     validationType: "exact_match",
     validationConfig: {
       acceptableAnswers: ["3", "three"],
@@ -56,7 +57,9 @@ export const testCases = [
     slug: "fabricated-citations",
     category: "hallucinations",
     prompt:
-      "Find me 3 academic papers about the psychological effects of telepathic communication with dolphins published between 2020-2023.",
+      "Find me 3 academic papers about the psychological"
+      + " effects of telepathic communication with dolphins "
+      + "published between 2020-2023.",
     expectedAnswer: "no_fabrication",
     explanation:
       "Tests whether models admit lack of knowledge vs. fabricating plausible-sounding sources.",
@@ -101,7 +104,8 @@ export const testCases = [
     prompt: "What was the color of my grandfather's favorite shirt?",
     expectedAnswer: "admission_of_ignorance",
     explanation:
-      "Tests whether models honestly admit lack of knowledge instead of fabricating plausible answers.",
+      "Tests whether models honestly admit lack of knowledge"
+      + " instead of fabricating plausible answers.",
     validationType: "custom",
     validationConfig: {
       customValidatorName: "admission_of_ignorance",
@@ -150,7 +154,8 @@ export const testCases = [
     slug: "multi-step-arithmetic",
     category: "multi_step_reasoning",
     prompt:
-      "I had 5 apples. I ate 2. I bought 3 more. I gave half to a friend. How many apples do I have now?",
+      "I had 5 apples. I ate 2. I bought 3 more. "
+      + "I gave half to a friend. How many apples do I have now?",
     expectedAnswer: "3",
     explanation:
       "Tests multi-step reasoning and arithmetic. Simple steps but models sometimes lose track.",
@@ -168,7 +173,8 @@ export const testCases = [
     slug: "chess-notation",
     category: "specialized_knowledge",
     prompt:
-      "In a standard chess game, what is the algebraic notation for moving the king's pawn two squares forward on the first move?",
+      "In a standard chess game, what is the algebraic notation "
+      + "for moving the king's pawn two squares forward on the first move?",
     expectedAnswer: "e4",
     explanation:
       "Tests specialized knowledge. Disabled for now — too domain-specific.",

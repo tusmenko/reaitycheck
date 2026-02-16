@@ -6,11 +6,11 @@ import {
   providerDisplayName,
   resilienceBarColor,
 } from "@/lib/model-detail-utils";
-import { type ProviderDetailPageProps } from "./ProviderDetailPage.types";
-import { useProviderDetailPage } from "./useProviderDetailPage";
+import { ProviderModelsGrid } from "./components/ProviderModelsGrid";
 import { ProviderStatsCards } from "./components/ProviderStatsCards";
 import { ProviderToughestBreakersSection } from "./components/ProviderToughestBreakersSection";
-import { ProviderModelsGrid } from "./components/ProviderModelsGrid";
+import { type ProviderDetailPageProps } from "./ProviderDetailPage.types";
+import { useProviderDetailPage } from "./useProviderDetailPage";
 
 export const ProviderDetailPage = ({
   provider,
@@ -25,8 +25,16 @@ export const ProviderDetailPage = ({
   const displayName = providerDisplayName(provider);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:gap-8 lg:gap-8">
+    <div className="
+      mx-auto max-w-6xl px-4 py-8
+      sm:px-6
+      lg:px-8
+    ">
+      <section className="
+        mb-10 grid grid-cols-1 gap-6
+        md:grid-cols-[1fr_auto] md:gap-8
+        lg:gap-8
+      ">
         <div className="min-w-0">
           <div className="mb-2">
             <Badge
@@ -47,7 +55,10 @@ export const ProviderDetailPage = ({
               Average resilience
             </span>
             <div className="flex items-center gap-3">
-              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-red-500/20 overflow-hidden">
+              <div className="
+                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
+                bg-red-500/20
+              ">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{

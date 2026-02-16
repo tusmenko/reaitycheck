@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   MAX_EXPECTED_RESULT,
   MAX_MODEL_FAILURE_INSIGHT,
@@ -14,11 +16,11 @@ import {
   MAX_SUBMITTER_NAME,
   MAX_TRICK_DESCRIPTION,
 } from "@/convex/challengeSubmissionLimits";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 
 const inputClass =
-  "w-full rounded-xl border border-dark-300 bg-dark-200 px-4 py-3 text-white placeholder:text-dark-500 focus:border-accent-red/50 focus:outline-none focus:ring-2 focus:ring-accent-red/20";
+  "w-full rounded-xl border border-dark-300 bg-dark-200 px-4 py-3 " +
+  "text-white placeholder:text-dark-500 focus:border-accent-red/50 " +
+  "focus:outline-none focus:ring-2 focus:ring-accent-red/20";
 const labelClass = "mb-1.5 block text-sm font-medium text-gray-300";
 
 function isValidHttpUrl(s: string): boolean {
@@ -43,14 +45,16 @@ const challengeFormSchema = z.object({
     .trim()
     .min(1, { message: "Expected result is required." })
     .max(MAX_EXPECTED_RESULT, {
-      message: `Expected result must be at most ${MAX_EXPECTED_RESULT.toLocaleString()} characters.`,
+      message: "Expected result must be at most " +
+        `${MAX_EXPECTED_RESULT.toLocaleString()} characters.`,
     }),
   trickDescription: z
     .string()
     .trim()
     .min(1, { message: "Trick description is required." })
     .max(MAX_TRICK_DESCRIPTION, {
-      message: `Trick description must be at most ${MAX_TRICK_DESCRIPTION.toLocaleString()} characters.`,
+      message: "Trick description must be at most " +
+        `${MAX_TRICK_DESCRIPTION.toLocaleString()} characters.`,
     }),
   modelFailureInsight: z
     .string()
@@ -139,7 +143,8 @@ export default function SubmitChallengePage() {
       };
       if (!res.ok) {
         setSubmitError(json.error ?? "Submission failed. Please try again.");
-        // Only reset Turnstile when the token was invalid/expired, not for rate limit or other errors
+        // Only reset Turnstile when the token was invalid/expired,
+        // not for rate limit or other errors
         if (res.status === 400 && json.code === "turnstile_invalid") {
           setTurnstileToken(null);
           setTurnstileKey((k) => k + 1);
@@ -154,34 +159,66 @@ export default function SubmitChallengePage() {
 
   return (
     <div className="relative min-h-screen bg-background">
-      <main className="relative min-h-screen px-6 pb-16 pt-8 lg:px-12">
-        <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
+      <main className="
+        relative min-h-screen px-6 pt-8 pb-16
+        lg:px-12
+      ">
+        <div className="
+          absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
+          blur-3xl
+        " />
+        <div className="
+          absolute right-0 bottom-0 h-80 w-80 rounded-full bg-accent-orange/10
+          blur-3xl
+        " />
 
-        <section className="relative z-10 mx-auto w-full max-w-4xl rounded-3xl border border-dark-200 bg-dark-100/80 p-10 shadow-sm backdrop-blur-sm lg:p-14">
+        <section className="
+          relative z-10 mx-auto w-full max-w-4xl rounded-3xl border
+          border-dark-200 bg-dark-100/80 p-10 shadow-sm backdrop-blur-sm
+          lg:p-14
+        ">
           {submitted ? (
             <div className="flex flex-col items-center text-center">
-              <p className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+              <p className="
+                text-sm font-semibold tracking-wide text-accent-red uppercase
+              ">
                 Thank you
               </p>
-              <h1 className="mt-3 font-display text-4xl font-bold text-white lg:text-5xl">
+              <h1 className="
+                mt-3 font-display text-4xl font-bold text-white
+                lg:text-5xl
+              ">
                 Challenge submitted
               </h1>
-              <p className="mt-4 max-w-2xl text-base text-gray-400 lg:text-lg">
+              <p className="
+                mt-4 max-w-2xl text-base text-gray-400
+                lg:text-lg
+              ">
                 Your submission will be reviewed. If it passes our initial
                 kill-rate check, we&apos;ll add it to the challenges ladder and
                 you&apos;ll see it in the catalog.
               </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="
+                mt-8 flex flex-col gap-3
+                sm:flex-row
+              ">
                 <Link
                   href="/challenges"
-                  className="rounded-full bg-linear-to-r from-accent-red to-accent-orange px-6 py-3 text-sm font-semibold text-dark-50 transition-all hover:shadow-glow"
+                  className="
+                    rounded-full bg-linear-to-r from-accent-red to-accent-orange
+                    px-6 py-3 text-sm font-semibold text-dark-50 transition-all
+                    hover:shadow-glow
+                  "
                 >
                   Browse Challenges
                 </Link>
                 <Link
                   href="/"
-                  className="rounded-full border border-dark-200 px-6 py-3 text-sm font-semibold text-gray-300 transition-colors hover:border-accent-red/50 hover:text-white"
+                  className="
+                    rounded-full border border-dark-200 px-6 py-3 text-sm
+                    font-semibold text-gray-300 transition-colors
+                    hover:border-accent-red/50 hover:text-white
+                  "
                 >
                   Back to Homepage
                 </Link>
@@ -189,13 +226,21 @@ export default function SubmitChallengePage() {
             </div>
           ) : (
             <>
-              <p className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+              <p className="
+                text-sm font-semibold tracking-wide text-accent-red uppercase
+              ">
                 Submit a challenge
               </p>
-              <h1 className="mt-3 font-display text-4xl font-bold text-white lg:text-5xl">
+              <h1 className="
+                mt-3 font-display text-4xl font-bold text-white
+                lg:text-5xl
+              ">
                 Have a tricky prompt?
               </h1>
-              <p className="mt-2 max-w-2xl text-base text-gray-400 lg:text-lg">
+              <p className="
+                mt-2 max-w-2xl text-base text-gray-400
+                lg:text-lg
+              ">
                 Submit your edge case. If it breaks major models, we add it to
                 the gauntlet and credit the submission.
               </p>
@@ -322,7 +367,11 @@ export default function SubmitChallengePage() {
                     id="rulesAccepted"
                     type="checkbox"
                     {...register("rulesAccepted")}
-                    className="mt-1 h-4 w-4 shrink-0 rounded border-dark-300 bg-dark-200 text-accent-red focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0"
+                    className="
+                      mt-1 h-4 w-4 shrink-0 rounded-sm border-dark-300
+                      bg-dark-200 text-accent-red
+                      focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0
+                    "
                   />
                   <label
                     htmlFor="rulesAccepted"
@@ -331,7 +380,10 @@ export default function SubmitChallengePage() {
                     I have read and agree to the{" "}
                     <Link
                       href="/submit-challenge/rules"
-                      className="font-medium text-accent-red underline hover:text-accent-orange"
+                      className="
+                        font-medium text-accent-red underline
+                        hover:text-accent-orange
+                      "
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -347,7 +399,10 @@ export default function SubmitChallengePage() {
                   </p>
                 )}
                 {submitError && (
-                  <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
+                  <p className="
+                    rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2
+                    text-sm text-red-400
+                  ">
                     {submitError}
                   </p>
                 )}
@@ -359,7 +414,13 @@ export default function SubmitChallengePage() {
                       !isValid ||
                       (!!turnstileSiteKey && !turnstileToken)
                     }
-                    className="rounded-full bg-linear-to-r cursor-pointer from-accent-red to-accent-orange px-8 py-3 font-semibold text-dark-50 transition-all hover:shadow-glow disabled:opacity-70 disabled:cursor-not-allowed "
+                    className="
+                      cursor-pointer rounded-full bg-linear-to-r from-accent-red
+                      to-accent-orange px-8 py-3 font-semibold text-dark-50
+                      transition-all
+                      hover:shadow-glow
+                      disabled:cursor-not-allowed disabled:opacity-70
+                    "
                   >
                     {isSubmitting ? (
                       <>
@@ -374,7 +435,7 @@ export default function SubmitChallengePage() {
               </form>
               {turnstileSiteKey && (
                 <div
-                  className="absolute bottom-6 right-6 z-0"
+                  className="absolute right-6 bottom-6 z-0"
                   aria-hidden
                 >
                   <Turnstile

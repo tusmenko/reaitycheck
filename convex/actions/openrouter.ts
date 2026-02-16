@@ -46,7 +46,8 @@ export async function callModel(
   const message = response.choices?.[0]?.message;
   // Reasoning models (e.g. DeepSeek R1) put chain-of-thought in reasoning_content
   // and may return empty content if they exhaust max_tokens on thinking
-  const reasoningContent = (message as unknown as { reasoning_content?: string })?.reasoning_content;
+  const reasoningContent =
+    (message as unknown as { reasoning_content?: string })?.reasoning_content;
   const content: string = message?.content || reasoningContent || "";
   const usage = response.usage;
 

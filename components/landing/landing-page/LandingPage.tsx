@@ -1,8 +1,8 @@
 "use client";
 
+import { ComparisonGridSection } from "../comparison-grid-section";
 import { HeroSection } from "../hero-section";
 import { LeaderboardSection } from "../leaderboard-section";
-import { ComparisonGridSection } from "../comparison-grid-section";
 import { SubmitChallengeCta } from "../submit-challenge-cta";
 import { TestsSection } from "../tests-section";
 import type { LandingPageProps } from "./LandingPage.types";
@@ -33,12 +33,20 @@ export const LandingPage = (props: LandingPageProps) => {
         <LeaderboardSection leaderboard={leaderboardEntries} />
         <TestsSection tests={testCases} />
         <section id="test-runs" className="bg-background py-20">
-          <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12">
+          <div className="
+            mx-auto w-full max-w-[1440px] px-6
+            lg:px-12
+          ">
             <div className="mb-16 text-center">
-              <p className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+              <p className="
+                text-sm font-semibold tracking-wide text-accent-red uppercase
+              ">
                 Benchmark
               </p>
-              <h2 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
+              <h2 className="
+                mt-2 font-display text-3xl font-bold text-white
+                lg:text-4xl
+              ">
                 Providers Performance
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-gray-400">

@@ -3,24 +3,46 @@ import Link from "next/link";
 export const metadata = {
   title: "Challenge submission rules",
   description:
-    "Rules and guidelines for submitting a challenge to ReAIty Check. Content you must not submit, quality bar, and how we use submissions.",
+    "Rules and guidelines for submitting a challenge to ReAIty Check. " +
+    "Content you must not submit, quality bar, and how we use submissions.",
 };
 
 export default function SubmitChallengeRulesPage() {
   return (
     <div className="relative min-h-screen bg-background">
-      <main className="relative min-h-screen px-6 pb-16 pt-8 lg:px-12">
-        <div className="absolute left-0 top-1/4 h-80 w-80 rounded-full bg-accent-red/10 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-orange/10 blur-3xl" />
+      <main className="
+        relative min-h-screen px-6 pt-8 pb-16
+        lg:px-12
+      ">
+        <div className="
+          absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
+          blur-3xl
+        " />
+        <div className="
+          absolute right-0 bottom-0 h-80 w-80 rounded-full bg-accent-orange/10
+          blur-3xl
+        " />
 
-        <article className="relative z-10 mx-auto max-w-3xl rounded-3xl border border-dark-200 bg-dark-100/80 p-10 shadow-sm backdrop-blur-sm lg:p-14">
-          <p className="text-sm font-semibold uppercase tracking-wide text-accent-red">
+        <article className="
+          relative z-10 mx-auto max-w-3xl rounded-3xl border border-dark-200
+          bg-dark-100/80 p-10 shadow-sm backdrop-blur-sm
+          lg:p-14
+        ">
+          <p className="
+            text-sm font-semibold tracking-wide text-accent-red uppercase
+          ">
             Submission rules
           </p>
-          <h1 className="mt-3 font-display text-4xl font-bold text-white lg:text-5xl">
+          <h1 className="
+            mt-3 font-display text-4xl font-bold text-white
+            lg:text-5xl
+          ">
             Challenge submission rules
           </h1>
-          <p className="mt-4 text-base text-gray-400 lg:text-lg">
+          <p className="
+            mt-4 text-base text-gray-400
+            lg:text-lg
+          ">
             By submitting a challenge you agree to the following. Please read
             before submitting.
           </p>
@@ -51,7 +73,10 @@ export default function SubmitChallengeRulesPage() {
                   href="https://openrouter.ai/terms"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-accent-red underline hover:text-accent-orange"
+                  className="
+                    font-medium text-accent-red underline
+                    hover:text-accent-orange
+                  "
                 >
                   OpenRouter
                 </a>{" "}
@@ -135,12 +160,19 @@ export default function SubmitChallengeRulesPage() {
             </h2>
             <ul className="list-inside list-disc space-y-2 text-gray-300">
               <li>
-                Submissions may be <strong className="text-gray-200">run through external APIs</strong> (e.g.{" "}
+                Submissions may be{" "}
+                <strong className="text-gray-200">
+                  run through external APIs
+                </strong>{" "}
+                (e.g.{" "}
                 <a
                   href="https://openrouter.ai/terms"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-accent-red underline hover:text-accent-orange"
+                  className="
+                    font-medium text-accent-red underline
+                    hover:text-accent-orange
+                  "
                 >
                   OpenRouter
                 </a>
@@ -148,13 +180,14 @@ export default function SubmitChallengeRulesPage() {
                 complies with those services’ terms.
               </li>
               <li>
-                We may <strong className="text-gray-200">reject or remove</strong> any submission at our
-                discretion (e.g. if it fails checks, violates these rules, or for
-                operational reasons).
+                We may{" "}
+                <strong className="text-gray-200">reject or remove</strong> any
+                submission at our discretion (e.g. if it fails checks, violates
+                these rules, or for operational reasons).
               </li>
               <li>
-                There is <strong className="text-gray-200">no guarantee</strong> that a submission will be
-                added to the challenge ladder.
+                There is <strong className="text-gray-200">no guarantee</strong>{" "}
+                that a submission will be added to the challenge ladder.
               </li>
             </ul>
           </section>
@@ -165,15 +198,21 @@ export default function SubmitChallengeRulesPage() {
             </h2>
             <p className="text-gray-300">
               By submitting, you grant ReAIty Check a{" "}
-              <strong className="text-gray-200">non-exclusive, royalty-free license</strong>{" "}
+              <strong className="text-gray-200">
+                non-exclusive, royalty-free license
+              </strong>{" "}
               to use, store, reproduce, and process your submission (prompt,
-              expected result, trick description, and optional fields) to operate
-              the service, including: sending it to third-party APIs (e.g.{" "}
+              expected result, trick description, and optional fields) to
+              operate the service, including: sending it to third-party APIs
+              (e.g.{" "}
               <a
                 href="https://openrouter.ai/terms"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-accent-red underline hover:text-accent-orange"
+                className="
+                  font-medium text-accent-red underline
+                  hover:text-accent-orange
+                "
               >
                 OpenRouter
               </a>
@@ -209,14 +248,18 @@ export default function SubmitChallengeRulesPage() {
             </ul>
           </section>
 
-          <p className="mt-10 text-sm italic text-gray-500">
+          <p className="mt-10 text-sm text-gray-500 italic">
             By submitting you agree to these rules.
           </p>
 
           <div className="mt-10">
             <Link
               href="/submit-challenge"
-              className="rounded-full border border-dark-200 px-6 py-3 text-sm font-semibold text-gray-300 transition-colors hover:border-accent-red/50 hover:text-white"
+              className="
+                rounded-full border border-dark-200 px-6 py-3 text-sm
+                font-semibold text-gray-300 transition-colors
+                hover:border-accent-red/50 hover:text-white
+              "
             >
               Back to Submit challenge
             </Link>

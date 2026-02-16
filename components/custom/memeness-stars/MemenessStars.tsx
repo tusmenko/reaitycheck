@@ -7,11 +7,14 @@ export const MemenessStars = ({ score }: MemenessStarsProps) => {
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className={`h-4 w-4 ${
+          className={`
+            h-4 w-4
+            ${
             i < score
               ? "fill-yellow-400 text-yellow-400"
               : "fill-muted text-muted"
-          }`}
+          }
+          `}
         />
       ))}
     </div>

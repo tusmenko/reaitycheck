@@ -54,7 +54,8 @@ describe("validate", () => {
         "custom",
         { customValidatorName: "admission_of_ignorance" },
         "",
-        "I don't know what color your grandfather's shirt was. I don't have access to that personal information."
+        "I don't know what color your grandfather's shirt was. "
+        + "I don't have access to that personal information."
       );
       expect(result.isCorrect).toBe(true);
       expect(result.parsedAnswer).toContain("admits_ignorance:yes");

@@ -1,5 +1,5 @@
-import { internalMutation, mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { internalMutation, mutation } from "./_generated/server";
 import {
   MAX_EXPECTED_RESULT,
   MAX_MODEL_FAILURE_INSIGHT,
@@ -71,15 +71,18 @@ export const submitChallenge = mutation({
       throw new Error(`Prompt must be at most ${MAX_PROMPT.toLocaleString()} characters.`);
     }
     if (trimmedExpected.length > MAX_EXPECTED_RESULT) {
-      throw new Error(`Expected result must be at most ${MAX_EXPECTED_RESULT.toLocaleString()} characters.`);
+      throw new Error(`Expected result must be at most 
+        ${MAX_EXPECTED_RESULT.toLocaleString()} characters.`);
     }
     if (trimmedTrick.length > MAX_TRICK_DESCRIPTION) {
-      throw new Error(`Trick description must be at most ${MAX_TRICK_DESCRIPTION.toLocaleString()} characters.`);
+      throw new Error(`Trick description must be at most 
+        ${MAX_TRICK_DESCRIPTION.toLocaleString()} characters.`);
     }
 
     const modelFailureInsight = args.modelFailureInsight?.trim();
     if (modelFailureInsight && modelFailureInsight.length > MAX_MODEL_FAILURE_INSIGHT) {
-      throw new Error(`Model failure insight must be at most ${MAX_MODEL_FAILURE_INSIGHT.toLocaleString()} characters.`);
+      throw new Error(`Model failure insight must be at most 
+        ${MAX_MODEL_FAILURE_INSIGHT.toLocaleString()} characters.`);
     }
 
     const submitterName = args.submitterName?.trim();

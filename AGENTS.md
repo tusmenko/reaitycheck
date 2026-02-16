@@ -26,10 +26,18 @@ This guide outlines best practices, conventions, and standards for modern web de
 
 ### Code Style
 
-- Follow ESLint rules.
-- Limit line length to 80 characters.
-- Eliminate unused variables.
+- Follow ESLint rules (see `eslint.config.mjs`).
+- Limit line length to 100 characters (enforced by `max-len` rule).
+- Use double quotes for strings (enforced by `quotes` rule).
+- Always use semicolons (enforced by `semi` rule).
+- Eliminate unused variables (enforced by `@typescript-eslint/no-unused-vars`).
 - Keep files under 200 lines.
+- Maximum 1 class per file (enforced by `max-classes-per-file`).
+- Alphabetize imports within their groups (enforced by `import/order`).
+- Import groups order: builtin → external → internal → sibling/parent → index.
+- No newlines between import groups.
+- Use consistent brace style (1tbs with single-line allowed).
+- Maintain proper block spacing and end-of-line formatting.
 
 ## Naming Conventions
 

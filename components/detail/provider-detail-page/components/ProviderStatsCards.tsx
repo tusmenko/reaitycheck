@@ -10,9 +10,12 @@ export const ProviderStatsCards = ({
   totalTestsFailed,
 }: ProviderStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-2 items-start gap-2 md:max-w-sm md:gap-4 md:w-80">
+    <div className="
+      grid grid-cols-2 items-start gap-2
+      md:w-80 md:max-w-sm md:gap-4
+    ">
       <Card className="py-2">
-        <CardHeader className="pb-0 px-3 pt-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Tests Survived
           </CardTitle>
@@ -22,7 +25,7 @@ export const ProviderStatsCards = ({
         </CardContent>
       </Card>
       <Card className="py-2">
-        <CardHeader className="pb-0 px-3 pt-2">
+        <CardHeader className="px-3 pt-2 pb-0">
           <CardTitle className="text-xs font-medium text-muted-foreground">
             Tests Failed
           </CardTitle>

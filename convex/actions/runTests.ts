@@ -1,16 +1,17 @@
 "use node";
 
-import { action, internalAction } from "../_generated/server";
-import { api, internal } from "../_generated/api";
 import { v } from "convex/values";
 import { callModel } from "./openrouter";
 import { validate } from "./validators";
+import { api, internal } from "../_generated/api";
+import { action, internalAction } from "../_generated/server";
 
 const TEMPERATURE = 0.7;
 const DEFAULT_MAX_TOKENS = 8192;
 const DELAY_BETWEEN_REQUESTS_MS = 10_000; // ~6 req/min, safely under free-tier 8/min
 
-/** Use the minimum of DEFAULT_MAX_TOKENS and model's maxCompletionTokens when set; otherwise DEFAULT_MAX_TOKENS. */
+/** Use the minimum of DEFAULT_MAX_TOKENS and model's maxCompletionTokens when set; 
+ * otherwise DEFAULT_MAX_TOKENS. */
 function effectiveMaxTokens(model: { maxCompletionTokens?: number }): number {
   return model.maxCompletionTokens != null
     ? Math.min(DEFAULT_MAX_TOKENS, model.maxCompletionTokens)
@@ -129,7 +130,8 @@ export const orchestrateAllTests = action({
 
     const total = models.length * tests.length;
     console.log(
-      `Orchestrating test run: ${models.length} models × ${tests.length} tests = ${total} executions`
+      `Orchestrating test run: ${models.length} models ×
+       ${tests.length} tests = ${total} executions`
     );
 
     let delayMs = 0;
@@ -169,7 +171,8 @@ export const orchestrateAllTests = action({
   },
 });
 
-/** Schedule test runs only for (testCaseId, modelId) pairs whose latest run has status "error". Only active test and active model are scheduled. */
+/** Schedule test runs only for (testCaseId, modelId) pairs whose latest run has
+ *  status "error". Only active test and active model are scheduled. */
 export const orchestrateErroredTests = action({
   args: {},
   handler: async (ctx) => {
@@ -208,7 +211,8 @@ export const orchestrateErroredTests = action({
 
     const durationMinutes = Math.ceil(delayMs / 60_000);
     console.log(
-      `Orchestrating errored reruns: ${scheduled} scheduled (staggered over ~${durationMinutes} minutes)`
+      `Orchestrating errored reruns: ${scheduled} 
+      scheduled (staggered over ~${durationMinutes} minutes)`
     );
     return { scheduled, estimatedDurationMinutes: durationMinutes };
   },

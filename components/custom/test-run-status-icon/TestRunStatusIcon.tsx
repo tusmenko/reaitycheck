@@ -14,12 +14,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import type { TestRunStatusIconProps } from "./TestRunStatusIcon.types";
 import {
   ERROR_TOOLTIP,
   MODEL_ANSWER_CLASS,
   SHORT_ANSWER_CLASS,
 } from "./TestRunStatusIcon.constants";
+import type { TestRunStatusIconProps } from "./TestRunStatusIcon.types";
 
 export const TestRunStatusIcon = ({ cell, expectedAnswer }: TestRunStatusIconProps) => {
   if (!cell) {
@@ -31,7 +31,9 @@ export const TestRunStatusIcon = ({ cell, expectedAnswer }: TestRunStatusIconPro
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="inline-flex cursor-help items-center justify-center">
+            <span className="
+              inline-flex cursor-help items-center justify-center
+            ">
               <AlertTriangle className="size-5 text-amber-500" />
             </span>
           </TooltipTrigger>
@@ -50,21 +52,31 @@ export const TestRunStatusIcon = ({ cell, expectedAnswer }: TestRunStatusIconPro
       <DialogTrigger asChild>
         <button
           type="button"
-          className="inline-flex cursor-pointer items-center justify-center rounded p-0.5 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-white/50"
+          className="
+            inline-flex cursor-pointer items-center justify-center rounded-sm
+            p-0.5 transition-opacity
+            hover:opacity-80
+            focus:ring-2 focus:ring-white/50 focus:outline-none
+          "
           aria-label="View model answer and expected answer"
         >
           {cell.isCorrect ? (
-            <Check className="size-5 text-green-600 dark:text-green-500" />
+            <Check className="
+              size-5 text-green-600
+              dark:text-green-500
+            " />
           ) : (
             <X className="size-5 text-destructive" />
           )}
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-lg max-h-[90vh] flex flex-col overflow-hidden">
+      <DialogContent className="
+        flex max-h-[90vh] max-w-lg flex-col overflow-hidden
+      ">
         <DialogHeader>
           <DialogTitle>Answer details</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 text-sm min-h-0 overflow-y-auto">
+        <div className="grid min-h-0 gap-4 overflow-y-auto text-sm">
           <div className="min-w-0">
             <div className="mb-1 font-medium text-gray-400">
               Model answer

@@ -1,14 +1,14 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown } from "lucide-react";
 import { PROVIDER_STYLES, resilienceBarColor } from "@/lib/model-detail-utils";
-import { type ModelDetailPageProps } from "./ModelDetailPage.types";
-import { useModelDetailPage } from "./useModelDetailPage";
+import { BreakerResultsTable } from "./components/BreakerResultsTable";
 import { ModelStatsCards } from "./components/ModelStatsCards";
 import { ToughestBreakersSection } from "./components/ToughestBreakersSection";
-import { BreakerResultsTable } from "./components/BreakerResultsTable";
+import { type ModelDetailPageProps } from "./ModelDetailPage.types";
+import { useModelDetailPage } from "./useModelDetailPage";
 
 export const ModelDetailPage = (props: ModelDetailPageProps) => {
   const {
@@ -29,8 +29,16 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:items-start md:gap-8 lg:gap-8">
+    <div className="
+      mx-auto max-w-6xl px-4 py-8
+      sm:px-6
+      lg:px-8
+    ">
+      <section className="
+        mb-10 grid grid-cols-1 gap-6
+        md:grid-cols-[1fr_auto] md:items-start md:gap-8
+        lg:gap-8
+      ">
         <div className="min-w-0">
           <div className="mb-2">
             <Link href={`/providers/${encodeURIComponent(model.provider)}`}>
@@ -56,7 +64,10 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
               Resilience
             </span>
             <div className="flex items-center gap-3">
-              <div className="min-w-[120px] flex-1 max-w-xs h-2 rounded-full bg-red-500/20 overflow-hidden">
+              <div className="
+                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
+                bg-red-500/20
+              ">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -73,30 +84,43 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
 
           {model.description && (
             <div
-              className="mt-4 group cursor-pointer"
+              className="group mt-4 cursor-pointer"
               onClick={handleToggleDescription}
             >
               <div className="relative">
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  className={`
+                    overflow-hidden transition-all duration-500 ease-in-out
+                    ${
                     isDescriptionExpanded ? "max-h-[1000px]" : "max-h-22"
-                  }`}
+                  }
+                  `}
                 >
-                  <p className="text-sm text-muted-foreground leading-relaxed pb-2">
+                  <p className="pb-2 text-sm/relaxed text-muted-foreground">
                     {model.description}
                   </p>
                 </div>
                 {!isDescriptionExpanded && (
-                  <div className="absolute bottom-0 left-0 right-0 h-8 bg-linear-to-t from-background via-background/80 to-transparent pointer-events-none" />
+                  <div className="
+                    pointer-events-none absolute right-0 bottom-0 left-0 h-8
+                    bg-linear-to-t from-background via-background/80
+                    to-transparent
+                  " />
                 )}
               </div>
               <div className="mt-2 flex justify-center">
                 <ChevronDown
-                  className={`h-4 w-4 text-muted-foreground transition-all duration-300 ${
+                  className={`
+                    h-4 w-4 text-muted-foreground transition-all duration-300
+                    ${
                     isDescriptionExpanded
                       ? "rotate-180 opacity-100"
-                      : "opacity-0 group-hover:opacity-100"
-                  }`}
+                      : `
+                        opacity-0
+                        group-hover:opacity-100
+                      `
+                  }
+                  `}
                 />
               </div>
             </div>

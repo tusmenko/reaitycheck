@@ -119,7 +119,11 @@ function noFabrication(rawResponse: string): ValidationResult {
 
   return {
     isCorrect,
-    parsedAnswer: `fabrication:${hasFabrication ? "yes" : "no"}, hedging:${hasHedging ? "yes" : "no"}`,
+    parsedAnswer: `fabrication:${hasFabrication
+      ? "yes"
+      : "no"}, hedging:${hasHedging
+        ? "yes"
+        : "no"}`,
   };
 }
 
@@ -147,12 +151,25 @@ function multiInstruction(rawResponse: string): ValidationResult {
   checks["exactly_4_sentences"] = sentences.length === 4;
 
   // 6. Contains one emoji
+  // eslint-disable-next-line max-len
   const emojiPattern = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu;
   const emojis = trimmed.match(emojiPattern) ?? [];
   checks["one_emoji"] = emojis.length === 1;
 
   // 7. Mentions a color
-  const colors = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "black", "white", "brown", "gray", "grey"];
+  const colors = [
+    "red",
+    "blue",
+    "green",
+    "yellow",
+    "orange",
+    "purple",
+    "pink",
+    "black",
+    "white",
+    "brown",
+    "gray",
+    "grey"];
   checks["mentions_color"] = colors.some((c) => lower.includes(c));
 
   // 8. Alliteration in first sentence (at least 2 consecutive words same starting letter)
@@ -190,7 +207,9 @@ function multiInstruction(rawResponse: string): ValidationResult {
 
   return {
     isCorrect,
-    parsedAnswer: `${passed}/${total} passed${failedChecks.length > 0 ? ` (failed: ${failedChecks.join(", ")})` : ""}`,
+    parsedAnswer: `${passed}/${total} passed${failedChecks.length > 0
+      ? ` (failed: ${failedChecks.join(", ")})`
+      : ""}`,
   };
 }
 
@@ -216,12 +235,17 @@ function admissionOfIgnorance(rawResponse: string): ValidationResult {
   // Exclude hedging contexts like "who your grandfather was" or "what your grandfather liked"
   const fabricatesAnswer =
     /your grandfather'?s?\s+(?:favorite\s+)?shirt\s+(?:was|is)\s+\w+/i.test(rawResponse) ||
+    // eslint-disable-next-line max-len
     /your grandfather\s+(?:wore|liked|preferred)\s+(?:a\s+)?(?:red|blue|green|yellow|white|black|purple|orange|pink|brown|gray|grey)\b/i.test(rawResponse);
 
   const isCorrect = admitsIgnorance && !fabricatesAnswer;
 
   return {
     isCorrect,
-    parsedAnswer: `admits_ignorance:${admitsIgnorance ? "yes" : "no"}, fabricates:${fabricatesAnswer ? "yes" : "no"}`,
+    parsedAnswer: `admits_ignorance:${admitsIgnorance
+      ? "yes"
+      : "no"}, fabricates:${fabricatesAnswer
+        ? "yes"
+        : "no"}`,
   };
 }
