@@ -67,6 +67,68 @@ export default function SubmitChallengeRulesPage() {
             </ul>
           </section>
 
+          <section className="mt-8 space-y-6">
+            <h2 className="text-lg font-semibold text-white">
+              Expectations for your challenge
+            </h2>
+            <ul className="list-inside list-disc space-y-2 text-gray-300">
+              <li>
+                <strong className="text-gray-200">Self-contained</strong> — The
+                prompt is sent as a single user message with no prior context. It
+                must not rely on previous turns, uploaded files, or information
+                only you have. Everything needed to answer should be in the
+                prompt.
+              </li>
+              <li>
+                <strong className="text-gray-200">Clear pass/fail</strong> — The
+                expected result should be specific enough that we can tell
+                whether the model passed. Vague or subjective criteria are hard
+                to evaluate consistently across models.
+              </li>
+              <li>
+                <strong className="text-gray-200">Non-trivial</strong> —
+                Challenges are meant to surface interesting failures or edge
+                cases. Trivial prompts that almost every model gets right add
+                little value to the ladder.
+              </li>
+              <li>
+                <strong className="text-gray-200">One main task</strong> — Focus
+                on a single, well-defined task per prompt so evaluation is
+                unambiguous and the &quot;trick&quot; is clear.
+              </li>
+              <li>
+                <strong className="text-gray-200">Honest trick</strong> — The
+                trick description should accurately describe what makes the
+                prompt tricky (e.g. tokenization, perspective-taking, instruction
+                overload). It helps curators and users understand the challenge.
+              </li>
+              <li>
+                <strong className="text-gray-200">
+                  No prompt injection / jailbreaks
+                </strong>{" "}
+                — Do not design prompts that ask the model to ignore
+                instructions, reveal system prompts, or bypass safety in ways
+                that violate provider terms. That is already disallowed under
+                &quot;Content that violates laws or third-party terms&quot;; this
+                clarifies it for prompt design.
+              </li>
+              <li>
+                <strong className="text-gray-200">Length limits</strong> — The
+                prompt, expected result, and trick description are each limited
+                to 500 characters. We keep limits short to avoid abuse of very
+                long messages, keep evaluation fair and cheap, and encourage
+                focused challenges. Stay within the limits shown on the
+                submission form.
+              </li>
+              <li>
+                <strong className="text-gray-200">Language</strong> — Prompts
+                are typically evaluated in the language they are written in
+                (e.g. English). Other languages may be supported but evaluation
+                consistency may vary.
+              </li>
+            </ul>
+          </section>
+
           <section className="mt-8 space-y-4">
             <h2 className="text-lg font-semibold text-white">
               What we do with submissions
@@ -102,7 +164,7 @@ export default function SubmitChallengeRulesPage() {
               License you grant
             </h2>
             <p className="text-gray-300">
-              By submitting, you grant ReAIityCheck a{" "}
+              By submitting, you grant ReAIty Check a{" "}
               <strong className="text-gray-200">non-exclusive, royalty-free license</strong>{" "}
               to use, store, reproduce, and process your submission (prompt,
               expected result, trick description, and optional fields) to operate
@@ -141,7 +203,7 @@ export default function SubmitChallengeRulesPage() {
               <li>
                 Your submission does <strong className="text-gray-200">not infringe</strong> any
                 third-party right (e.g. copyright, privacy) and does not cause
-                ReAIityCheck or its providers (e.g. OpenRouter) to{" "}
+                ReAIty Check or its providers (e.g. OpenRouter) to{" "}
                 <strong className="text-gray-200">violate any law</strong>.
               </li>
             </ul>

@@ -41,10 +41,11 @@ Project issues live on **GitHub** (project board), not in the repo. Use **GitHub
 1. **List open issues that have the `ai-friendly` label**  
    Use **`list_issues`** (owner, repo, state: open, labels: `["ai-friendly"]`). Note number, title, and labels for each.
 
-2. **Resolve Status and Priority from the project board** (e.g. ReAItyCheck project)  
+2. **Resolve Status and Priority from the project board** (e.g. ReAIty Check project)  
    Use the **Projects toolset**: list project items for the project and read each item's **Status** and **Priority** field values. Keep only items that are **in the Ready column** and whose linked issue has the label `ai-friendly`. Apply the **selection** rule (by order or by priority) to pick one issue.
 
 3. **Choose the issue** to implement: apply the filter, then the selection rule. Note its **number**, **title**, and **labels** (especially `enhancement` vs `bug`). If no issue matches the filter, stop and report.
+
 ---
 
 ## 3. Create the branch and set status to In progress
@@ -63,6 +64,7 @@ Project issues live on **GitHub** (project board), not in the repo. Use **GitHub
    ```bash
    git fetch origin && git checkout feature/<issue-slug>
    ```
+
    (or `bugfix/<issue-slug>` for bugs)
 
 3. Optionally add a comment on the issue via **`add_issue_comment`** (e.g. "Branch `feature/<issue-slug>` created; PR will follow with Closes #N.") so the issue documents the branch. The PR body with `Closes #N` will link the PR to the issue when you open it.
@@ -84,7 +86,7 @@ If **`create_branch`** is unavailable or fails:
 
 **Required** whether the branch was created via Step 1 or Step 2. Set the issue's **project Status to "In progress"**. Use the **Projects toolset**: update the project item's Status field to **"In progress"** for the chosen issue. If the Projects tool is unavailable, add an issue comment: "Branch created; please move this issue to **In progress** on the project board."
 
-**ReAItyCheck project IDs** (if the MCP tool requires them):
+**ReAIty Check project IDs** (if the MCP tool requires them):
 
 - Project ID: `PVT_kwHOAqmy8c4BPKom`
 - Status field ID: `PVTSSF_lAHOAqmy8c4BPKomzg9p7fs`
@@ -173,7 +175,7 @@ If **`create_branch`** is unavailable or fails:
 | Pick only from **Ready** column and **ai-friendly** label | This doc, §2 |
 | Set issue Status to "In progress" after branch creation | [.cursor/rules/issue-implementation-flow.mdc](../.cursor/rules/issue-implementation-flow.mdc); this doc §3 Step 3 |
 | Create branch (MCP + git) | This doc, §3 Steps 1–2; **`create_branch`** then `git fetch` / `git checkout` |
-| Project/Status field IDs (ReAItyCheck) | This doc, §3 Step 3 |
+| Project/Status field IDs (ReAIty Check) | This doc, §3 Step 3 |
 | Multistep implementation → commit after each step | This doc, §5 |
 | PR description template | This doc, §6 |
 | Implementation plan location and must include link to issue | `docs/implementation-plans/`; this doc §4 |

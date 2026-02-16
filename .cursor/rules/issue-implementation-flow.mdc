@@ -17,6 +17,6 @@ Do not skip steps. When in doubt, open the doc and follow it.
 
 ## Set issue Status to "In progress" (after creating the branch)
 
-Required whether the branch was created via MCP **`create_branch`** or locally (fallback). Set the issue's **project Status to "In progress"** (ReAItyCheck project only). Use the **Projects toolset** to update the project item's Status. If the tool is unavailable, add an issue comment asking the user to move the card to In progress.
+Required whether the branch was created via MCP **`create_branch`** or locally (fallback). Set the issue's **project Status to "In progress"** (ReAIty Check project only). Use the **Projects toolset** to update the project item's Status. If the tool is unavailable, add an issue comment asking the user to move the card to In progress.
 
-**ReAItyCheck project IDs:** Project `PVT_kwHOAqmy8c4BPKom`, Status field `PVTSSF_lAHOAqmy8c4BPKomzg9p7fs`, "In progress" option `47fc9ee4`.
+**ReAIty Check project IDs:** Project `PVT_kwHOAqmy8c4BPKom`, Status field `PVTSSF_lAHOAqmy8c4BPKomzg9p7fs`, "In progress" option `47fc9ee4`.
