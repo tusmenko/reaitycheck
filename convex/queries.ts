@@ -40,9 +40,15 @@ export const getTestBreakdown = query({
         const totalRuns = runs.length;
         const successfulRuns = runs.filter((r) => r.isCorrect).length;
         const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+        // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
+        const conclusiveRuns = runs.filter(
+          (r) => r.status === "success" || r.status === "failed"
+        );
         const latestRun =
-          runs.length > 0
-            ? runs.reduce((a, b) => (a.executedAt >= b.executedAt ? a : b))
+          conclusiveRuns.length > 0
+            ? conclusiveRuns.reduce((a, b) =>
+                a.executedAt >= b.executedAt ? a : b
+              )
             : null;
         return { model, latestRun, totalRuns, successRate };
       })
@@ -72,9 +78,15 @@ export const getModelBreakdown = query({
         const totalRuns = runs.length;
         const successfulRuns = runs.filter((r) => r.isCorrect).length;
         const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+        // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
+        const conclusiveRuns = runs.filter(
+          (r) => r.status === "success" || r.status === "failed"
+        );
         const latestRun =
-          runs.length > 0
-            ? runs.reduce((a, b) => (a.executedAt >= b.executedAt ? a : b))
+          conclusiveRuns.length > 0
+            ? conclusiveRuns.reduce((a, b) =>
+                a.executedAt >= b.executedAt ? a : b
+              )
             : null;
         return { test, latestRun, totalRuns, successRate };
       })
@@ -113,6 +125,10 @@ export const getActiveTestCasesWithKillRates = query({
     // Latest run per (testCaseId, modelId)
     const latestByPair = new Map<string, { isCorrect: boolean; executedAt: number }>();
     for (const run of allRuns) {
+      // Skip inconclusive results (infrastructure failures)
+      if (run.status !== "success" && run.status !== "failed") {
+        continue;
+      }
       const key = `${run.testCaseId}:${run.modelId}`;
       const existing = latestByPair.get(key);
       if (!existing || run.executedAt > existing.executedAt) {
@@ -342,6 +358,10 @@ export const getComparisonGrid = query({
     >();
 
     for (const run of allRuns) {
+      // Skip inconclusive results (infrastructure failures)
+      if (run.status !== "success" && run.status !== "failed") {
+        continue;
+      }
       const key = `${run.testCaseId}:${run.modelId}`;
       const existing = latestByPair.get(key);
       if (!existing || run.executedAt > existing.executedAt) {

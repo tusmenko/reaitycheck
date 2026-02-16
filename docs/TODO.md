@@ -13,6 +13,7 @@
 - [ ] **UX Review** [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQvs)
 - - How failed answer looks like?
 - - Review copy, wording and naming consistency, tone of voice
+- [ ] **Challange submission rules** - describe the limitations
 
 ## Post-MVP
 

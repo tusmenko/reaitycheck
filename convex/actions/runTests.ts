@@ -7,8 +7,8 @@ import { callModel } from "./openrouter";
 import { validate } from "./validators";
 
 const TEMPERATURE = 0.7;
-const DEFAULT_MAX_TOKENS = 500;
-const DELAY_BETWEEN_REQUESTS_MS = 8_000; // ~7.5 req/min, safely under free-tier 8/min
+const DEFAULT_MAX_TOKENS = 8192;
+const DELAY_BETWEEN_REQUESTS_MS = 10_000; // ~6 req/min, safely under free-tier 8/min
 
 function formatError(error: unknown): string {
   if (error instanceof Error) {
@@ -66,8 +66,8 @@ export const executeScheduledTest = internalAction({
       const icon = validation.isCorrect ? "PASS" : "FAIL";
       console.log(
         `[${icon}] ${args.modelName} > ${args.testName} | ` +
-          `expected="${args.expectedAnswer}" got="${validation.parsedAnswer}" | ` +
-          `${result.executionTimeMs}ms`
+        `expected="${args.expectedAnswer}" got="${validation.parsedAnswer}" | ` +
+        `${result.executionTimeMs}ms`
       );
 
       await ctx.runMutation(internal.mutations.insertTestRun, {
@@ -198,7 +198,7 @@ export const runSingleTest = action({
       throw new Error(`Model not found: ${modelApiIdentifier}`);
     }
 
-    const maxTokens = model.maxCompletionTokens ?? DEFAULT_MAX_TOKENS;
+    const maxTokens = DEFAULT_MAX_TOKENS;
 
     const result = await callModel(apiKey, model.apiIdentifier, test.prompt, {
       temperature: TEMPERATURE,
