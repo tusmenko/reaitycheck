@@ -62,7 +62,7 @@ export default function AboutPage() {
             </li>
           </ul>
           <p className="mt-4 text-gray-400 leading-relaxed">
-            Results are driven by automated test runs (Convex backend). The
+            Results are driven by automated test runs. The
             leaderboard and grids reflect the latest pass/fail state and kill
             rates.
           </p>
