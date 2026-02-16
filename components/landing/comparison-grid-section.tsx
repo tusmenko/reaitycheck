@@ -98,11 +98,15 @@ export function ComparisonGridSection({
           </p>
           {(variant === "full" ? (
             <h1 className="mt-3 font-display text-4xl font-bold text-white lg:text-5xl">
-              Providers Performance
+              {granularity === "model"
+                ? "Models Performance"
+                : "Providers Performance"}
             </h1>
           ) : (
             <h2 className="mt-2 font-display text-3xl font-bold text-white lg:text-4xl">
-              Providers Performance
+              {granularity === "model"
+                ? "Models Performance"
+                : "Providers Performance"}
             </h2>
           ))}
           <p
