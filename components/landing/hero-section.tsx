@@ -5,6 +5,8 @@ interface HeroSectionProps {
   testCount: number;
   providerCount: number;
   lastUpdated: Date;
+  /** Current time in ms (for purity); pass from parent so render stays pure. */
+  nowMs?: number;
 }
 
 export function HeroSection({
@@ -12,8 +14,14 @@ export function HeroSection({
   testCount,
   providerCount,
   lastUpdated,
+  nowMs = 0,
 }: HeroSectionProps) {
   const freshness = formatDistanceToNow(lastUpdated, { addSuffix: true });
+  const hoursSinceUpdate =
+    nowMs > 0
+      ? (nowMs - lastUpdated.getTime()) / (60 * 60 * 1000)
+      : Infinity;
+  const isFresh = nowMs > 0 && hoursSinceUpdate < 12;
 
   return (
     <section className="relative pb-20 pt-16 lg:pb-28 lg:pt-28">
@@ -23,7 +31,11 @@ export function HeroSection({
 
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 text-center lg:px-12">
         <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-dark-200 bg-dark-100 px-4 py-2 text-xs font-semibold text-accent-red shadow-sm">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-accent-red" />
+          <span
+            className={`h-2 w-2 animate-pulse rounded-full ${
+              isFresh ? "bg-green-500" : "bg-accent-red"
+            }`}
+          />
           Live Benchmarks • Updated {freshness}
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePreloadedQuery, Preloaded } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { TestCase, AIModel, LeaderboardEntry, ComparisonCell } from "@/lib/types";
@@ -74,6 +75,11 @@ export function LandingPage({
   }));
 
   const lastUpdated = lastRunTime ? new Date(lastRunTime) : new Date();
+  const [nowMs, setNowMs] = useState(0);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setNowMs(Date.now()));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background">
@@ -82,6 +88,7 @@ export function LandingPage({
         testCount={testCases.length}
         providerCount={new Set(aiModels.map((m) => m.provider)).size}
         lastUpdated={lastUpdated}
+        nowMs={nowMs}
       />
 
       <main className="relative z-10">

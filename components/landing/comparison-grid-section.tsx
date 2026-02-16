@@ -4,6 +4,7 @@ import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import {
   modelDetailHref,
   providerDisplayName,
+  failureRateBadgeClass,
 } from "@/lib/model-detail-utils";
 import { ChevronRight, Skull } from "lucide-react";
 
@@ -62,13 +63,6 @@ export function ComparisonGridSection({
   const tableModels =
     variant === "full" ? models : models.slice(0, 4);
   const tableTests = variant === "full" ? tests : tests.slice(0, 8);
-
-  function failureBadgeClass(failureRate: number) {
-    if (failureRate >= 30) return "border-red-800 bg-red-900/30 text-red-400";
-    if (failureRate >= 15)
-      return "border-yellow-800 bg-yellow-900/30 text-yellow-400";
-    return "border-green-800 bg-green-900/30 text-green-400";
-  }
 
   return (
     <section
@@ -213,7 +207,7 @@ export function ComparisonGridSection({
                               <span className="text-sm text-gray-500">N/A</span>
                             ) : (
                               <span
-                                className={`inline-flex w-14 items-center justify-center rounded-full border px-3 py-1 text-sm font-bold ${failureBadgeClass(failureRate)}`}
+                                className={`inline-flex w-14 items-center justify-center rounded-full border px-3 py-1 text-sm font-bold ${failureRateBadgeClass(failureRate)}`}
                               >
                                 {failureRate}%
                               </span>

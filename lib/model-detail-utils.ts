@@ -35,6 +35,14 @@ export function killRateColorClass(pct: number): string {
   return "text-green-400";
 }
 
+/** Badge classes for failure/kill rate: bigger % = more red, smaller = more green. Aligns with killRateColorClass thresholds (25/50/75). */
+export function failureRateBadgeClass(pct: number): string {
+  if (pct >= 75) return "border-red-800 bg-red-900/30 text-red-400";
+  if (pct >= 50) return "border-amber-800 bg-amber-900/30 text-amber-400";
+  if (pct >= 25) return "border-yellow-800 bg-yellow-900/30 text-yellow-400";
+  return "border-green-800 bg-green-900/30 text-green-400";
+}
+
 /** Resilience bar fill: lower % = red, higher % = green. Returns CSS color. */
 export function resilienceBarColor(pct: number): string {
   const hue = 120 * (pct / 100); // 0% → 0 (red), 100% → 120 (green)
