@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Menu, X } from "lucide-react";
+import { Coffee, Github, Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const mobileNavLinks = [
@@ -62,6 +62,15 @@ export function Navbar() {
               className="text-gray-400 transition-colors hover:text-white"
             >
               <Github className="h-5 w-5" />
+            </Link>
+            <Link
+              href="https://buymeacoffee.com/vksvjtzg2f"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 transition-colors hover:text-yellow-500"
+              title="Support ReAIty Check via Buy Me a Coffee"
+            >
+              <Coffee className="h-5 w-5" />
             </Link>
             <Link
               href="/submit-challenge"

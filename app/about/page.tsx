@@ -93,6 +93,31 @@ export default function AboutPage() {
             see how they behave on simple, tricky problems.
           </p>
 
+          <h2 className="mt-10 font-display text-2xl font-bold text-white">
+            Support this project
+          </h2>
+          <p className="mt-3 text-gray-400 leading-relaxed">
+            ReAIity Check is free and the code is public.
+          </p>
+          <p className="mt-3 text-gray-400 leading-relaxed">
+            But someone still has to pay the API bills ☕
+          </p>
+          <p className="mt-3 text-gray-400 leading-relaxed">
+            Your support keeps the daily tests running.
+          </p>
+          <p className="mt-3 text-gray-400 leading-relaxed">
+            If you find this useful —{" "}
+            <a
+              href="https://buymeacoffee.com/vksvjtzg2f"
+              target="_blank"
+              rel="noreferrer"
+              className="text-accent-orange hover:text-accent-red transition-colors font-medium"
+            >
+              ☕ buy me a coffee
+            </a>
+            .
+          </p>
+
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href="/"

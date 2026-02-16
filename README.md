@@ -79,4 +79,18 @@ are you comfortable with how they behave on simple problems?
 - Not the definitive ranking
 - Not an anti-AI statement
 
+---
+
+## Support this project
+
+ReAIity Check is free and the code is public.
+
+But someone still has to pay the API bills ☕
+
+Your support keeps the daily tests running
+
+If you find this useful — **[☕ buy me a coffee](https://buymeacoffee.com/vksvjtzg2f)**.
+
+---
+
 **[reaitycheck.com](https://www.reaitycheck.com/)** - Ignore hype. Take a reAIity check.
