@@ -34,8 +34,10 @@ function rankIconColorByRank(rank: number) {
   return "text-white";
 }
 
+const MAX_TOP_MODELS = 5; // 5 model cards + "View benchmark table" = 6 cards total
+
 export function LeaderboardSection({ leaderboard }: LeaderboardSectionProps) {
-  const topModels = leaderboard.slice(0, 6);
+  const topModels = leaderboard.slice(0, MAX_TOP_MODELS);
 
   return (
     <section id="models" className="relative bg-dark-50 py-20">

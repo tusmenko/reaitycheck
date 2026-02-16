@@ -72,7 +72,8 @@ export default defineSchema({
     .index("by_test_case", ["testCaseId"])
     .index("by_model", ["modelId"])
     .index("by_executed_at", ["executedAt"])
-    .index("by_test_and_model", ["testCaseId", "modelId"]),
+    .index("by_test_and_model", ["testCaseId", "modelId"])
+    .index("by_status", ["status"]),
 
   challengeSubmissions: defineTable({
     prompt: v.string(),

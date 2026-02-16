@@ -10,6 +10,13 @@ const TEMPERATURE = 0.7;
 const DEFAULT_MAX_TOKENS = 8192;
 const DELAY_BETWEEN_REQUESTS_MS = 10_000; // ~6 req/min, safely under free-tier 8/min
 
+/** Use the minimum of DEFAULT_MAX_TOKENS and model's maxCompletionTokens when set; otherwise DEFAULT_MAX_TOKENS. */
+function effectiveMaxTokens(model: { maxCompletionTokens?: number }): number {
+  return model.maxCompletionTokens != null
+    ? Math.min(DEFAULT_MAX_TOKENS, model.maxCompletionTokens)
+    : DEFAULT_MAX_TOKENS;
+}
+
 function formatError(error: unknown): string {
   if (error instanceof Error) {
     const status = "status" in error ? (error as { status: number }).status : undefined;
@@ -83,6 +90,17 @@ export const executeScheduledTest = internalAction({
         maxTokens: args.maxTokens,
       });
     } catch (error) {
+      const promptPreview =
+        args.prompt.length > 200 ? args.prompt.slice(0, 200) + "…" : args.prompt;
+      console.log(
+        "[OpenRouter] request (on error):",
+        JSON.stringify({
+          model: args.apiIdentifier,
+          temperature: TEMPERATURE,
+          max_tokens: args.maxTokens,
+          messages: [{ role: "user", content: promptPreview }],
+        })
+      );
       const errorMessage = formatError(error);
       console.log(`[ERR!] ${args.modelName} > ${args.testName} | ${errorMessage}`);
 
@@ -118,8 +136,7 @@ export const orchestrateAllTests = action({
     let scheduled = 0;
 
     for (const model of models) {
-      const maxTokens = model.maxCompletionTokens ?? DEFAULT_MAX_TOKENS;
-
+      const maxTokens = effectiveMaxTokens(model);
       for (const test of tests) {
         await ctx.scheduler.runAfter(
           delayMs,
@@ -148,6 +165,51 @@ export const orchestrateAllTests = action({
       `Scheduled ${scheduled} tests (staggered over ~${durationMinutes} minutes)`
     );
 
+    return { scheduled, estimatedDurationMinutes: durationMinutes };
+  },
+});
+
+/** Schedule test runs only for (testCaseId, modelId) pairs whose latest run has status "error". Only active test and active model are scheduled. */
+export const orchestrateErroredTests = action({
+  args: {},
+  handler: async (ctx) => {
+    const pairs = await ctx.runQuery(api.queries.getErroredTestRunPairs);
+    let delayMs = 0;
+    let scheduled = 0;
+
+    for (const { testCaseId, modelId } of pairs) {
+      const resolved = await ctx.runQuery(api.queries.getTestAndModelForRun, {
+        testCaseId,
+        modelId,
+      });
+      if (!resolved) continue;
+
+      const { test, model } = resolved;
+      const maxTokens = effectiveMaxTokens(model);
+      await ctx.scheduler.runAfter(
+        delayMs,
+        internal.actions.runTests.executeScheduledTest,
+        {
+          testCaseId: test._id,
+          modelId: model._id,
+          testName: test.name,
+          prompt: test.prompt,
+          expectedAnswer: test.expectedAnswer,
+          validationType: test.validationType,
+          validationConfig: test.validationConfig,
+          modelName: model.modelName,
+          apiIdentifier: model.apiIdentifier,
+          maxTokens,
+        }
+      );
+      scheduled++;
+      delayMs += DELAY_BETWEEN_REQUESTS_MS;
+    }
+
+    const durationMinutes = Math.ceil(delayMs / 60_000);
+    console.log(
+      `Orchestrating errored reruns: ${scheduled} scheduled (staggered over ~${durationMinutes} minutes)`
+    );
     return { scheduled, estimatedDurationMinutes: durationMinutes };
   },
 });
@@ -198,7 +260,7 @@ export const runSingleTest = action({
       throw new Error(`Model not found: ${modelApiIdentifier}`);
     }
 
-    const maxTokens = DEFAULT_MAX_TOKENS;
+    const maxTokens = effectiveMaxTokens(model);
 
     const result = await callModel(apiKey, model.apiIdentifier, test.prompt, {
       temperature: TEMPERATURE,

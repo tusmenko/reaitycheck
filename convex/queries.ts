@@ -37,18 +37,18 @@ export const getTestBreakdown = query({
             q.eq("testCaseId", testCaseId).eq("modelId", model._id)
           )
           .collect();
-        const totalRuns = runs.length;
-        const successfulRuns = runs.filter((r) => r.isCorrect).length;
-        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
         // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
         const conclusiveRuns = runs.filter(
           (r) => r.status === "success" || r.status === "failed"
         );
+        const totalRuns = conclusiveRuns.length;
+        const successfulRuns = conclusiveRuns.filter((r) => r.isCorrect).length;
+        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
         const latestRun =
           conclusiveRuns.length > 0
             ? conclusiveRuns.reduce((a, b) =>
-                a.executedAt >= b.executedAt ? a : b
-              )
+              a.executedAt >= b.executedAt ? a : b
+            )
             : null;
         return { model, latestRun, totalRuns, successRate };
       })
@@ -75,18 +75,18 @@ export const getModelBreakdown = query({
             q.eq("testCaseId", test._id).eq("modelId", modelId)
           )
           .collect();
-        const totalRuns = runs.length;
-        const successfulRuns = runs.filter((r) => r.isCorrect).length;
-        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
         // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
         const conclusiveRuns = runs.filter(
           (r) => r.status === "success" || r.status === "failed"
         );
+        const totalRuns = conclusiveRuns.length;
+        const successfulRuns = conclusiveRuns.filter((r) => r.isCorrect).length;
+        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
         const latestRun =
           conclusiveRuns.length > 0
             ? conclusiveRuns.reduce((a, b) =>
-                a.executedAt >= b.executedAt ? a : b
-              )
+              a.executedAt >= b.executedAt ? a : b
+            )
             : null;
         return { test, latestRun, totalRuns, successRate };
       })
@@ -170,6 +170,48 @@ export const getActiveModels = query({
   },
 });
 
+/** Pairs (testCaseId, modelId) whose latest run has status "error". */
+export const getErroredTestRunPairs = query({
+  args: {},
+  handler: async (ctx) => {
+    const errorRuns = await ctx.db
+      .query("testRuns")
+      .withIndex("by_status", (q) => q.eq("status", "error"))
+      .collect();
+    const uniquePairs = new Map<string, { testCaseId: typeof errorRuns[0]["testCaseId"]; modelId: typeof errorRuns[0]["modelId"] }>();
+    for (const r of errorRuns) {
+      const key = `${r.testCaseId}:${r.modelId}`;
+      if (!uniquePairs.has(key)) uniquePairs.set(key, { testCaseId: r.testCaseId, modelId: r.modelId });
+    }
+    const result: { testCaseId: typeof errorRuns[0]["testCaseId"]; modelId: typeof errorRuns[0]["modelId"] }[] = [];
+    for (const { testCaseId, modelId } of uniquePairs.values()) {
+      const runs = await ctx.db
+        .query("testRuns")
+        .withIndex("by_test_and_model", (q) =>
+          q.eq("testCaseId", testCaseId).eq("modelId", modelId)
+        )
+        .collect();
+      const latest = runs.sort((a, b) => b.executedAt - a.executedAt)[0];
+      if (latest?.status === "error") result.push({ testCaseId, modelId });
+    }
+    return result;
+  },
+});
+
+/** Test and model by ids; null if either missing or inactive (for rerun scheduling). */
+export const getTestAndModelForRun = query({
+  args: {
+    testCaseId: v.id("testCases"),
+    modelId: v.id("aiModels"),
+  },
+  handler: async (ctx, { testCaseId, modelId }) => {
+    const test = await ctx.db.get("testCases", testCaseId);
+    const model = await ctx.db.get("aiModels", modelId);
+    if (!test || !model || !test.isActive || !model.isActive) return null;
+    return { test, model };
+  },
+});
+
 export const getModelsByProvider = query({
   args: { provider: v.string() },
   handler: async (ctx, { provider }) => {
@@ -206,9 +248,9 @@ export const getProviderLeaderboard = query({
       const avgExecutionTimeMs =
         runsWithTime.length > 0
           ? Math.round(
-              runsWithTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
-                runsWithTime.length
-            )
+            runsWithTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
+            runsWithTime.length
+          )
           : 0;
 
       return {
@@ -234,9 +276,9 @@ export const getProviderLeaderboard = query({
     const providerAvgResponseTimeMs =
       withTime.length > 0
         ? Math.round(
-            withTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
-              withTime.length
-          )
+          withTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
+          withTime.length
+        )
         : 0;
 
     return { entries, providerAvgResponseTimeMs };
