@@ -1,17 +1,10 @@
 import Link from "next/link";
-import { Skull, Target, Swords } from "lucide-react";
 import type { TestCase } from "@/lib/types";
 import {
   formatCategory,
   killRateColorClass,
 } from "@/lib/model-detail-utils";
-
-// TODO: Import from shared constants once Phase 3 is complete
-const TOUGHEST_BREAKER_RANKS = [
-  { Icon: Skull, iconColor: "text-red-400" },
-  { Icon: Target, iconColor: "text-orange-400" },
-  { Icon: Swords, iconColor: "text-slate-400" },
-] as const;
+import { TOUGHEST_BREAKER_RANKS } from "@/lib/shared-constants";
 
 interface TopBreakersGridProps {
   tests: TestCase[];
