@@ -1,0 +1,1 @@
+export { SubmitChallengeCta } from "./SubmitChallengeCta";
