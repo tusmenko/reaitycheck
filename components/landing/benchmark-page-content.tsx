@@ -56,13 +56,24 @@ export function BenchmarkPageContent({
             </div>
           </section>
         ) : (
-          <ComparisonGridSection
-            tests={testCases}
-            models={aiModels}
-            grid={comparisonGrid}
-            granularity="model"
-            variant="full"
-          />
+          <>
+            <section className="relative z-10 mx-auto max-w-6xl px-6 pb-8 pt-8 lg:px-12">
+              <h1 className="font-display text-4xl font-bold text-white lg:text-5xl">
+                Full benchmark
+              </h1>
+              <p className="mt-2 text-base text-gray-400 lg:text-lg">
+                Failure-rate matrix across all challenges and models. Updated
+                daily.
+              </p>
+            </section>
+            <ComparisonGridSection
+              tests={testCases}
+              models={aiModels}
+              grid={comparisonGrid}
+              granularity="model"
+              variant="full"
+            />
+          </>
         )}
       </main>
     </div>

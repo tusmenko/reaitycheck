@@ -3,7 +3,7 @@ import { api } from "@/convex/_generated/api";
 import { BenchmarkPageContent } from "@/components/landing/benchmark-page-content";
 
 export const metadata = {
-  title: "Full benchmark — ReAIty Check",
+  title: "Full benchmark",
   description:
     "Complete failure-rate matrix across all challenge suites and models. Live benchmarks updated daily.",
 };

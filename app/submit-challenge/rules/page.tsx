@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Challenge submission rules",
+  description:
+    "Rules and guidelines for submitting a challenge to ReAIty Check. Content you must not submit, quality bar, and how we use submissions.",
+};
+
 export default function SubmitChallengeRulesPage() {
   return (
     <div className="relative min-h-screen bg-background">

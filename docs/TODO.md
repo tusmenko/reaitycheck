@@ -14,6 +14,8 @@
 - - How failed answer looks like?
 - - Review copy, wording and naming consistency, tone of voice
 - [ ] **Challange submission rules** - describe the limitations
+- [ ] **Raw response in MD format** - on the Challange detail page
+- [x] **SEO-related tweaks**
 
 ## Post-MVP
 
@@ -23,6 +25,7 @@
 - - [ ] Assign category\labels [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxM)
 - - [ ] Execute challange over free plans. If passes 50% (or top-20%) kill rate - added to the challange ladder [Project](https://github.com/users/tusmenko/projects/2?card=PVTI_lAHOAqmy8c4BPKomzgldQxc)
 - [ ] **Rank top-10 models by USAGE and by SCORE**
+- [ ] **Import models icons**
 
 ### Social
 
