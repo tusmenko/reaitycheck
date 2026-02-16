@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = "https://reaitycheck.com";
-const defaultTitle = "ReAIity Check — Know your AI tools' limitations";
+const defaultTitle = "ReAIty Check — Know your AI tools' limitations";
 const description =
   "Daily automated testing of viral and edge-case AI failure cases. Track real-world limitations of the most popular models.";
 
@@ -49,10 +49,10 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description,
     url: siteUrl,
-    siteName: "ReAIity Check",
+    siteName: "ReAIty Check",
     locale: "en_US",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "ReAIity Check" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "ReAIty Check" }],
   },
   twitter: {
     card: "summary_large_image",

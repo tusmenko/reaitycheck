@@ -4,22 +4,21 @@ import { api } from "@/convex/_generated/api";
 
 const baseUrl = "https://reaitycheck.com";
 
-const staticPageDate = new Date("2026-02-16");
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [tests, models] = await Promise.all([
     fetchQuery(api.queries.getActiveTestCases),
     fetchQuery(api.queries.getActiveModels),
   ]);
 
+  const now = new Date();
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    { url: `${baseUrl}/about`, lastModified: staticPageDate, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/challenges`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/benchmark`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/providers`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 },
-    { url: `${baseUrl}/submit-challenge`, lastModified: staticPageDate, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${baseUrl}/submit-challenge/rules`, lastModified: staticPageDate, changeFrequency: "monthly", priority: 0.5 },
+    { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/challenges`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/benchmark`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/providers`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${baseUrl}/submit-challenge`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/submit-challenge/rules`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const challengeRoutes: MetadataRoute.Sitemap = tests.map((test) => ({
