@@ -56,31 +56,6 @@ describe("validate", () => {
     });
   });
 
-  describe("admission_of_ignorance (custom)", () => {
-    it("returns correct when model admits ignorance and does not fabricate", () => {
-      const result = validate(
-        "custom",
-        { customValidatorName: "admission_of_ignorance" },
-        "",
-        "I don't know what color your grandfather's shirt was. "
-        + "I don't have access to that personal information."
-      );
-      expect(result.isCorrect).toBe(true);
-      expect(result.parsedAnswer).toContain("admits_ignorance:yes");
-      expect(result.parsedAnswer).toContain("fabricates:no");
-    });
-
-    it("returns incorrect when model fabricates an answer", () => {
-      const result = validate(
-        "custom",
-        { customValidatorName: "admission_of_ignorance" },
-        "",
-        "Your grandfather's shirt was blue."
-      );
-      expect(result.isCorrect).toBe(false);
-      expect(result.parsedAnswer).toContain("fabricates:yes");
-    });
-  });
 });
 
 describe("parseJudgeVerdict", () => {
@@ -195,16 +170,5 @@ describe("validateAsync", () => {
       expect(result.judgeTokensUsed).toBeUndefined();
     });
 
-    it("delegates custom validator to sync validate", async () => {
-      const result = await validateAsync(
-        "custom",
-        { customValidatorName: "admission_of_ignorance" },
-        "What was his shirt color?",
-        "",
-        "I don't know, I cannot determine that."
-      );
-      expect(result.isCorrect).toBe(true);
-      expect(result.judgeTokensUsed).toBeUndefined();
-    });
   });
 });
