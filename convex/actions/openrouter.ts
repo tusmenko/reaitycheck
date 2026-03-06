@@ -23,7 +23,8 @@ export async function callModel(
   apiKey: string,
   apiIdentifier: string,
   prompt: string,
-  options: { temperature: number; maxTokens: number }
+  options: { temperature: number; maxTokens: number },
+  messages?: Array<{ role: "system" | "user" | "assistant"; content: string }>
 ): Promise<{
   content: string;
   tokensUsed: { prompt: number; completion: number; total: number };
@@ -32,10 +33,12 @@ export async function callModel(
   const client = getClient(apiKey);
   const start = Date.now();
 
+  const messagesToSend = messages ?? [{ role: "user" as const, content: prompt }];
+
   const response = await client.chat.completions.create(
     {
       model: apiIdentifier,
-      messages: [{ role: "user", content: prompt }],
+      messages: messagesToSend,
       temperature: options.temperature,
       max_tokens: options.maxTokens,
     },

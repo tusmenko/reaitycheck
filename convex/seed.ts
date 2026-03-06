@@ -103,6 +103,22 @@ export const seedTestRuns = mutation({
   },
 });
 
+/** Insert any test cases from the seed file that don't yet exist in the DB (matched by slug). */
+export const syncNewTestCases = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const existing = await ctx.db.query("testCases").collect();
+    const existingSlugs = new Set(existing.map((t) => t.slug));
+
+    const toInsert = testCases.filter((tc) => !existingSlugs.has(tc.slug));
+    for (const tc of toInsert) {
+      await ctx.db.insert("testCases", tc);
+    }
+
+    return { inserted: toInsert.length, slugs: toInsert.map((t) => t.slug) };
+  },
+});
+
 export const clearAll = mutation({
   args: {},
   handler: async (ctx) => {

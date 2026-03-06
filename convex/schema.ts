@@ -15,6 +15,9 @@ export default defineSchema({
         acceptableAnswers: v.optional(v.array(v.string())),
         caseSensitive: v.optional(v.boolean()),
         customValidatorName: v.optional(v.string()),
+        judgeModel: v.optional(v.string()),
+        judgePromptTemplate: v.optional(v.string()),
+        judgeCriteria: v.optional(v.string()),
       })
     ),
     memenessScore: v.number(),
@@ -58,6 +61,13 @@ export default defineSchema({
     isCorrect: v.boolean(),
     executionTimeMs: v.number(),
     tokensUsed: v.optional(
+      v.object({
+        prompt: v.number(),
+        completion: v.number(),
+        total: v.number(),
+      })
+    ),
+    judgeTokensUsed: v.optional(
       v.object({
         prompt: v.number(),
         completion: v.number(),

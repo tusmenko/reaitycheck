@@ -27,6 +27,13 @@ export const insertTestRun = internalMutation({
         total: v.number(),
       })
     ),
+    judgeTokensUsed: v.optional(
+      v.object({
+        prompt: v.number(),
+        completion: v.number(),
+        total: v.number(),
+      })
+    ),
     errorMessage: v.optional(v.string()),
     temperature: v.number(),
     maxTokens: v.number(),

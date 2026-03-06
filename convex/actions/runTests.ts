@@ -4,7 +4,7 @@ import { action, internalAction } from "../_generated/server";
 import { api, internal } from "../_generated/api";
 import { v } from "convex/values";
 import { callModel } from "./openrouter";
-import { validate } from "./validators";
+import { validateAsync } from "./validators";
 
 const TEMPERATURE = 0.7;
 const DEFAULT_MAX_TOKENS = 8192;
@@ -45,6 +45,9 @@ export const executeScheduledTest = internalAction({
         acceptableAnswers: v.optional(v.array(v.string())),
         caseSensitive: v.optional(v.boolean()),
         customValidatorName: v.optional(v.string()),
+        judgeModel: v.optional(v.string()),
+        judgePromptTemplate: v.optional(v.string()),
+        judgeCriteria: v.optional(v.string()),
       })
     ),
     modelName: v.string(),
@@ -63,11 +66,13 @@ export const executeScheduledTest = internalAction({
         maxTokens: args.maxTokens,
       });
 
-      const validation = validate(
+      const validation = await validateAsync(
         args.validationType,
         args.validationConfig,
+        args.prompt,
         args.expectedAnswer,
-        result.content
+        result.content,
+        { callModel, apiKey }
       );
 
       const icon = validation.isCorrect ? "PASS" : "FAIL";
@@ -86,6 +91,7 @@ export const executeScheduledTest = internalAction({
         isCorrect: validation.isCorrect,
         executionTimeMs: result.executionTimeMs,
         tokensUsed: result.tokensUsed,
+        judgeTokensUsed: validation.judgeTokensUsed,
         temperature: TEMPERATURE,
         maxTokens: args.maxTokens,
       });
@@ -239,6 +245,7 @@ export const runSingleTest = action({
     isCorrect: boolean;
     executionTimeMs: number;
     tokensUsed: { prompt: number; completion: number; total: number };
+    judgeTokensUsed?: { prompt: number; completion: number; total: number };
   }> => {
     const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
@@ -267,11 +274,13 @@ export const runSingleTest = action({
       maxTokens,
     });
 
-    const validation = validate(
+    const validation = await validateAsync(
       test.validationType,
       test.validationConfig,
+      test.prompt,
       test.expectedAnswer,
-      result.content
+      result.content,
+      { callModel, apiKey }
     );
 
     await ctx.runMutation(internal.mutations.insertTestRun, {
@@ -283,6 +292,7 @@ export const runSingleTest = action({
       isCorrect: validation.isCorrect,
       executionTimeMs: result.executionTimeMs,
       tokensUsed: result.tokensUsed,
+      judgeTokensUsed: validation.judgeTokensUsed,
       temperature: TEMPERATURE,
       maxTokens,
     });
@@ -295,6 +305,7 @@ export const runSingleTest = action({
       isCorrect: validation.isCorrect,
       executionTimeMs: result.executionTimeMs,
       tokensUsed: result.tokensUsed,
+      judgeTokensUsed: validation.judgeTokensUsed,
     };
   },
 });

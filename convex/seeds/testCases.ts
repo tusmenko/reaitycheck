@@ -164,6 +164,26 @@ export const testCases = [
     isActive: true,
   },
   {
+    name: "Alice's Brother Problem (LLM Judge)",
+    slug: "alices-brother-problem-llm-judge",
+    category: "logic_reasoning",
+    prompt:
+      "Alice has 3 sisters and 1 brother. How many sisters does Alice's brother have?",
+    expectedAnswer: "4",
+    explanation:
+      "LLM-judge variant of the Alice's Brother Problem. "
+      + "Validates the judge integration without affecting the live leaderboard.",
+    validationType: "llm_judge",
+    validationConfig: {
+      judgeCriteria:
+        "The answer must be 4. Accept any response that arrives at 4 sisters, "
+        + "regardless of phrasing or explanation style.",
+    },
+    memenessScore: 4,
+    tags: ["logic", "perspective", "family", "llm-judge"],
+    isActive: false,
+  },
+  {
     name: "Chess Notation",
     slug: "chess-notation",
     category: "specialized_knowledge",
