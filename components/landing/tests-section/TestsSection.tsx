@@ -110,12 +110,12 @@ export const TestsSection = ({ tests }: TestsSectionProps) => {
             "
           >
             <div className="
-              mb-4 flex h-16 w-16 items-center justify-center rounded-full
-              border border-dark-200 bg-dark-50 transition-transform
+              mb-4 flex size-16 items-center justify-center rounded-full border
+              border-dark-200 bg-dark-50 transition-transform
               group-hover:scale-110
             ">
               <ArrowRight className="
-                h-5 w-5 text-gray-500
+                size-5 text-gray-500
                 group-hover:text-accent-red
               " />
             </div>

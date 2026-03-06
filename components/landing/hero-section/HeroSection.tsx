@@ -36,7 +36,7 @@ export const HeroSection = ({
         ">
           <span
             className={`
-              h-2 w-2 animate-pulse rounded-full
+              size-2 animate-pulse rounded-full
               ${isFresh ? "bg-green-500" : "bg-accent-red"
               }
             `}

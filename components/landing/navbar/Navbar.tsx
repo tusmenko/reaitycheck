@@ -113,7 +113,7 @@ export const Navbar = () => {
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               className="
-                flex h-10 w-10 items-center justify-center rounded-lg
+                flex size-10 items-center justify-center rounded-lg
                 text-gray-400 transition-colors
                 hover:text-white
                 md:hidden
@@ -142,8 +142,8 @@ export const Navbar = () => {
       {/* Mobile menu panel */}
       <div
         className={`
-          fixed top-20 right-0 left-0 z-50 border-b border-dark-200 bg-dark-50
-          px-6 py-6 transition-all duration-200 ease-out
+          fixed inset-x-0 top-20 z-50 border-b border-dark-200 bg-dark-50 p-6
+          transition-all duration-200 ease-out
           md:hidden
           ${menuOpen
           ? "visible opacity-100"
@@ -157,7 +157,7 @@ export const Navbar = () => {
               key={href}
               href={href}
               className="
-                rounded-lg px-3 py-3 text-sm font-medium text-gray-400
+                rounded-lg p-3 text-sm font-medium text-gray-400
                 transition-colors
                 hover:bg-dark-200 hover:text-white
               "

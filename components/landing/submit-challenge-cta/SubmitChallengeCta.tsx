@@ -47,7 +47,7 @@ export const SubmitChallengeCta = () => {
           ">
             <div className="mb-4 flex items-center gap-3">
               <div className="
-                flex h-8 w-8 items-center justify-center rounded-full border
+                flex size-8 items-center justify-center rounded-full border
                 border-accent-red/50 bg-accent-red/30 text-accent-red
               ">
                 <Skull className="size-4" />

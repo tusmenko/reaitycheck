@@ -110,7 +110,7 @@ export const ComparisonGridSection = ({
                   ? tableModels.map((model) => {
                     const cell = getResult(grid, test._id, model._id);
                     return (
-                      <td key={model._id} className="px-6 py-6 text-center">
+                      <td key={model._id} className="p-6 text-center">
                         <span className="
                           inline-flex items-center justify-center
                         ">
@@ -137,7 +137,7 @@ export const ComparisonGridSection = ({
                         )
                         : null;
                     return (
-                      <td key={provider} className="px-6 py-6 text-center">
+                      <td key={provider} className="p-6 text-center">
                         {failureRate === null ? (
                           <span className="text-sm text-gray-500">N/A</span>
                         ) : (

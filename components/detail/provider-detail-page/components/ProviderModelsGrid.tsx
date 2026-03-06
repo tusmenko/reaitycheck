@@ -84,7 +84,7 @@ export const ProviderModelsGrid = ({ entries }: ProviderModelsGridProps) => {
                   <div className="flex items-center gap-4">
                     <div
                       className={`
-                        flex h-14 min-h-14 w-14 min-w-14 shrink-0 items-center
+                        flex size-14 min-h-14 min-w-14 shrink-0 items-center
                         justify-center rounded-2xl bg-linear-to-br text-sm
                         font-bold text-white shadow-lg
                         ${avatarGradient}

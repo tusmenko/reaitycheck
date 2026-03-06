@@ -79,7 +79,7 @@ export const LeaderboardSection = ({ leaderboard }: LeaderboardSectionProps) => 
                     <div className="flex items-center gap-4">
                       <div
                         className={`
-                          flex h-14 min-h-14 w-14 min-w-14 shrink-0 items-center
+                          flex size-14 min-h-14 min-w-14 shrink-0 items-center
                           justify-center rounded-2xl bg-linear-to-br text-sm
                           font-bold text-white shadow-lg
                           ${avatarGradient}
@@ -150,12 +150,12 @@ export const LeaderboardSection = ({ leaderboard }: LeaderboardSectionProps) => 
             "
           >
             <div className="
-              mb-6 flex h-16 w-16 items-center justify-center rounded-full
-              border border-dark-200 bg-dark-50 transition-transform
+              mb-6 flex size-16 items-center justify-center rounded-full border
+              border-dark-200 bg-dark-50 transition-transform
               group-hover:scale-110
             ">
               <ArrowRight className="
-                h-5 w-5 text-gray-500
+                size-5 text-gray-500
                 group-hover:text-accent-red
               " />
             </div>

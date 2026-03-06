@@ -367,7 +367,7 @@ export default function SubmitChallengePage() {
                     type="checkbox"
                     {...register("rulesAccepted")}
                     className="
-                      mt-1 h-4 w-4 shrink-0 rounded-sm border-dark-300
+                      mt-1 size-4 shrink-0 rounded-sm border-dark-300
                       bg-dark-200 text-accent-red
                       focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0
                     "
@@ -423,7 +423,7 @@ export default function SubmitChallengePage() {
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <Loader2 className="size-4 animate-spin" />
                         Submitting…
                       </>
                     ) : (

@@ -111,7 +111,7 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
               <div className="mt-2 flex justify-center">
                 <ChevronDown
                   className={`
-                    h-4 w-4 text-muted-foreground transition-all duration-300
+                    size-4 text-muted-foreground transition-all duration-300
                     ${
                     isDescriptionExpanded
                       ? "rotate-180 opacity-100"
