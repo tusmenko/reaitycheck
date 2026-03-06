@@ -235,6 +235,52 @@ export const runAllTests = action({
   },
 });
 
+// Run one challenge against all active models (staggered)
+export const orchestrateChallengeAllModels = action({
+  args: { testSlug: v.string() },
+  handler: async (ctx, { testSlug }): Promise<{
+    scheduled: number;
+    estimatedDurationMinutes: number;
+  }> => {
+    const tests = await ctx.runQuery(api.queries.getActiveTestCases);
+    const models = await ctx.runQuery(api.queries.getActiveModels);
+
+    const test = tests.find((t: { slug: string }) => t.slug === testSlug);
+    if (!test) {
+      throw new Error(`Test case not found or inactive: ${testSlug}`);
+    }
+
+    let delayMs = 0;
+    for (const model of models) {
+      const maxTokens = effectiveMaxTokens(model);
+      await ctx.scheduler.runAfter(
+        delayMs,
+        internal.actions.runTests.executeScheduledTest,
+        {
+          testCaseId: test._id,
+          modelId: model._id,
+          testName: test.name,
+          prompt: test.prompt,
+          expectedAnswer: test.expectedAnswer,
+          validationType: test.validationType,
+          validationConfig: test.validationConfig,
+          modelName: model.modelName,
+          apiIdentifier: model.apiIdentifier,
+          maxTokens,
+        }
+      );
+      delayMs += DELAY_BETWEEN_REQUESTS_MS;
+    }
+
+    const durationMinutes = Math.ceil(delayMs / 60_000);
+    console.log(
+      `[orchestrateChallengeAllModels] "${test.name}" scheduled for ` +
+      `${models.length} models (~${durationMinutes} min)`
+    );
+    return { scheduled: models.length, estimatedDurationMinutes: durationMinutes };
+  },
+});
+
 // Manual single test run (for dashboard use)
 export const runSingleTest = action({
   args: {
