@@ -158,6 +158,7 @@ describe("validateAsync", () => {
       expect(result.parsedAnswer).toContain("judge_error: network timeout");
     });
 
+    // eslint-disable-next-line max-len
     it("retries with simple prompt on unparseable verdict and returns judge_parse_error on second failure", async () => {
       const callModel = makeCallModel("I think this is correct but I am not sure.");
       const result = await validateAsync(

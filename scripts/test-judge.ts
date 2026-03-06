@@ -20,7 +20,11 @@ async function run() {
   const cases = [
     { label: "CORRECT response", response: "Alice's brother has 4 sisters." },
     { label: "WRONG response", response: "The answer is 3 sisters." },
-    { label: "VERBOSE but correct", response: "Let me think... Alice + her 3 sisters = 4 sisters total, so the brother has 4 sisters." },
+    {
+      label: "VERBOSE but correct",
+      // eslint-disable-next-line max-len
+      response: "Let me think... Alice + her 3 sisters = 4 sisters total, so the brother has 4 sisters.",
+    },
   ];
 
   for (const { label, response } of cases) {
@@ -31,7 +35,8 @@ async function run() {
       "llm_judge",
       {
         judgeCriteria:
-          "The answer must be 4. Accept any response that arrives at 4 sisters, regardless of phrasing.",
+          "The answer must be 4. Accept any response that arrives at 4 sisters, "
+          + "regardless of phrasing.",
       },
       TEST_PROMPT,
       EXPECTED_ANSWER,

@@ -156,7 +156,9 @@ export async function validateAsync(
     if (!judgeOptions) {
       return { isCorrect: false, parsedAnswer: "judge_error: judgeOptions required for llm_judge" };
     }
-    return runLlmJudge(validationConfig ?? {}, testPrompt, expectedAnswer, rawResponse, judgeOptions);
+    return runLlmJudge(
+      validationConfig ?? {}, testPrompt, expectedAnswer, rawResponse, judgeOptions
+    );
   }
   return validate(validationType, validationConfig, expectedAnswer, rawResponse);
 }
