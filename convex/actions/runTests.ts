@@ -235,6 +235,55 @@ export const runAllTests = action({
   },
 });
 
+// Schedule only (test, model) pairs that have never run before
+export const orchestrateNewPairs = action({
+  args: {},
+  handler: async (ctx): Promise<{ scheduled: number; estimatedDurationMinutes: number }> => {
+    const pairs = await ctx.runQuery(api.queries.getUnrunPairs);
+
+    if (pairs.length === 0) {
+      console.log("[orchestrateNewPairs] No unrun pairs found — nothing to schedule.");
+      return { scheduled: 0, estimatedDurationMinutes: 0 };
+    }
+
+    let delayMs = 0;
+    for (const { testCaseId, modelId } of pairs) {
+      const resolved = await ctx.runQuery(api.queries.getTestAndModelForRun, {
+        testCaseId,
+        modelId,
+      });
+      if (!resolved) continue;
+
+      const { test, model } = resolved;
+      const maxTokens = effectiveMaxTokens(model);
+      await ctx.scheduler.runAfter(
+        delayMs,
+        internal.actions.runTests.executeScheduledTest,
+        {
+          testCaseId: test._id,
+          modelId: model._id,
+          testName: test.name,
+          prompt: test.prompt,
+          expectedAnswer: test.expectedAnswer,
+          validationType: test.validationType,
+          validationConfig: test.validationConfig,
+          modelName: model.modelName,
+          apiIdentifier: model.apiIdentifier,
+          maxTokens,
+        }
+      );
+      delayMs += DELAY_BETWEEN_REQUESTS_MS;
+    }
+
+    const durationMinutes = Math.ceil(delayMs / 60_000);
+    console.log(
+      `[orchestrateNewPairs] Scheduled ${pairs.length} unrun pairs ` +
+      `(~${durationMinutes} min)`
+    );
+    return { scheduled: pairs.length, estimatedDurationMinutes: durationMinutes };
+  },
+});
+
 // Run one challenge against all active models (staggered)
 export const orchestrateChallengeAllModels = action({
   args: { testSlug: v.string() },

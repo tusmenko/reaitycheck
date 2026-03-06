@@ -210,6 +210,39 @@ export const getErroredTestRunPairs = query({
   },
 });
 
+/** All active (testCase, model) pairs that have zero runs of any kind. */
+export const getUnrunPairs = query({
+  args: {},
+  handler: async (ctx) => {
+    const tests = await ctx.db
+      .query("testCases")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+    const models = await ctx.db
+      .query("aiModels")
+      .withIndex("by_active", (q) => q.eq("isActive", true))
+      .collect();
+
+    const unrun: { testCaseId: typeof tests[0]["_id"]; modelId: typeof models[0]["_id"] }[] = [];
+
+    for (const test of tests) {
+      for (const model of models) {
+        const firstRun = await ctx.db
+          .query("testRuns")
+          .withIndex("by_test_and_model", (q) =>
+            q.eq("testCaseId", test._id).eq("modelId", model._id)
+          )
+          .first();
+        if (!firstRun) {
+          unrun.push({ testCaseId: test._id, modelId: model._id });
+        }
+      }
+    }
+
+    return unrun;
+  },
+});
+
 /** Test and model by ids; null if either missing or inactive (for rerun scheduling). */
 export const getTestAndModelForRun = query({
   args: {
