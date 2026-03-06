@@ -1,6 +1,8 @@
 /**
- * Shared limits for challenge submissions. Used by the Convex mutation and the submit-challenge page.
- * Do not import Convex server or runtime modules here so the Next app can import this file.
+ * Shared limits for challenge submissions. Used by the Convex mutation and
+ * the submit-challenge page.
+ * Do not import Convex server or runtime modules here so the Next app can
+ * import this file.
  */
 
 export const MAX_PROMPT = 500;

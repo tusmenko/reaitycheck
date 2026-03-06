@@ -1,11 +1,12 @@
 import { preloadQuery } from "convex/nextjs";
-import { api } from "@/convex/_generated/api";
 import { ChallengesCatalogContent } from "@/components/challenges/challenges-catalog-content";
+import { api } from "@/convex/_generated/api";
 
 export const metadata = {
   title: "Challenges",
   description:
-    "Browse all prompt gauntlets sorted by kill rate. See which challenges break the most models and explore category and memeness.",
+    "Browse all prompt gauntlets sorted by kill rate. See which challenges " +
+    "break the most models and explore category and memeness.",
 };
 
 export default async function ChallengesPage() {

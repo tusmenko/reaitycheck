@@ -1,4 +1,11 @@
-export type Provider = "openai" | "anthropic" | "google" | "meta" | "deepseek" | "alibaba" | "mistral";
+export type Provider =
+  | "openai"
+  | "anthropic"
+  | "google"
+  | "meta"
+  | "deepseek"
+  | "alibaba"
+  | "mistral";
 export type Trend = "up" | "down" | "stable";
 
 export interface TestCase {

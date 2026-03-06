@@ -6,7 +6,9 @@ import { mutation } from "./_generated/server";
  * See docs/deployment.md for schema change process.
  */
 
-/** Remove `difficulty` from all testCases. Run once per env: npx convex run migrations:removeDifficultyFromTestCases (dev) or ... --prod (prod). */
+/** Remove `difficulty` from all testCases. 
+ * Run once per env: npx convex run migrations:removeDifficultyFromTestCases (dev) 
+ * or ... --prod (prod). */
 export const removeDifficultyFromTestCases = mutation({
   args: {},
   handler: async (ctx) => {
@@ -22,7 +24,8 @@ export const removeDifficultyFromTestCases = mutation({
   },
 });
 
-/** Remove legacy `costPer1kTokens` and `maxTokens` fields from aiModels. Run once per env: npx convex run migrations:removeLegacyCostFields (dev) or ... --prod (prod). */
+/** Remove legacy `costPer1kTokens` and `maxTokens` fields from aiModels. 
+ * Run once per env: npx convex run migrations:removeLegacyCostFields (dev) or ... --prod (prod). */
 export const removeLegacyCostFields = mutation({
   args: {},
   handler: async (ctx) => {

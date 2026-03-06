@@ -1,8 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { Tooltip as TooltipPrimitive } from "radix-ui";
-
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 function TooltipProvider({
@@ -37,8 +36,11 @@ function TooltipContent({
         data-slot="tooltip-content"
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground z-50 max-w-[280px] rounded-md border px-3 py-2 text-sm shadow-md",
-          "data-[state=delayed-open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=delayed-open]:fade-in-0",
+          "z-50 max-w-[280px] bg-popover text-popover-foreground",
+          "rounded-md border px-3 py-2 text-sm shadow-md",
+          "data-[state=delayed-open]:animate-in",
+          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+          "data-[state=delayed-open]:fade-in-0",
           className
         )}
         {...props}

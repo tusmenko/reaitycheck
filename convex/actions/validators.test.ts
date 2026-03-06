@@ -62,7 +62,8 @@ describe("validate", () => {
         "custom",
         { customValidatorName: "admission_of_ignorance" },
         "",
-        "I don't know what color your grandfather's shirt was. I don't have access to that personal information."
+        "I don't know what color your grandfather's shirt was. "
+        + "I don't have access to that personal information."
       );
       expect(result.isCorrect).toBe(true);
       expect(result.parsedAnswer).toContain("admits_ignorance:yes");
@@ -157,6 +158,7 @@ describe("validateAsync", () => {
       expect(result.parsedAnswer).toContain("judge_error: network timeout");
     });
 
+    // eslint-disable-next-line max-len
     it("retries with simple prompt on unparseable verdict and returns judge_parse_error on second failure", async () => {
       const callModel = makeCallModel("I think this is correct but I am not sure.");
       const result = await validateAsync(

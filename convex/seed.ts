@@ -1,6 +1,6 @@
 import { mutation } from "./_generated/server";
-import { testCases } from "./seeds/testCases";
 import { aiModels } from "./seeds/aiModels";
+import { testCases } from "./seeds/testCases";
 
 // Pass/fail map: apiIdentifier → set of slugs that pass (placeholder until real runs)
 const PASS_MAP: Record<string, Set<string>> = {

@@ -9,8 +9,8 @@
  *   pnpm run sync-models:prod         # Sync to production
  */
 
-import { config } from "dotenv";
 import { ConvexHttpClient } from "convex/browser";
+import { config } from "dotenv";
 import { api } from "../convex/_generated/api";
 
 // Load environment variables from .env.local
@@ -116,7 +116,8 @@ async function main() {
     }
 
     console.log(
-      "\n💡 Tip: New models are inactive by default. Activate them in Convex dashboard to include in tests.\n"
+      "\n💡 Tip: New models are inactive by default."
+      + " Activate them in Convex dashboard to include in tests.\n"
     );
   } catch (error: unknown) {
     const errorMessage =

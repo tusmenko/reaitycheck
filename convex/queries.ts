@@ -1,5 +1,5 @@
-import { query } from "./_generated/server";
 import { v } from "convex/values";
+import { query } from "./_generated/server";
 
 export const getTestBySlug = query({
   args: { slug: v.string() },
@@ -37,7 +37,8 @@ export const getTestBreakdown = query({
             q.eq("testCaseId", testCaseId).eq("modelId", model._id)
           )
           .collect();
-        // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
+        // Only consider conclusive results (success or failed), 
+        // not infrastructure failures (error/timeout)
         const conclusiveRuns = runs.filter(
           (r) => r.status === "success" || r.status === "failed"
         );
@@ -75,7 +76,8 @@ export const getModelBreakdown = query({
             q.eq("testCaseId", test._id).eq("modelId", modelId)
           )
           .collect();
-        // Only consider conclusive results (success or failed), not infrastructure failures (error/timeout)
+        // Only consider conclusive results (success or failed), 
+        // not infrastructure failures (error/timeout)
         const conclusiveRuns = runs.filter(
           (r) => r.status === "success" || r.status === "failed"
         );
@@ -108,7 +110,8 @@ export const getActiveTestCases = query({
   },
 });
 
-/** Active tests with kill rate from latest run per model: % of models that failed (isCorrect false). */
+/** Active tests with kill rate from latest run per model:
+ *  % of models that failed (isCorrect false). */
 export const getActiveTestCasesWithKillRates = query({
   args: {},
   handler: async (ctx) => {
@@ -178,12 +181,21 @@ export const getErroredTestRunPairs = query({
       .query("testRuns")
       .withIndex("by_status", (q) => q.eq("status", "error"))
       .collect();
-    const uniquePairs = new Map<string, { testCaseId: typeof errorRuns[0]["testCaseId"]; modelId: typeof errorRuns[0]["modelId"] }>();
+    const uniquePairs = new Map<string, {
+      testCaseId: typeof errorRuns[0]["testCaseId"]; modelId: typeof errorRuns[0]["modelId"]
+    }>();
     for (const r of errorRuns) {
       const key = `${r.testCaseId}:${r.modelId}`;
-      if (!uniquePairs.has(key)) uniquePairs.set(key, { testCaseId: r.testCaseId, modelId: r.modelId });
+      if (!uniquePairs.has(key)) {
+        uniquePairs.set(key, {
+          testCaseId: r.testCaseId, modelId: r.modelId
+        });
+      }
     }
-    const result: { testCaseId: typeof errorRuns[0]["testCaseId"]; modelId: typeof errorRuns[0]["modelId"] }[] = [];
+    const result: {
+      testCaseId: typeof errorRuns[0]["testCaseId"];
+      modelId: typeof errorRuns[0]["modelId"]
+    }[] = [];
     for (const { testCaseId, modelId } of uniquePairs.values()) {
       const runs = await ctx.db
         .query("testRuns")
