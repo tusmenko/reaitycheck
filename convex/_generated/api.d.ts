@@ -13,6 +13,7 @@ import type * as actions_runTests from "../actions/runTests.js";
 import type * as actions_syncTopModels from "../actions/syncTopModels.js";
 import type * as actions_validators from "../actions/validators.js";
 import type * as challengeSubmissionLimits from "../challengeSubmissionLimits.js";
+import type * as config_productionModels from "../config/productionModels.js";
 import type * as config_topFreeModels from "../config/topFreeModels.js";
 import type * as config_topPaidModels from "../config/topPaidModels.js";
 import type * as crons from "../crons.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   "actions/syncTopModels": typeof actions_syncTopModels;
   "actions/validators": typeof actions_validators;
   challengeSubmissionLimits: typeof challengeSubmissionLimits;
+  "config/productionModels": typeof config_productionModels;
   "config/topFreeModels": typeof config_topFreeModels;
   "config/topPaidModels": typeof config_topPaidModels;
   crons: typeof crons;

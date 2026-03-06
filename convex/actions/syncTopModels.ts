@@ -3,6 +3,7 @@
 import { v } from "convex/values";
 import { internal } from "../_generated/api";
 import { action } from "../_generated/server";
+import { PRODUCTION_MODELS } from "../config/productionModels";
 import { TOP_FREE_MODELS } from "../config/topFreeModels";
 import { TOP_PAID_MODELS } from "../config/topPaidModels";
 
@@ -64,14 +65,24 @@ type SyncResult = SyncResultSuccess | SyncResultError;
 export const syncTopModelsFromOpenRouter = action({
   args: {
     modelList: v.optional(
-      v.union(v.literal("free"), v.literal("paid"), v.literal("all"))
+      v.union(
+        v.literal("free"),
+        v.literal("paid"),
+        v.literal("all"),
+        v.literal("production")
+      )
     ),
   },
   handler: async (ctx, args) => {
     // Determine which models to sync
     const listToSync =
       args.modelList ??
-      (process.env.SYNC_MODEL_LIST as "free" | "paid" | "all" | undefined) ??
+      (process.env.SYNC_MODEL_LIST as
+        | "free"
+        | "paid"
+        | "all"
+        | "production"
+        | undefined) ??
       "all";
 
     let modelsToSync: Array<{ apiId: string; rank: number }> = [];
@@ -79,6 +90,8 @@ export const syncTopModelsFromOpenRouter = action({
       modelsToSync = [...TOP_FREE_MODELS];
     } else if (listToSync === "paid") {
       modelsToSync = [...TOP_PAID_MODELS];
+    } else if (listToSync === "production") {
+      modelsToSync = PRODUCTION_MODELS.map((m, i) => ({ ...m, rank: i + 1 }));
     } else {
       modelsToSync = [...TOP_FREE_MODELS, ...TOP_PAID_MODELS];
     }

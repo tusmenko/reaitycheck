@@ -13,7 +13,8 @@
     "test": "vitest run",
     "todo-to-gh": "tsx scripts/todo-to-gh.ts",
     "sync-models": "tsx scripts/sync-top-models.ts",
-    "sync-models:prod": "tsx scripts/sync-top-models.ts --prod"
+    "sync-models:prod": "tsx scripts/sync-top-models.ts --prod",
+    "sync-models:production": "tsx scripts/sync-top-models.ts --prod --production"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [

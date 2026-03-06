@@ -2,6 +2,12 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   modelDetailHref,
   providerDisplayName,
   failureRateBadgeClass,
@@ -28,6 +34,7 @@ export const ComparisonGridSection = ({
   );
 
   const tableContent = (
+    <TooltipProvider>
     <div className="
       overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 shadow-soft
     ">
@@ -36,20 +43,58 @@ export const ComparisonGridSection = ({
           <thead>
             <tr className="border-b border-dark-200 bg-dark-50">
               <th className="
-                px-8 py-5 text-left text-xs font-semibold tracking-wider
+                px-8 py-3 text-left text-xs font-semibold tracking-wider
                 text-gray-400 uppercase
               ">
-                Challenge Suite
+                {granularity === "model" ? "Model" : "Provider"}
               </th>
-              {granularity === "model"
-                ? tableModels.map((model) => (
-                  <th
-                    key={model._id}
-                    className="
-                      px-6 py-5 text-center text-xs font-semibold tracking-wider
-                      text-gray-400 uppercase
-                    "
-                  >
+              {tableTests.map((test) => (
+                <th
+                  key={test._id}
+                  className="w-12 px-2 py-3 text-center align-bottom"
+                >
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={`/challenges/${test.slug}`}
+                        className="
+                          rotate-180 text-xs font-semibold tracking-wider
+                          whitespace-nowrap text-gray-400 uppercase
+                          transition-colors [writing-mode:vertical-rl]
+                          hover:text-white
+                        "
+                      >
+                        {test.name}
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-[260px]">
+                      <p className="font-semibold text-white">{test.name}</p>
+                      <p className="
+                        mt-0.5 text-xs tracking-wide text-gray-400 uppercase
+                      ">
+                        {test.category}
+                      </p>
+                      {test.prompt && (
+                        <p className="mt-1.5 text-xs/relaxed text-gray-300">
+                          {test.prompt.length > 120
+                            ? `${test.prompt.slice(0, 120)}…`
+                            : test.prompt}
+                        </p>
+                      )}
+                    </TooltipContent>
+                  </Tooltip>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-dark-200">
+            {granularity === "model"
+              ? tableModels.map((model) => (
+                <tr key={model._id} className="
+                  transition-colors
+                  hover:bg-dark-50/50
+                ">
+                  <td className="px-8 py-2 whitespace-nowrap">
                     <Link
                       href={modelDetailHref(
                         model.provider,
@@ -57,60 +102,17 @@ export const ComparisonGridSection = ({
                         model.apiIdentifier
                       )}
                       className="
-                        transition-colors
-                        hover:text-white
+                        text-sm font-bold text-white transition-colors
+                        hover:text-accent-red
                       "
                     >
                       {model.modelName}
                     </Link>
-                  </th>
-                ))
-                : tableProviders.map((provider) => (
-                  <th
-                    key={provider}
-                    className="
-                      px-6 py-5 text-center text-xs font-semibold tracking-wider
-                      text-gray-400 uppercase
-                    "
-                  >
-                    <Link
-                      href={providerPageHref(provider)}
-                      className="
-                        transition-colors
-                        hover:text-white
-                      "
-                    >
-                      {providerDisplayName(provider)}
-                    </Link>
-                  </th>
-                ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-dark-200">
-            {tableTests.map((test) => (
-              <tr key={test._id} className="
-                transition-colors
-                hover:bg-dark-50/50
-              ">
-                <td className="px-8 py-6">
-                  <Link
-                    href={`/challenges/${test.slug}`}
-                    className="
-                      text-sm font-bold text-white transition-colors
-                      hover:text-accent-red
-                    "
-                  >
-                    {test.name}
-                  </Link>
-                  <div className="mt-0.5 text-xs text-gray-500">
-                    {test.category.replaceAll("_", " ")}
-                  </div>
-                </td>
-                {granularity === "model"
-                  ? tableModels.map((model) => {
+                  </td>
+                  {tableTests.map((test) => {
                     const cell = getResult(grid, test._id, model._id);
                     return (
-                      <td key={model._id} className="p-6 text-center">
+                      <td key={test._id} className="w-12 px-2 py-2 text-center">
                         <span className="
                           inline-flex items-center justify-center
                         ">
@@ -121,8 +123,26 @@ export const ComparisonGridSection = ({
                         </span>
                       </td>
                     );
-                  })
-                  : tableProviders.map((provider) => {
+                  })}
+                </tr>
+              ))
+              : tableProviders.map((provider) => (
+                <tr key={provider} className="
+                  transition-colors
+                  hover:bg-dark-50/50
+                ">
+                  <td className="px-8 py-2">
+                    <Link
+                      href={providerPageHref(provider)}
+                      className="
+                        text-sm font-bold text-white transition-colors
+                        hover:text-accent-red
+                      "
+                    >
+                      {providerDisplayName(provider)}
+                    </Link>
+                  </td>
+                  {tableTests.map((test) => {
                     const failureRateRatio = getProviderFailureRate(
                       grid,
                       test._id,
@@ -131,13 +151,10 @@ export const ComparisonGridSection = ({
                     );
                     const failureRate =
                       failureRateRatio != null
-                        ? Math.max(
-                          0,
-                          Math.round(failureRateRatio * 100)
-                        )
+                        ? Math.max(0, Math.round(failureRateRatio * 100))
                         : null;
                     return (
-                      <td key={provider} className="p-6 text-center">
+                      <td key={test._id} className="w-12 px-2 py-2 text-center">
                         {failureRate === null ? (
                           <span className="text-sm text-gray-500">N/A</span>
                         ) : (
@@ -154,8 +171,8 @@ export const ComparisonGridSection = ({
                       </td>
                     );
                   })}
-              </tr>
-            ))}
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -187,6 +204,7 @@ export const ComparisonGridSection = ({
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 
   return tableContent;

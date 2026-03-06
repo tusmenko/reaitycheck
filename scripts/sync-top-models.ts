@@ -1,20 +1,25 @@
+/* eslint-disable max-len */
 /**
  * Sync top models from OpenRouter rankings to Convex database
  *
  * Usage:
- *   pnpm run sync-models              # Sync based on SYNC_MODEL_LIST env (dev: free, prod: paid)
- *   pnpm run sync-models -- --free    # Sync only free models
- *   pnpm run sync-models -- --paid    # Sync only paid models
- *   pnpm run sync-models -- --all     # Sync both free and paid
- *   pnpm run sync-models:prod         # Sync to production
+ *   pnpm run sync-models                       # Sync based on SYNC_MODEL_LIST env (dev: free, prod: paid)
+ *   pnpm run sync-models -- --free             # Sync only free models
+ *   pnpm run sync-models -- --paid             # Sync only paid models
+ *   pnpm run sync-models -- --all              # Sync both free and paid
+ *   pnpm run sync-models -- --production       # Sync full production set (40 models)
+ *   pnpm run sync-models:prod                  # Sync paid models to production Convex
+ *   pnpm run sync-models:production            # Sync production model set to production Convex
  */
 
 import { ConvexHttpClient } from "convex/browser";
 import { config } from "dotenv";
 import { api } from "../convex/_generated/api";
 
-// Load environment variables from .env.local
-config({ path: ".env.local" });
+// Load environment variables — prod uses .env.prod, dev uses .env.local
+const args = process.argv.slice(2);
+const isProd = args.includes("--prod");
+config({ path: isProd ? ".env.prod" : ".env.local" });
 
 /**
  * Type definitions for sync results
@@ -49,11 +54,9 @@ type SyncResponse = {
   results: SyncResult[];
 };
 
-const args = process.argv.slice(2);
-const isProd = args.includes("--prod");
 const modelListFlag = args
-  .find((arg) => ["--free", "--paid", "--all"].includes(arg))
-  ?.slice(2) as "free" | "paid" | "all" | undefined;
+  .find((arg) => ["--free", "--paid", "--all", "--production"].includes(arg))
+  ?.slice(2) as "free" | "paid" | "all" | "production" | undefined;
 
 // Determine deployment URL
 const deploymentUrl = isProd
