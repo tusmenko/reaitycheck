@@ -16,6 +16,7 @@ export default defineConfig([
     "convex/_generated/**",
     "**/node_modules/**",
     "**/eslintrc.config.cjs",
+    "components/ui/**",
   ]),
 
   // Better Tailwind CSS recommended (flat config) with project entry point

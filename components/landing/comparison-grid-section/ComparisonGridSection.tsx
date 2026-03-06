@@ -112,7 +112,7 @@ export const ComparisonGridSection = ({
                   {tableTests.map((test) => {
                     const cell = getResult(grid, test._id, model._id);
                     return (
-                      <td key={test._id} className="w-12 px-2 py-2 text-center">
+                      <td key={test._id} className="w-12 p-2 text-center">
                         <span className="
                           inline-flex items-center justify-center
                         ">
@@ -154,7 +154,7 @@ export const ComparisonGridSection = ({
                         ? Math.max(0, Math.round(failureRateRatio * 100))
                         : null;
                     return (
-                      <td key={test._id} className="w-12 px-2 py-2 text-center">
+                      <td key={test._id} className="w-12 p-2 text-center">
                         {failureRate === null ? (
                           <span className="text-sm text-gray-500">N/A</span>
                         ) : (
