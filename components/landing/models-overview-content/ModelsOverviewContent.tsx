@@ -17,11 +17,10 @@ export const ModelsOverviewContent = (props: ModelsOverviewContentProps) => {
         lg:px-12
       ">
         <div className="
-          absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
-          blur-3xl
+          absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10 blur-3xl
         " />
         <div className="
-          absolute right-0 bottom-0 h-80 w-80 rounded-full bg-accent-orange/10
+          absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
           blur-3xl
         " />
 
@@ -60,7 +59,7 @@ export const ModelsOverviewContent = (props: ModelsOverviewContentProps) => {
                   <span className="font-semibold">
                     {providerDisplayName(provider)}
                   </span>
-                  <ChevronRight className="h-5 w-5 text-gray-500" />
+                  <ChevronRight className="size-5 text-gray-500" />
                 </Link>
               </li>
             ))}

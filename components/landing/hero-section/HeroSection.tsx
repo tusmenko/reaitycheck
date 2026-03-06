@@ -21,8 +21,8 @@ export const HeroSection = ({
         blur-3xl
       " />
       <div className="
-        absolute bottom-0 left-0 z-0 h-96 w-[24rem] rounded-full
-        bg-accent-orange/10 blur-3xl
+        absolute bottom-0 left-0 z-0 size-96 rounded-full bg-accent-orange/10
+        blur-3xl
       " />
 
       <div className="

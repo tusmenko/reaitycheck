@@ -19,12 +19,12 @@ export const BenchmarkPageContent = (props: BenchmarkPageContentProps) => {
             lg:px-12
           ">
             <div className="
-              absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
+              absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10
               blur-3xl
             " />
             <div className="
-              absolute right-0 bottom-0 h-80 w-80 rounded-full
-              bg-accent-orange/10 blur-3xl
+              absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
+              blur-3xl
             " />
             <div className="relative z-10 mx-auto max-w-6xl">
               <p className="text-gray-400">Loading benchmark data…</p>
@@ -39,12 +39,12 @@ export const BenchmarkPageContent = (props: BenchmarkPageContentProps) => {
             "
           >
             <div className="
-              absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
+              absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10
               blur-3xl
             " />
             <div className="
-              absolute right-0 bottom-0 h-80 w-80 rounded-full
-              bg-accent-orange/10 blur-3xl
+              absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
+              blur-3xl
             " />
             <div className="relative z-10 mx-auto max-w-6xl">
               <div className="mb-16">

@@ -83,7 +83,7 @@ export const Navbar = () => {
                 hover:text-white
               "
             >
-              <Github className="h-5 w-5" />
+              <Github className="size-5" />
             </Link>
             <Link
               href="https://buymeacoffee.com/vksvjtzg2f"
@@ -95,7 +95,7 @@ export const Navbar = () => {
               "
               title="Support ReAIty Check via Buy Me a Coffee"
             >
-              <Coffee className="h-5 w-5" />
+              <Coffee className="size-5" />
             </Link>
             <Link
               href="/submit-challenge"
@@ -120,7 +120,7 @@ export const Navbar = () => {
               "
               onClick={handleToggleMenu}
             >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
           </div>
         </div>

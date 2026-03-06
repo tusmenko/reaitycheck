@@ -101,7 +101,7 @@ export const ChallengeListItem = ({ test, rank }: ChallengeListItemProps) => {
           flex shrink-0 items-center pl-3
           sm:pl-4
         ">
-          <ChevronRight className="h-5 w-5 text-gray-500" />
+          <ChevronRight className="size-5 text-gray-500" />
         </div>
       </Link>
     </li>

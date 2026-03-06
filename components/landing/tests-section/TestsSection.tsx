@@ -14,11 +14,10 @@ export const TestsSection = ({ tests }: TestsSectionProps) => {
       className="relative bg-dark-50/50 py-20"
     >
       <div className="
-        absolute top-1/4 right-0 h-96 w-96 rounded-full bg-accent-red/10
-        blur-3xl
+        absolute top-1/4 right-0 size-96 rounded-full bg-accent-red/10 blur-3xl
       " />
       <div className="
-        absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-accent-orange/10
+        absolute bottom-1/4 left-0 size-96 rounded-full bg-accent-orange/10
         blur-3xl
       " />
 

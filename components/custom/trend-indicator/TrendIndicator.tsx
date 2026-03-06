@@ -6,21 +6,21 @@ export const TrendIndicator = ({ trend }: TrendIndicatorProps) => {
     case "up":
       return (
         <span className="inline-flex items-center gap-1 text-green-600">
-          <TrendingUp className="h-4 w-4" />
+          <TrendingUp className="size-4" />
           Improving
         </span>
       );
     case "down":
       return (
         <span className="inline-flex items-center gap-1 text-red-600">
-          <TrendingDown className="h-4 w-4" />
+          <TrendingDown className="size-4" />
           Declining
         </span>
       );
     case "stable":
       return (
         <span className="inline-flex items-center gap-1 text-muted-foreground">
-          <Minus className="h-4 w-4" />
+          <Minus className="size-4" />
           Stable
         </span>
       );

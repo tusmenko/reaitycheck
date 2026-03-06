@@ -6,7 +6,7 @@ import type { DataFreshnessIndicatorProps } from "./DataFreshnessIndicator.types
 export const DataFreshnessIndicator = ({ lastUpdated }: DataFreshnessIndicatorProps) => {
   return (
     <div className="inline-flex items-center gap-2 text-sm">
-      <span className="relative flex h-2 w-2">
+      <span className="relative flex size-2">
         <span className="
           absolute inline-flex h-full w-full animate-ping rounded-full
           bg-green-400 opacity-75

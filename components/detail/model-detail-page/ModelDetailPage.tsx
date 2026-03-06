@@ -102,7 +102,7 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
                 </div>
                 {!isDescriptionExpanded && (
                   <div className="
-                    pointer-events-none absolute right-0 bottom-0 left-0 h-8
+                    pointer-events-none absolute inset-x-0 bottom-0 h-8
                     bg-linear-to-t from-background via-background/80
                     to-transparent
                   " />

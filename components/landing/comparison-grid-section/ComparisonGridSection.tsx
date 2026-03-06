@@ -170,7 +170,7 @@ export const ComparisonGridSection = ({
             "
           >
             Back to overview
-            <ChevronRight className="ml-1 h-4 w-4" />
+            <ChevronRight className="ml-1 size-4" />
           </Link>
         ) : (
           <Link
@@ -182,7 +182,7 @@ export const ComparisonGridSection = ({
             "
           >
             Full benchmark
-            <ChevronRight className="ml-1 h-4 w-4" />
+            <ChevronRight className="ml-1 size-4" />
           </Link>
         )}
       </div>

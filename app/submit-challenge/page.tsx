@@ -164,11 +164,10 @@ export default function SubmitChallengePage() {
         lg:px-12
       ">
         <div className="
-          absolute top-1/4 left-0 h-80 w-80 rounded-full bg-accent-red/10
-          blur-3xl
+          absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10 blur-3xl
         " />
         <div className="
-          absolute right-0 bottom-0 h-80 w-80 rounded-full bg-accent-orange/10
+          absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
           blur-3xl
         " />
 

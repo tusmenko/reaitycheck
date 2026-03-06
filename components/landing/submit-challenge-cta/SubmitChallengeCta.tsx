@@ -10,7 +10,7 @@ export const SubmitChallengeCta = () => {
     ">
       <div className="absolute inset-0 opacity-10" />
       <div className="
-        absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent-red/20
+        absolute -top-20 -right-20 size-80 rounded-full bg-accent-red/20
         blur-3xl
       " />
 
@@ -50,7 +50,7 @@ export const SubmitChallengeCta = () => {
                 flex h-8 w-8 items-center justify-center rounded-full border
                 border-accent-red/50 bg-accent-red/30 text-accent-red
               ">
-                <Skull className="h-4 w-4" />
+                <Skull className="size-4" />
               </div>
               <div className="h-2 w-24 rounded-full bg-gray-700" />
             </div>

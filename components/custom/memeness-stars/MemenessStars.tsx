@@ -8,7 +8,7 @@ export const MemenessStars = ({ score }: MemenessStarsProps) => {
         <Star
           key={i}
           className={`
-            h-4 w-4
+            size-4
             ${
             i < score
               ? "fill-yellow-400 text-yellow-400"
