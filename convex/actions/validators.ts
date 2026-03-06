@@ -190,7 +190,7 @@ function exactMatch(
     const a = caseSensitive ? answer : answer.toLowerCase();
     const r = caseSensitive ? trimmed : trimmed.toLowerCase();
     // Check if the response contains the acceptable answer
-    if (r === a || r.includes(a)) {
+    if (r === a || (a.length > 0 && r.includes(a))) {
       return { isCorrect: true, parsedAnswer: answer };
     }
   }
