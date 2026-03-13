@@ -75,14 +75,27 @@ export const BreakerResultsTable = ({ breakdown }: BreakerResultsTableProps) => 
                   <TableCell>{formatCategory(entry.test.category)}</TableCell>
                   <TableCell className="text-center">
                     {entry.latestRun ? (
-                      passed ? (
-                        <Check className="
-                          mx-auto size-5 text-green-600
-                          dark:text-green-500
-                        " />
-                      ) : (
-                        <X className="mx-auto size-5 text-destructive" />
-                      )
+                      <span className={`
+                        mx-auto inline-flex size-8 items-center justify-center
+                        border-2 border-black
+                        dark:border-foreground
+                        ${passed
+                          ? `
+                            bg-neon-green shadow-[1px_1px_0px_#000]
+                            dark:shadow-[1px_1px_0px_#f5f5f0]
+                          `
+                          : `
+                            bg-neon-pink shadow-[1px_1px_0px_#000]
+                            dark:shadow-[1px_1px_0px_#f5f5f0]
+                          `
+                        }
+                      `}>
+                        {passed ? (
+                          <Check className="size-5 stroke-3 text-black" />
+                        ) : (
+                          <X className="size-5 stroke-3 text-white" />
+                        )}
+                      </span>
                     ) : (
                       <span className="text-muted-foreground">–</span>
                     )}
