@@ -275,26 +275,34 @@ export const testCases = [
     isActive: true,
   },
   {
-    name: "Bottomless Cup",
-    slug: "bottomless-cup",
+    name: "Broken Mug",
+    slug: "broken-mug",
     category: "lateral_thinking",
     prompt:
-      "I have a drinking cup that has no bottom but has a solid, sealed top."
-      + " Is it usable as a cup? If so, how?",
+      "Something's wrong with my mug. It's sitting in front of me right now."
+      + " The top is welded shut, so I can't pour anything in,"
+      + " and the bottom is sawed off, so everything spills out."
+      + " How can I drink tea from it?",
     expectedAnswer:
-      "Yes — flip it upside down. The sealed top becomes the base and it works as a normal cup.",
+      "Flip it upside down. The welded-shut top becomes the base,"
+      + " and the open bottom becomes the top you pour into.",
     explanation:
-      "Models default to treating the object as broken/unusable."
-      + " The lateral insight — simply invert it — is obvious once seen but routinely missed.",
+      "The prompt describes a mug with a sealed top and an open bottom."
+      + " Flipping it upside down turns the sealed surface into a solid base"
+      + " and the sawed-off bottom into a usable opening."
+      + " Models fixate on the mug being 'broken' and suggest buying a new one"
+      + " instead of seeing the simple spatial trick.",
     validationType: "llm_judge",
     validationConfig: {
       judgeCriteria:
-        "The response must recognise that the cup is usable by turning it upside down,"
-        + " so that the sealed top becomes the base and it can hold liquid normally."
-        + " Fail if the model says the cup is unusable, broken, or only good for"
-        + " non-drinking purposes without identifying the inversion solution.",
+        "The mug has a welded-shut top and a sawed-off (open) bottom."
+        + " Pass if the model suggests flipping/inverting the mug so the sealed"
+        + " top becomes the base and the open bottom becomes the drinking opening."
+        + " Fail if the model says the mug is unusable, suggests getting a new mug,"
+        + " or offers workarounds (like using a straw, sealing the bottom, etc.)"
+        + " without identifying the inversion solution.",
     },
-    memenessScore: 3,
+    memenessScore: 4,
     tags: ["lateral-thinking", "spatial-reasoning", "logic"],
     isActive: true,
   },
@@ -341,6 +349,54 @@ export const testCases = [
     },
     memenessScore: 4,
     tags: ["language", "misdirection", "arithmetic", "reading-comprehension"],
+    isActive: true,
+  },
+  {
+    name: "Car Wash Dilemma",
+    slug: "car-wash-dilemma",
+    category: "logic_reasoning",
+    prompt:
+      "The car wash is only 100m away from my house, should I walk or drive?",
+    expectedAnswer: "drive",
+    explanation:
+      "It's a car wash — you need to bring your car to wash it."
+      + " The short distance is a red herring; models fixate on the 100m"
+      + " and recommend walking, forgetting the entire purpose of the trip.",
+    validationType: "llm_judge",
+    validationConfig: {
+      judgeCriteria:
+        "The question is about going to a car wash, which requires bringing your car."
+        + " Pass if the model recognises you need to drive because you're taking"
+        + " the car to be washed — the distance is irrelevant."
+        + " Fail if the model recommends walking (because it's only 100m)"
+        + " without acknowledging that you need the car there to wash it.",
+    },
+    memenessScore: 5,
+    tags: ["logic", "misdirection", "common-sense", "lateral-thinking"],
+    isActive: true,
+  },
+  {
+    name: "The Missing A",
+    slug: "the-missing-a",
+    category: "pattern_matching",
+    prompt:
+      "Name any number under 1000 that has the letter 'a' in its English spelling.",
+    expectedAnswer: "none",
+    explanation:
+      "No number from 1 to 999 contains the letter 'a' when spelled out in English."
+      + " The first number with an 'a' is 'one thousand'."
+      + " Models confidently hallucinate answers like 'eight' or 'one hundred and'.",
+    validationType: "llm_judge",
+    validationConfig: {
+      judgeCriteria:
+        "No English number from 1 to 999 contains the letter 'a'."
+        + " Pass if the model states that no such number exists or that it's impossible."
+        + " Fail if the model names any number, even with hedging."
+        + " Common wrong answers include 'eight', 'eighty', 'one hundred and...'"
+        + " — none of these contain the letter 'a'.",
+    },
+    memenessScore: 5,
+    tags: ["trivia", "language", "lateral-thinking", "hallucination"],
     isActive: true,
   },
 ];
