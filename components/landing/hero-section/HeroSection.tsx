@@ -116,7 +116,10 @@ export const HeroSection = ({
             "
             style={{ animationDelay: "0s" }}
           >
-            <div className="mb-2 font-mono text-5xl font-bold text-neon-blue">
+            <div className="
+              mb-2 font-mono text-4xl font-bold text-neon-blue
+              sm:text-5xl
+            ">
               {modelCount}
             </div>
             <div className="
@@ -135,7 +138,10 @@ export const HeroSection = ({
             "
             style={{ animationDelay: "1s" }}
           >
-            <div className="mb-2 font-mono text-5xl font-bold text-neon-orange">
+            <div className="
+              mb-2 font-mono text-4xl font-bold text-neon-orange
+              sm:text-5xl
+            ">
               {testCount}
             </div>
             <div className="
@@ -154,7 +160,10 @@ export const HeroSection = ({
             "
             style={{ animationDelay: "2s" }}
           >
-            <div className="mb-2 font-mono text-5xl font-bold text-neon-yellow">
+            <div className="
+              mb-2 font-mono text-4xl font-bold text-neon-yellow
+              sm:text-5xl
+            ">
               {providerCount}
             </div>
             <div className="
@@ -173,7 +182,10 @@ export const HeroSection = ({
             "
             style={{ animationDelay: "3s" }}
           >
-            <div className="mb-2 font-mono text-5xl font-bold text-neon-green">
+            <div className="
+              mb-2 font-mono text-4xl font-bold text-neon-green
+              sm:text-5xl
+            ">
               Daily
             </div>
             <div className="
