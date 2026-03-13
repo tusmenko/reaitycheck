@@ -32,10 +32,10 @@ export const HeroSection = ({
         lg:px-12
       ">
         <div className="
-          mb-8 inline-flex -rotate-1 items-center gap-2 border-4 border-black
-          bg-neon-yellow px-4 py-2 text-xs font-bold tracking-wider text-black
-          uppercase shadow-brutalist-sm
-          dark:border-foreground dark:shadow-[4px_4px_0px_#f5f5f0]
+          mb-8 inline-flex -rotate-1 animate-border-pulse items-center gap-2
+          border-4 bg-neon-yellow px-4 py-2 text-xs font-bold tracking-wider
+          text-black uppercase shadow-brutalist-sm
+          dark:shadow-[4px_4px_0px_#f5f5f0]
         ">
           <span
             className={`
@@ -53,9 +53,8 @@ export const HeroSection = ({
         ">
           Where AI Models <br />
           <span className="
-            relative inline-block bg-neon-pink px-4 text-white
-            shadow-[6px_6px_0px_#000]
-            dark:shadow-[6px_6px_0px_#f5f5f0]
+            relative inline-block animate-shadow-neon-cycle bg-neon-pink px-4
+            text-white
           ">
             Face Reality
           </span>
@@ -106,12 +105,15 @@ export const HeroSection = ({
           mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-6
           md:grid-cols-4
         ">
-          <div className="
-            -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
-            transition-transform duration-200
-            hover:scale-105 hover:rotate-2
-            dark:border-foreground dark:bg-card
-          ">
+          <div
+            className="
+              animate-rock border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "0s" }}
+          >
             <div className="mb-2 font-mono text-5xl font-bold text-neon-blue">
               {modelCount}
             </div>
@@ -122,12 +124,15 @@ export const HeroSection = ({
               Models Tracked
             </div>
           </div>
-          <div className="
-            rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
-            transition-transform duration-200
-            hover:scale-105 hover:-rotate-2
-            dark:border-foreground dark:bg-card
-          ">
+          <div
+            className="
+              animate-rock-reverse border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "1s" }}
+          >
             <div className="mb-2 font-mono text-5xl font-bold text-neon-orange">
               {testCount}
             </div>
@@ -138,12 +143,15 @@ export const HeroSection = ({
               Active Challenges
             </div>
           </div>
-          <div className="
-            -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
-            transition-transform duration-200
-            hover:scale-105 hover:rotate-2
-            dark:border-foreground dark:bg-card
-          ">
+          <div
+            className="
+              animate-rock border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "2s" }}
+          >
             <div className="mb-2 font-mono text-5xl font-bold text-neon-yellow">
               {providerCount}
             </div>
@@ -154,12 +162,15 @@ export const HeroSection = ({
               Providers
             </div>
           </div>
-          <div className="
-            rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
-            transition-transform duration-200
-            hover:scale-105 hover:-rotate-2
-            dark:border-foreground dark:bg-card
-          ">
+          <div
+            className="
+              animate-rock-reverse border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "3s" }}
+          >
             <div className="mb-2 font-mono text-5xl font-bold text-neon-green">
               Daily
             </div>

@@ -3,6 +3,7 @@
 import { ComparisonGridSection } from "../comparison-grid-section";
 import { HeroSection } from "../hero-section";
 import { LeaderboardSection } from "../leaderboard-section";
+import { MarqueeDivider } from "../marquee-divider";
 import { SubmitChallengeCta } from "../submit-challenge-cta";
 import { TestsSection } from "../tests-section";
 import type { LandingPageProps } from "./LandingPage.types";
@@ -28,6 +29,8 @@ export const LandingPage = (props: LandingPageProps) => {
         lastUpdated={lastUpdated}
         nowMs={nowMs}
       />
+
+      <MarqueeDivider />
 
       <main className="relative z-10">
         <LeaderboardSection leaderboard={leaderboardEntries} />

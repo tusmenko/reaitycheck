@@ -23,8 +23,9 @@ export const Navbar = () => {
             <div className="flex items-center">
               <span className="text-2xl font-bold text-foreground uppercase">Re</span>
               <span className="
-                mx-1 inline-block -rotate-6 border-4 border-black bg-neon-pink
-                px-2 py-1 text-lg font-bold text-white shadow-[3px_3px_0px_#000]
+                mx-1 inline-block animate-jitter border-4 border-black
+                bg-neon-pink px-2 py-1 text-lg font-bold text-white
+                shadow-[3px_3px_0px_#000]
                 dark:border-foreground
               ">AI</span>
               <span className="text-2xl font-bold text-foreground uppercase">ty Check</span>

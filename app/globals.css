@@ -205,3 +205,90 @@
     box-shadow: var(--shadow-brutalist-purple);
   }
 }
+
+/* === Ambient Animations === */
+@keyframes shadow-neon-cycle {
+  0%, 100% { box-shadow: 6px 6px 0px #E63946; }
+  16%      { box-shadow: 6px 6px 0px #457B9D; }
+  33%      { box-shadow: 6px 6px 0px #F4A261; }
+  50%      { box-shadow: 6px 6px 0px #2A9D8F; }
+  66%      { box-shadow: 6px 6px 0px #8B5CF6; }
+  83%      { box-shadow: 6px 6px 0px #E76F51; }
+}
+
+@keyframes rock {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(1.5deg); }
+}
+
+@keyframes rock-reverse {
+  0%, 100% { transform: rotate(1.5deg); }
+  50%      { transform: rotate(-1.5deg); }
+}
+
+@keyframes jitter {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(-8deg); }
+}
+
+@keyframes border-pulse {
+  0%, 100% { border-color: #000; }
+  50%      { border-color: #2A9D8F; }
+}
+
+@keyframes border-pulse-dark {
+  0%, 100% { border-color: #f5f5f0; }
+  50%      { border-color: #2A9D8F; }
+}
+
+@keyframes float {
+  0%, 100% { transform: rotate(3deg) translateY(0); }
+  50%      { transform: rotate(3deg) translateY(-6px); }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@utility animate-shadow-neon-cycle {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: shadow-neon-cycle 12s ease-in-out infinite;
+  }
+}
+
+@utility animate-rock {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rock 4s ease-in-out infinite;
+  }
+}
+
+@utility animate-rock-reverse {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rock-reverse 4s ease-in-out infinite;
+  }
+}
+
+@utility animate-jitter {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: jitter 3s ease-in-out infinite;
+  }
+}
+
+@utility animate-border-pulse {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: border-pulse 3s ease-in-out infinite;
+  }
+}
+
+@utility animate-float {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: float 5s ease-in-out infinite;
+  }
+}
+
+@utility animate-marquee {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: marquee 20s linear infinite;
+  }
+}

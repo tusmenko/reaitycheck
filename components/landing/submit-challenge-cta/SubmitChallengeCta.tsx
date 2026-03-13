@@ -36,9 +36,9 @@ export const SubmitChallengeCta = () => {
 
         <div className="shrink-0">
           <div className="
-            w-64 rotate-3 border-4 border-white bg-white/10 p-6
+            w-64 animate-float border-4 border-white bg-white/10 p-6
             shadow-[6px_6px_0px_#000] transition-transform duration-500
-            hover:rotate-0
+            hover:rotate-0 hover:paused
           ">
             <div className="mb-4 flex items-center gap-3">
               <div className="

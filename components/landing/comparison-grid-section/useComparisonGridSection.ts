@@ -11,7 +11,7 @@ export const useComparisonGridSection = (
   const tableProviders =
     variant === "full" ? allProviders : allProviders.slice(0, 6);
   const tableModels = variant === "full" ? models : models.slice(0, 4);
-  const tableTests = variant === "full" ? tests : tests.slice(0, 8);
+  const tableTests = tests;
 
   return {
     tableProviders,
