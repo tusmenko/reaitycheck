@@ -47,8 +47,16 @@ export const testCases = [
     validationType: "llm_judge",
     validationConfig: {
       judgeCriteria:
-        "Count every letter (a–z, A–Z only, no digits or punctuation) in the model's response. "
-        + "Pass if and only if the response explicitly states that exact number as its answer. "
+        "Count every letter (a–z, A–Z only, no digits or "
+        + "punctuation) in the model's ENTIRE response. "
+        + "The number may be stated as a digit (e.g. '4') "
+        + "OR as a word (e.g. 'four'). "
+        + "A self-referential answer like 'four' (which itself "
+        + "contains 4 letters) is CORRECT — the word IS the "
+        + "answer and its letter count matches the number it "
+        + "represents. Pass if the response states a number "
+        + "(in any form) that exactly matches the total letter "
+        + "count of the full response. "
         + "Fail if the stated number does not match the actual letter count, "
         + "or if no number is stated.",
     },
