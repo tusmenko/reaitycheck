@@ -36,15 +36,19 @@ export const ComparisonGridSection = ({
   const tableContent = (
     <TooltipProvider>
     <div className="
-      overflow-hidden rounded-3xl border border-dark-200 bg-dark-100 shadow-soft
+      overflow-hidden border-4 border-black bg-card shadow-brutalist
+      dark:border-foreground dark:shadow-[8px_8px_0px_#f5f5f0]
     ">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[760px]">
           <thead>
-            <tr className="border-b border-dark-200 bg-dark-50">
+            <tr className="
+              border-b-4 border-black bg-muted
+              dark:border-foreground
+            ">
               <th className="
-                px-8 py-3 text-left text-xs font-semibold tracking-wider
-                text-gray-400 uppercase
+                px-8 py-3 text-left text-xs font-bold tracking-wider
+                text-foreground uppercase
               ">
                 {granularity === "model" ? "Model" : "Provider"}
               </th>
@@ -58,24 +62,27 @@ export const ComparisonGridSection = ({
                       <Link
                         href={`/challenges/${test.slug}`}
                         className="
-                          rotate-180 text-xs font-semibold tracking-wider
-                          whitespace-nowrap text-gray-400 uppercase
+                          rotate-180 text-xs font-bold tracking-wider
+                          whitespace-nowrap text-foreground/60 uppercase
                           transition-colors [writing-mode:vertical-rl]
-                          hover:text-white
+                          hover:text-foreground
                         "
                       >
                         {test.name}
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-[260px]">
-                      <p className="font-semibold text-white">{test.name}</p>
+                      <p className="font-bold text-foreground">{test.name}</p>
                       <p className="
-                        mt-0.5 text-xs tracking-wide text-gray-400 uppercase
+                        mt-0.5 text-xs tracking-wide text-muted-foreground
+                        uppercase
                       ">
                         {test.category}
                       </p>
                       {test.prompt && (
-                        <p className="mt-1.5 text-xs/relaxed text-gray-300">
+                        <p className="
+                          mt-1.5 font-mono text-xs/relaxed text-muted-foreground
+                        ">
                           {test.prompt.length > 120
                             ? `${test.prompt.slice(0, 120)}…`
                             : test.prompt}
@@ -87,12 +94,15 @@ export const ComparisonGridSection = ({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-dark-200">
+          <tbody className="
+            divide-y-2 divide-black/20
+            dark:divide-foreground/20
+          ">
             {granularity === "model"
               ? tableModels.map((model) => (
                 <tr key={model._id} className="
                   transition-colors
-                  hover:bg-dark-50/50
+                  hover:bg-muted/50
                 ">
                   <td className="px-8 py-2 whitespace-nowrap">
                     <Link
@@ -102,8 +112,8 @@ export const ComparisonGridSection = ({
                         model.apiIdentifier
                       )}
                       className="
-                        text-sm font-bold text-white transition-colors
-                        hover:text-accent-red
+                        text-sm font-bold text-foreground transition-colors
+                        hover:text-neon-pink
                       "
                     >
                       {model.modelName}
@@ -129,14 +139,14 @@ export const ComparisonGridSection = ({
               : tableProviders.map((provider) => (
                 <tr key={provider} className="
                   transition-colors
-                  hover:bg-dark-50/50
+                  hover:bg-muted/50
                 ">
                   <td className="px-8 py-2">
                     <Link
                       href={providerPageHref(provider)}
                       className="
-                        text-sm font-bold text-white transition-colors
-                        hover:text-accent-red
+                        text-sm font-bold text-foreground transition-colors
+                        hover:text-neon-pink
                       "
                     >
                       {providerDisplayName(provider)}
@@ -156,12 +166,16 @@ export const ComparisonGridSection = ({
                     return (
                       <td key={test._id} className="w-12 p-2 text-center">
                         {failureRate === null ? (
-                          <span className="text-sm text-gray-500">N/A</span>
+                          <span className="
+                            font-mono text-sm text-muted-foreground
+                          ">N/A</span>
                         ) : (
                           <span
                             className={`
                               inline-flex w-14 items-center justify-center
-                              rounded-full border px-3 py-1 text-sm font-bold
+                              border-2 border-black px-3 py-1 font-mono text-sm
+                              font-bold
+                              dark:border-foreground
                               ${failureRateBadgeClass(failureRate)}
                             `}
                           >
@@ -176,14 +190,17 @@ export const ComparisonGridSection = ({
           </tbody>
         </table>
       </div>
-      <div className="border-t border-dark-200 bg-dark-50 px-8 py-4 text-center">
+      <div className="
+        border-t-4 border-black bg-muted px-8 py-4 text-center
+        dark:border-foreground
+      ">
         {variant === "full" ? (
           <Link
             href="/#test-runs"
             className="
-              inline-flex items-center text-sm font-medium text-accent-red
-              transition-colors
-              hover:text-accent-orange
+              inline-flex items-center text-sm font-bold tracking-wider
+              text-neon-pink uppercase transition-colors
+              hover:text-neon-orange
             "
           >
             Back to overview
@@ -193,9 +210,9 @@ export const ComparisonGridSection = ({
           <Link
             href="/benchmark"
             className="
-              inline-flex items-center text-sm font-medium text-accent-red
-              transition-colors
-              hover:text-accent-orange
+              inline-flex items-center text-sm font-bold tracking-wider
+              text-neon-pink uppercase transition-colors
+              hover:text-neon-orange
             "
           >
             Full benchmark

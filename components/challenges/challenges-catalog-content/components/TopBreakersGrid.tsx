@@ -10,6 +10,12 @@ interface TopBreakersGridProps {
   tests: TestCase[];
 }
 
+const CARD_SHADOWS = [
+  "shadow-[8px_8px_0px_#E63946]",
+  "shadow-[8px_8px_0px_#457B9D]",
+  "shadow-[8px_8px_0px_#2A9D8F]",
+];
+
 export const TopBreakersGrid = ({ tests }: TopBreakersGridProps) => {
   if (tests.length === 0) {
     return null;
@@ -17,7 +23,7 @@ export const TopBreakersGrid = ({ tests }: TopBreakersGridProps) => {
 
   return (
     <section className="mt-10 mb-12">
-      <h2 className="mb-4 text-xl font-semibold text-white">
+      <h2 className="mb-4 text-xl font-bold text-foreground uppercase">
         Top breakers
       </h2>
       <div className="
@@ -32,7 +38,10 @@ export const TopBreakersGrid = ({ tests }: TopBreakersGridProps) => {
           const killRateLabel =
             killRate != null ? `${killRate}%` : "—";
           const killRateClass =
-            killRate != null ? killRateColorClass(killRate) : "text-gray-500";
+            killRate != null
+              ? killRateColorClass(killRate)
+              : "text-muted-foreground";
+          const cardShadow = CARD_SHADOWS[index % CARD_SHADOWS.length];
 
           return (
             <Link
@@ -40,16 +49,17 @@ export const TopBreakersGrid = ({ tests }: TopBreakersGridProps) => {
               href={`/challenges/${test.slug}`}
               className="group block h-full"
             >
-              <article className="
-                relative flex h-full flex-col overflow-hidden rounded-3xl border
-                border-dark-200 bg-dark-100 p-8 shadow-card transition-all
-                duration-300
-                hover:border-dark-300 hover:shadow-hover
-              ">
+              <article className={`
+                relative flex h-full flex-col overflow-hidden border-4
+                border-black bg-card p-8 transition-all duration-200
+                hover:translate-2 hover:shadow-none
+                dark:border-foreground
+                ${cardShadow}
+              `}>
                 <div
                   className={`
-                    absolute top-6 right-6 opacity-5 transition-opacity
-                    group-hover:opacity-10
+                    absolute top-6 right-6 opacity-10 transition-opacity
+                    group-hover:opacity-20
                     ${iconColor}
                   `}
                 >
@@ -59,38 +69,42 @@ export const TopBreakersGrid = ({ tests }: TopBreakersGridProps) => {
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3 className="
-                      text-xl font-bold text-white transition-colors
-                      group-hover:text-accent-red
+                      text-xl font-bold text-foreground uppercase
+                      transition-colors
+                      group-hover:text-neon-pink
                     ">
                       {test.name}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="font-mono text-sm text-muted-foreground">
                       {formatCategory(test.category)}
                     </p>
                   </div>
                   <span className="
-                    inline-flex shrink-0 items-center rounded-full border
-                    border-dark-300 bg-dark-200 px-2.5 py-1 text-xs font-medium
-                    text-gray-300
+                    inline-flex shrink-0 items-center border-2 border-black
+                    bg-neon-yellow px-2.5 py-1 text-xs font-bold text-black
+                    dark:border-foreground
                   ">
                     #{rank}
                   </span>
                 </div>
 
-                <p className="mb-6 line-clamp-2 text-sm text-gray-500">
+                <p className="
+                  mb-6 line-clamp-2 font-mono text-sm text-muted-foreground
+                ">
                   {test.explanation || test.prompt}
                 </p>
 
                 <div className="
-                  mt-auto rounded-xl border border-dark-200 bg-dark-50 p-4
+                  mt-auto border-4 border-black bg-background p-4
+                  dark:border-foreground
                 ">
                   <div className="
-                    mb-2 text-xs font-semibold text-gray-500 uppercase
+                    mb-2 text-xs font-bold text-muted-foreground uppercase
                   ">
                     Kill rate
                   </div>
                   <div className={`
-                    text-2xl font-bold
+                    font-mono text-2xl font-bold
                     ${killRateClass}
                   `}>
                     {killRateLabel}

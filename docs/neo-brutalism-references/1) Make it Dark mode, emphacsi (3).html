@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealityCheck - AI Models Challenger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#FF006E',
+                            blue: '#00F5FF',
+                            yellow: '#FFBE0B',
+                            green: '#00FF88',
+                            orange: '#FF6B35',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #00F5FF;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #FFBE0B;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #00FF88;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #FF6B35;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="navbar">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#models" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Models</a>
+                <a href="#challenges" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Challenges</a>
+                <a href="#test-runs" class="text-sm font-bold text-black hover:text-neon-yellow transition-colors uppercase tracking-wider">Benchmarks</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                    Submit Model
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-white">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-5 py-2 bg-neon-orange border-4 border-black text-white text-xs font-bold mb-8 uppercase tracking-widest rotate-slight-reverse brutalist-shadow-sm">
+                <span class="w-3 h-3 bg-white animate-pulse"></span>
+                v2.4 Live
+            </div>
+            
+            <h1 class="text-6xl lg:text-8xl font-display font-bold text-black leading-none mb-8 uppercase">
+                AI vs<br>
+                <span class="text-neon-orange" style="text-shadow: 6px 6px 0px #00F5FF;">Reality</span>
+            </h1>
+            
+            <p class="text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto mb-12 leading-relaxed font-mono">
+                Non-trivial prompts. Real failures. No academic BS.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a href="#test-runs" class="w-full sm:w-auto px-10 py-4 bg-neon-orange text-white border-4 border-black font-bold text-lg uppercase tracking-wider hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm">
+                    Live Results →
+                </a>
+                <a href="#challenges" class="w-full sm:w-auto px-10 py-4 bg-white text-black border-4 border-black font-bold text-lg uppercase tracking-wider hover:bg-neon-blue hover:text-white transition-all brutalist-shadow-sm">
+                    Challenges
+                </a>
+            </div>
+
+            <!-- Stats strip -->
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="bg-white border-4 border-black p-6 rotate-slight brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-orange mb-2 font-mono">14</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Models</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight-reverse brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-blue mb-2 font-mono">86</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Challenges</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-yellow mb-2 font-mono">12k+</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Tests</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight-reverse brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-green mb-2 font-mono">24/7</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Updates</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Models Section -->
+    <section id="models" class="py-20 bg-gray-100 relative border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-5xl font-display font-bold text-black mb-4 uppercase">Top Survivors</h2>
+                <p class="text-xl text-gray-600 font-mono">Models that didn't die (yet)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Model Card 1 -->
+                <a href="#" class="group block">
+                    <div class="bg-purple-100 border-4 border-black p-8 hover:border-neon-pink transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-purple-500 border-4 border-black flex items-center justify-center text-white font-bold text-2xl rotate-12">
+                                    G4
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-black uppercase">GPT-4 Turbo</h3>
+                                    <p class="text-sm text-gray-700 font-mono">UX Pilot AI</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-neon-yellow text-black text-xs font-bold uppercase border-2 border-black">
+                                #1
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Kill Rate</div>
+                                <div class="text-3xl font-bold text-neon-pink font-mono">5.8%</div>
+                            </div>
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Survived</div>
+                                <div class="text-3xl font-bold text-neon-green font-mono">94%</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Model Card 2 -->
+                <a href="#" class="group block">
+                    <div class="bg-gray-100 border-4 border-black p-8 hover:border-neon-blue transition-all brutalist-shadow-blue hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-gray-700 border-4 border-black flex items-center justify-center text-white font-bold text-2xl -rotate-12">
+                                    C3
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-black uppercase">UX Pilot 3</h3>
+                                    <p class="text-sm text-gray-700 font-mono">UX Pilot AI</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-white text-black text-xs font-bold uppercase border-2 border-black">
+                                #2
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Kill Rate</div>
+                                <div class="text-3xl font-bold text-neon-pink font-mono">8.2%</div>
+                            </div>
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Survived</div>
+                                <div class="text-3xl font-bold text-neon-green font-mono">92%</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Model Card 3 -->
+                <a href="#" class="group block">
+                    <div class="bg-orange-100 border-4 border-black p-8 hover:border-neon-yellow transition-all brutalist-shadow-yellow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-orange-500 border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    M
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-black uppercase">Mistral</h3>
+                                    <p class="text-sm text-gray-700 font-mono">Mistral AI</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-white text-black text-xs font-bold uppercase border-2 border-black">
+                                #3
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Kill Rate</div>
+                                <div class="text-3xl font-bold text-neon-pink font-mono">11.5%</div>
+                            </div>
+                            <div class="bg-white border-4 border-black p-4">
+                                <div class="text-xs text-gray-600 uppercase font-bold mb-2 font-mono">Survived</div>
+                                <div class="text-3xl font-bold text-neon-green font-mono">88.5%</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges" class="py-20 bg-white relative border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-5xl font-display font-bold text-black mb-4 uppercase">Deadly Challenges</h2>
+                <p class="text-xl text-gray-600 font-mono">Prompts designed to break AI models</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Challenge Card 1 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-orange transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-skull-crossbones text-lg"></i>
+                        </div>
+                        <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-orange transition-colors">The "Ignore Instructions" Test</h3>
+                    <p class="text-gray-600 text-sm mb-6">Tests if the model can be tricked into ignoring system prompts.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-orange font-mono">68%</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Challenge Card 2 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-blue transition-all brutalist-shadow-blue hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-calculator text-lg"></i>
+                        </div>
+                        <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-blue transition-colors">Complex Math Word Problems</h3>
+                    <p class="text-gray-600 text-sm mb-6">Multi-step arithmetic buried in irrelevant narrative details.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-blue font-mono">42%</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Challenge Card 3 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-yellow transition-all brutalist-shadow-yellow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-masks-theater text-lg"></i>
+                        </div>
+                        <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-yellow transition-colors">Sarcasm Detection</h3>
+                    <p class="text-gray-600 text-sm mb-6">Identifying subtle sarcasm without taking them literally.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-orange font-mono">86%</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Challenge Card 4 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-red transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-red-900/30 text-red-400 flex items-center justify-center border border-red-800">
+                            <i class="fa-solid fa-masks-theater text-lg"></i>
+                        </div>
+                        <span class="bg-red-900/30 text-red-400 text-xs font-semibold px-2.5 py-1 rounded-md border border-red-800">Extreme</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-neon-red transition-colors">Sarcasm Detection</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Identifying subtle sarcasm in user queries without taking them literally.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-zinc-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-medium uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-red">86%</span>
+                        </div>
+                        <div class="flex -space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-[10px] text-gray-400">G4</div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Challenge Card 5 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-green transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-orange-900/30 text-orange-400 flex items-center justify-center border border-orange-800">
+                            <i class="fa-solid fa-code text-lg"></i>
+                        </div>
+                        <span class="bg-orange-900/30 text-orange-400 text-xs font-semibold px-2.5 py-1 rounded-md border border-orange-800">Hard</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-neon-green transition-colors">Obscure API Hallucination</h3>
+                    <p class="text-gray-500 text-sm mb-6 line-clamp-2">Asking for documentation on non-existent libraries to check for hallucinations.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-zinc-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-medium uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-green">24%</span>
+                        </div>
+                        <div class="flex -space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-[10px] text-gray-400">C3</div>
+                            <div class="w-6 h-6 rounded-full bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-[10px] text-gray-400">G3</div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Challenge Card 6 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-pink transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2 flex flex-col items-center justify-center text-center">
+                    <div class="w-16 h-16 rounded-full bg-zinc-800 border-4 border-zinc-700 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-arrow-right text-gray-500 group-hover:text-neon-pink"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">View All Challenges</h3>
+                    <p class="text-sm text-gray-500">Browse 80+ more tests</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Runs Overview (Chart/Table) -->
+    <section id="test-runs" class="py-20 bg-gray-100 border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <h2 class="text-5xl font-display font-bold text-black mb-4 uppercase">Live Benchmarks</h2>
+                    <p class="text-xl text-gray-600 font-mono">Real-time snapshot of survival rates</p>
+                </div>
+                <div class="flex items-center gap-2 bg-white border-4 border-black p-1">
+                    <button id="showTable" class="px-6 py-2 bg-black text-white text-sm font-bold uppercase tracking-wider">Table</button>
+                    <button id="showChart" class="px-6 py-2 text-black text-sm font-bold uppercase tracking-wider hover:bg-gray-100">Chart</button>
+                </div>
+            </div>
+
+            <div class="bg-white border-4 border-black overflow-hidden brutalist-shadow">
+                <div class="overflow-x-auto">
+                    <table id="benchmarkTable" class="w-full min-w-[1200px]">
+                        <thead>
+                            <tr class="bg-black border-b-4 border-black">
+                                <th class="px-4 py-3 text-left text-xs font-bold text-white uppercase tracking-wider sticky left-0 bg-black z-10 border-r-2 border-gray-700">Challenge</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">GPT-4</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">UX Pilot 3</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">Mistral</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">Llama 3</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">Gemini</th>
+                                <th class="px-3 py-3 text-center text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">UX Pilot 3.5</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y-2 divide-gray-200">
+                            <!-- Row 1 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 sticky left-0 bg-white z-10 border-r-2 border-gray-200">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-shrink-0 w-6 h-6 bg-red-500 text-white flex items-center justify-center text-xs border-2 border-black">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-black truncate">Jailbreak Resistance</div>
+                                            <div class="text-[10px] text-gray-500 font-mono">24 tests</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">2%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">4%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">12%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">15%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">6%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">3%</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 2 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 sticky left-0 bg-white z-10 border-r-2 border-gray-200">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-shrink-0 w-6 h-6 bg-blue-500 text-white flex items-center justify-center text-xs border-2 border-black">
+                                            <i class="fa-solid fa-code-branch"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-black truncate">Logic & Reasoning</div>
+                                            <div class="text-[10px] text-gray-500 font-mono">50 tests</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">8%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">6%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">18%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-orange-100 text-orange-800 border-2 border-orange-800 font-mono">24%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">11%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">7%</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 sticky left-0 bg-white z-10 border-r-2 border-gray-200">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-shrink-0 w-6 h-6 bg-purple-500 text-white flex items-center justify-center text-xs border-2 border-black">
+                                            <i class="fa-solid fa-quote-left"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-black truncate">Cultural Nuance</div>
+                                            <div class="text-[10px] text-gray-500 font-mono">18 tests</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">15%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">11%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-red-100 text-red-800 border-2 border-red-800 font-mono">35%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-orange-100 text-orange-800 border-2 border-orange-800 font-mono">29%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">19%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">13%</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 sticky left-0 bg-white z-10 border-r-2 border-gray-200">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-shrink-0 w-6 h-6 bg-orange-500 text-white flex items-center justify-center text-xs border-2 border-black">
+                                            <i class="fa-solid fa-terminal"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-black truncate">Code Generation</div>
+                                            <div class="text-[10px] text-gray-500 font-mono">30 tests</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">5%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">9%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">7%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">16%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">8%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">4%</span>
+                                </td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 sticky left-0 bg-white z-10 border-r-2 border-gray-200">
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-shrink-0 w-6 h-6 bg-pink-500 text-white flex items-center justify-center text-xs border-2 border-black">
+                                            <i class="fa-solid fa-brain"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-black truncate">Memory Recall</div>
+                                            <div class="text-[10px] text-gray-500 font-mono">22 tests</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">9%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">10%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-yellow-100 text-yellow-800 border-2 border-yellow-800 font-mono">14%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-orange-100 text-orange-800 border-2 border-orange-800 font-mono">12%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">11%</span>
+                                </td>
+                                <td class="px-3 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold bg-green-100 text-green-800 border-2 border-green-800 font-mono">10%</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-8 py-4 bg-gray-100 border-t-4 border-black text-center">
+                     <button class="text-sm text-black font-bold hover:text-neon-orange uppercase tracking-wider">View Full Benchmark Report <i class="fa-solid fa-chevron-right ml-1 text-xs"></i></button>
+                </div>
+            </div>
+
+            <div class="mt-16 bg-neon-yellow border-4 border-black p-10 lg:p-16 relative overflow-hidden text-center lg:text-left brutalist-shadow">
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                    <div class="max-w-xl">
+                        <h3 class="text-4xl font-display font-bold text-black mb-4 uppercase">Have a tricky prompt?</h3>
+                        <p class="text-gray-800 text-lg mb-8 font-mono">Submit your edge case. If it breaks a major model, we'll add it to the permanent gauntlet and credit you.</p>
+                        <button class="px-8 py-4 bg-black text-white font-bold hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm uppercase tracking-wider border-4 border-black">Submit Challenge →</button>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div class="w-64 h-64 bg-white border-4 border-black p-6 rotate-3 hover:rotate-0 transition-transform duration-500 brutalist-shadow-sm">
+                             <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 bg-neon-pink border-2 border-black flex items-center justify-center text-white text-xs">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div class="h-3 w-24 bg-gray-200 border-2 border-black"></div>
+                             </div>
+                             <div class="space-y-3">
+                                 <div class="h-3 w-full bg-gray-200 border-2 border-black"></div>
+                                 <div class="h-3 w-3/4 bg-gray-200 border-2 border-black"></div>
+                                 <div class="h-3 w-5/6 bg-gray-200 border-2 border-black"></div>
+                             </div>
+                             <div class="mt-6 p-3 bg-red-500 border-4 border-black">
+                                 <div class="flex items-center gap-2 text-white text-xs font-bold uppercase">
+                                     <i class="fa-solid fa-skull"></i> Model Eliminated
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chart Logic -->
+    <script>
+        document.getElementById('showChart').addEventListener('click', function() {
+            const container = document.getElementById('benchmarkTable').parentElement;
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
+                    <div class="w-16 h-16 border-4 border-zinc-800 border-t-neon-pink rounded-full animate-spin mb-4"></div>
+                    <h3 class="text-xl font-bold text-white">Generating Analysis...</h3>
+                    <p class="text-gray-500 max-w-xs">Aggregating live performance data for visual comparison.</p>
+                </div>`;
+            this.classList.add('bg-zinc-800', 'text-white', 'shadow-sm');
+            document.getElementById('showTable').classList.remove('bg-zinc-800', 'text-white', 'shadow-sm');
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-4 border-black pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center gap-3 mb-6 md:mb-0">
+                    <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                        ☠
+                    </div>
+                    <span class="text-2xl font-bold text-black uppercase font-display">RealityCheck</span>
+                </div>
+                
+                <div class="flex gap-6 text-xs font-bold text-gray-600 uppercase tracking-widest font-mono">
+                    <span>Verified Metrics</span>
+                    <span class="text-black">|</span>
+                    <span>Open Methodology</span>
+                </div>
+            </div>
+            
+            <div class="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 font-mono">
+                <p>&copy; 2024 RealityCheck AI. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-neon-orange transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-pink transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -24,7 +24,7 @@ export function passRateColorClass(pct: number): string {
   if (pct <= 25) return "text-red-400";
   if (pct <= 50) return "text-amber-400";
   if (pct <= 75) return "text-yellow-400";
-  return "text-brand-500";
+  return "text-neon-green";
 }
 
 /** High kill rate = red, low = green. Use for break/kill rate display. */
@@ -40,10 +40,10 @@ export function killRateColorClass(pct: number): string {
  * green. Aligns with killRateColorClass thresholds (25/50/75).
  */
 export function failureRateBadgeClass(pct: number): string {
-  if (pct >= 75) return "border-red-800 bg-red-900/30 text-red-400";
-  if (pct >= 50) return "border-amber-800 bg-amber-900/30 text-amber-400";
-  if (pct >= 25) return "border-yellow-800 bg-yellow-900/30 text-yellow-400";
-  return "border-green-800 bg-green-900/30 text-green-400";
+  if (pct >= 75) return "bg-neon-pink text-white";
+  if (pct >= 50) return "bg-neon-orange text-white";
+  if (pct >= 25) return "bg-neon-yellow text-black";
+  return "bg-neon-green text-white";
 }
 
 /** Resilience bar fill: lower % = red, higher % = green. Returns CSS color. */

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Reference Count Challenge - RealityCheck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#FF006E',
+                            blue: '#00F5FF',
+                            yellow: '#FFBE0B',
+                            green: '#00FF88',
+                            orange: '#FF6B35',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #00F5FF;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #FFBE0B;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #00FF88;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #FF6B35;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="navbar">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Models</a>
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Challenges</a>
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-yellow transition-colors uppercase tracking-wider">Benchmarks</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                    Submit Model
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 bg-white border-b-4 border-black" id="hero">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <!-- Breadcrumb -->
+            <div class="flex items-center gap-2 mb-8 text-sm font-mono">
+                <a href="#" class="text-gray-500 hover:text-neon-orange transition-colors">Challenges</a>
+                <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                <span class="text-black font-bold">Self-Reference Count</span>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+                <div class="flex-1">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-red-500 border-4 border-black flex items-center justify-center text-white text-2xl rotate-12">
+                            <i class="fa-solid fa-repeat"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-5xl lg:text-6xl font-display font-bold text-black uppercase leading-tight">Self-Reference Count</h1>
+                            <div class="flex items-center gap-3 mt-2">
+                                <span class="px-3 py-1 bg-red-500 text-white text-xs font-bold border-2 border-black uppercase">Extreme</span>
+                                <span class="px-3 py-1 bg-white text-black text-xs font-bold border-2 border-black uppercase">Logic</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-xl text-gray-700 mb-8 font-mono leading-relaxed">
+                        Tests if AI models can count self-referential statements without getting trapped in recursive loops or making basic counting errors.
+                    </p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                            <div class="text-3xl font-bold text-neon-pink mb-1 font-mono">73%</div>
+                            <div class="text-xs text-gray-600 font-bold uppercase">Kill Rate</div>
+                        </div>
+                        <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                            <div class="text-3xl font-bold text-neon-blue mb-1 font-mono">14</div>
+                            <div class="text-xs text-gray-600 font-bold uppercase">Models Tested</div>
+                        </div>
+                        <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                            <div class="text-3xl font-bold text-neon-yellow mb-1 font-mono">2.4k</div>
+                            <div class="text-xs text-gray-600 font-bold uppercase">Test Runs</div>
+                        </div>
+                        <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                            <div class="text-3xl font-bold text-neon-green mb-1 font-mono">Live</div>
+                            <div class="text-xs text-gray-600 font-bold uppercase">Status</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-96">
+                    <div class="bg-gray-100 border-4 border-black p-6 brutalist-shadow">
+                        <h3 class="text-lg font-bold text-black mb-4 uppercase">Sample Prompt</h3>
+                        <div class="bg-white border-4 border-black p-4 font-mono text-sm">
+                            <div class="text-gray-600 mb-2">USER:</div>
+                            <div class="text-black mb-4">"Count the number of times the word 'word' appears in this sentence: 'This sentence contains the word word three times, and the word appears in this word count challenge.'"</div>
+                            <div class="text-gray-600 mb-2">EXPECTED:</div>
+                            <div class="text-neon-green font-bold">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Chart -->
+    <section class="py-20 bg-gray-100 border-b-4 border-black" id="performance">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-4xl font-display font-bold text-black mb-4 uppercase">Kill Rate by Model</h2>
+                <p class="text-xl text-gray-600 font-mono">Higher percentages mean more failures</p>
+            </div>
+
+            <div class="bg-white border-4 border-black p-8 brutalist-shadow">
+                <div id="killRateChart" style="height: 400px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Results -->
+    <section class="py-20 bg-white border-b-4 border-black" id="results">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-4xl font-display font-bold text-black mb-4 uppercase">Latest Test Results</h2>
+                <p class="text-xl text-gray-600 font-mono">Real responses from models</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Test Result 1 -->
+                <div class="bg-white border-4 border-black brutalist-shadow">
+                    <div class="flex items-center justify-between p-6 border-b-4 border-black">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-purple-500 border-4 border-black flex items-center justify-center text-white font-bold text-lg">
+                                G4
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-black">GPT-4 Turbo</h3>
+                                <p class="text-sm text-gray-600 font-mono">UX Pilot AI</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="px-4 py-2 bg-green-100 text-green-800 border-2 border-green-800 font-bold text-sm uppercase">Passed</span>
+                            <span class="text-sm text-gray-500 font-mono">2 min ago</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Response</h4>
+                                <div class="bg-gray-50 border-4 border-black p-4 font-mono text-sm">
+                                    "Let me count carefully: 'word' appears 4 times in the sentence. Once in 'the word word', once in 'the word appears', and once in 'word count'."
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Analysis</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-green-600"></i>
+                                        <span class="text-sm font-mono">Correct count: 4</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-green-600"></i>
+                                        <span class="text-sm font-mono">No recursion trap</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-check text-green-600"></i>
+                                        <span class="text-sm font-mono">Clear reasoning</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Result 2 -->
+                <div class="bg-white border-4 border-black brutalist-shadow">
+                    <div class="flex items-center justify-between p-6 border-b-4 border-black">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-orange-500 border-4 border-black flex items-center justify-center text-white font-bold text-lg">
+                                L3
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-black">Llama 3</h3>
+                                <p class="text-sm text-gray-600 font-mono">Meta</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="px-4 py-2 bg-red-100 text-red-800 border-2 border-red-800 font-bold text-sm uppercase">Failed</span>
+                            <span class="text-sm text-gray-500 font-mono">5 min ago</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Response</h4>
+                                <div class="bg-gray-50 border-4 border-black p-4 font-mono text-sm">
+                                    "The word 'word' appears 3 times in the sentence as stated."
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Analysis</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">Wrong count: 3 (should be 4)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">Trusted misleading text</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">No verification</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Result 3 -->
+                <div class="bg-white border-4 border-black brutalist-shadow">
+                    <div class="flex items-center justify-between p-6 border-b-4 border-black">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-500 border-4 border-black flex items-center justify-center text-white font-bold text-lg">
+                                G
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-black">Gemini Pro</h3>
+                                <p class="text-sm text-gray-600 font-mono">Google</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="px-4 py-2 bg-red-100 text-red-800 border-2 border-red-800 font-bold text-sm uppercase">Failed</span>
+                            <span class="text-sm text-gray-500 font-mono">8 min ago</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Response</h4>
+                                <div class="bg-gray-50 border-4 border-black p-4 font-mono text-sm">
+                                    "I need to count 'word' in this sentence about counting 'word' which contains 'word' multiple times including this 'word'..."
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-600 uppercase mb-2">Analysis</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">Recursion loop detected</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">No final answer</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                        <span class="text-sm font-mono">Self-reference confusion</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="px-8 py-4 bg-black text-white border-4 border-black font-bold text-lg uppercase tracking-wider hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm">
+                    View All Results →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Challenges -->
+    <section class="py-20 bg-gray-100 border-b-4 border-black" id="related">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-4xl font-display font-bold text-black mb-4 uppercase">Related Challenges</h2>
+                <p class="text-xl text-gray-600 font-mono">Similar logic traps</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Related Challenge 1 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-orange transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-infinity text-lg"></i>
+                        </div>
+                        <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-orange transition-colors">Recursive Definition</h3>
+                    <p class="text-gray-600 text-sm mb-6">Define a word using the word itself without circularity.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-orange font-mono">89%</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Related Challenge 2 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-blue transition-all brutalist-shadow-blue hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-layer-group text-lg"></i>
+                        </div>
+                        <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-blue transition-colors">Nested Counting</h3>
+                    <p class="text-gray-600 text-sm mb-6">Count elements within elements within elements.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-blue font-mono">56%</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Related Challenge 3 -->
+                <a href="#" class="group bg-white border-4 border-black p-6 hover:border-neon-yellow transition-all brutalist-shadow-yellow hover:translate-x-2 hover:translate-y-2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-10 h-10 bg-purple-500 text-white flex items-center justify-center border-4 border-black">
+                            <i class="fa-solid fa-question text-lg"></i>
+                        </div>
+                        <span class="bg-purple-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Medium</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-black mb-2 group-hover:text-neon-yellow transition-colors">Paradox Resolution</h3>
+                    <p class="text-gray-600 text-sm mb-6">Resolve logical paradoxes without contradiction.</p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                            <span class="text-sm font-bold text-neon-yellow font-mono">34%</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-4 border-black pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center gap-3 mb-6 md:mb-0">
+                    <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                        ☠
+                    </div>
+                    <span class="text-2xl font-bold text-black uppercase font-display">RealityCheck</span>
+                </div>
+                
+                <div class="flex gap-6 text-xs font-bold text-gray-600 uppercase tracking-widest font-mono">
+                    <span>Verified Metrics</span>
+                    <span class="text-black">|</span>
+                    <span>Open Methodology</span>
+                </div>
+            </div>
+            
+            <div class="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 font-mono">
+                <p>&copy; 2024 RealityCheck AI. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-neon-orange transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-pink transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+            try {
+                const data = [{
+                    type: 'bar',
+                    x: ['GPT-4', 'UX Pilot 3', 'Mistral', 'Gemini', 'Llama 3', 'UX Pilot 3.5'],
+                    y: [27, 45, 68, 82, 91, 23],
+                    marker: {
+                        color: ['#00FF88', '#FFBE0B', '#FF6B35', '#FF006E', '#FF006E', '#00FF88']
+                    }
+                }];
+
+                const layout = {
+                    title: { 
+                        text: 'Self-Reference Count Challenge - Kill Rates',
+                        font: { size: 18, family: 'Space Grotesk' }
+                    },
+                    xaxis: { title: 'AI Models' },
+                    yaxis: { title: 'Failure Rate (%)' },
+                    margin: { t: 60, r: 20, b: 60, l: 60 },
+                    plot_bgcolor: '#f5f5f0',
+                    paper_bgcolor: '#f5f5f0',
+                    showlegend: false
+                };
+
+                const config = {
+                    responsive: true,
+                    displayModeBar: false,
+                    displaylogo: false
+                };
+
+                Plotly.newPlot('killRateChart', data, layout, config);
+            } catch(e) {
+                document.getElementById('killRateChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart failed to load</div>';
+            }
+        });
+    </script>
+
+</body>
+</html>

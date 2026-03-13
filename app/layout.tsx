@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter, Poppins } from "next/font/google";
+import { Space_Grotesk, Space_Mono } from "next/font/google";
 import { FooterSection } from "@/components/landing/footer-section";
 import { Navbar } from "@/components/landing/navbar";
 import { ConvexClientProvider } from "./convex-provider";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 const siteUrl = "https://reaitycheck.com";
@@ -82,9 +78,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`
-          ${inter.variable}
-          ${poppins.variable}
-          ${geistMono.variable}
+          ${spaceGrotesk.variable}
+          ${spaceMono.variable}
           antialiased
         `}
       >

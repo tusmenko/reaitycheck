@@ -2,8 +2,6 @@
 
 import { Check, X, Eye } from "lucide-react";
 import Link from "next/link";
-import { MemenessStars } from "@/components/custom/memeness-stars";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,7 +21,6 @@ import {
 import {
   modelDetailHref,
   formatCategory,
-  killRateBarColor,
 } from "@/lib/model-detail-utils";
 import { type TestDetailPageProps } from "./TestDetailPage.types";
 import { useTestDetailPage } from "./useTestDetailPage";
@@ -39,58 +36,88 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
     );
   }
 
+  const killPct = Math.min(100, Math.round(stats.breakRate));
+
   return (
     <div className="
       mx-auto max-w-6xl px-4 py-8
       sm:px-6
       lg:px-8
     ">
-      <section className="mb-10">
+      <section className="mb-12">
         <div className="min-w-0">
-          <div className="mb-2 flex flex-wrap items-center gap-2">
-            <Badge variant="outline">{formatCategory(test.category)}</Badge>
-            <MemenessStars score={test.memenessScore} />
+          <h1 className="
+            font-display text-3xl font-bold tracking-tight text-foreground
+            uppercase
+            lg:text-4xl
+          ">
+            {test.name}
+          </h1>
+
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className="
+              border-2 border-black bg-muted px-3 py-1 text-xs font-bold
+              tracking-wide text-muted-foreground uppercase
+              dark:border-foreground
+            ">
+              {formatCategory(test.category)}
+            </span>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">{test.name}</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
+
+          <p className="mt-2 font-mono text-lg text-muted-foreground">
             This challenge cracked {stats.modelsCracked} out of{" "}
             {stats.totalModels} top models
           </p>
-          <div className="mt-3 flex flex-col gap-2">
-            <span className="text-sm font-medium text-muted-foreground">
-              Kill rate
-            </span>
-            <div className="flex items-center gap-3">
-              <div className="
-                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
-                bg-muted
+
+          <div className="mt-4 max-w-sm">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="
+                text-xs font-bold text-muted-foreground uppercase
               ">
-                <div
-                  className="h-full rounded-full transition-all"
-                  style={{
-                    width: `${Math.min(100, Math.round(stats.breakRate))}%`,
-                    backgroundColor: killRateBarColor(stats.breakRate),
-                  }}
-                />
-              </div>
-              <span className="text-sm font-semibold tabular-nums">
-                {Math.round(stats.breakRate)}%
+                Kill Rate
+              </span>
+              <span className="font-mono text-sm font-bold text-neon-pink">
+                {killPct}%
               </span>
             </div>
+            <div className="
+              h-4 w-full border-2 border-black bg-muted
+              dark:border-foreground
+            ">
+              <div
+                className="h-full bg-neon-pink"
+                style={{ width: `${killPct}%` }}
+              />
+            </div>
           </div>
-          <div className="mt-4 rounded-lg border bg-muted/50 p-4">
+
+          <div className="
+            mt-6 border-4 border-black bg-muted/50 p-4
+            dark:border-foreground
+          ">
             <p className="font-mono text-sm/relaxed whitespace-pre-wrap">
               {test.prompt}
             </p>
           </div>
-          <div className="mt-6 rounded-lg border bg-muted/30 p-4">
-            <h2 className="mb-3 text-lg font-semibold">Why It Matters</h2>
+
+          <div className="
+            mt-6 border-4 border-black bg-card p-4
+            dark:border-foreground
+          ">
+            <h2 className="mb-3 text-lg font-bold text-foreground uppercase">
+              Why It Matters
+            </h2>
             {test.explanation && (
-              <p className="mb-4 text-muted-foreground">{test.explanation}</p>
+              <p className="mb-4 font-mono text-muted-foreground">
+                {test.explanation}
+              </p>
             )}
             <p className="text-sm">
-              <span className="font-medium">Expected answer:</span>{" "}
-              <code className="rounded-sm bg-muted px-1.5 py-0.5">
+              <span className="font-bold uppercase">Expected answer:</span>{" "}
+              <code className="
+                border-2 border-black bg-muted px-1.5 py-0.5 font-mono
+                dark:border-foreground
+              ">
                 {test.expectedAnswer}
               </code>
             </p>
@@ -99,14 +126,26 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-4 text-xl font-semibold">Victims</h2>
-        <div className="overflow-x-auto rounded-lg border">
+        <h2 className="mb-4 text-xl font-bold text-foreground uppercase">
+          Victims
+        </h2>
+        <div className="
+          overflow-x-auto border-4 border-black
+          dark:border-foreground
+        ">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Model</TableHead>
-                <TableHead className="text-center">Latest Result</TableHead>
-                <TableHead className="text-center">Break Rate</TableHead>
+              <TableRow className="
+                border-b-4 border-black bg-muted
+                dark:border-foreground
+              ">
+                <TableHead className="font-bold uppercase">Model</TableHead>
+                <TableHead className="text-center font-bold uppercase">
+                  Latest Result
+                </TableHead>
+                <TableHead className="text-center font-bold uppercase">
+                  Break Rate
+                </TableHead>
                 <TableHead className="w-[100px]"></TableHead>
               </TableRow>
             </TableHeader>
@@ -125,13 +164,19 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                   entry.model.apiIdentifier
                 );
                 return (
-                  <TableRow key={entry.model._id}>
-                    <TableCell className="font-medium">
+                  <TableRow
+                    key={entry.model._id}
+                    className="
+                      border-b-2 border-black
+                      dark:border-foreground
+                    "
+                  >
+                    <TableCell className="font-bold">
                       <Link
                         href={href}
                         className="
-                          text-primary underline-offset-4
-                          hover:underline
+                          text-foreground underline-offset-4
+                          hover:text-neon-pink hover:underline
                         "
                       >
                         {entry.model.modelName}
@@ -139,24 +184,46 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                     </TableCell>
                     <TableCell className="text-center">
                       {entry.latestRun ? (
-                        passed ? (
-                          <Check className="
-                            mx-auto size-5 text-green-600
-                            dark:text-green-500
-                          " />
-                        ) : (
-                          <X className="mx-auto size-5 text-destructive" />
-                        )
+                        <span className={`
+                          mx-auto inline-flex size-8 items-center justify-center
+                          border-2 border-black
+                          dark:border-foreground
+                          ${passed
+                            ? `
+                              bg-neon-green shadow-[1px_1px_0px_#000]
+                              dark:shadow-[1px_1px_0px_#f5f5f0]
+                            `
+                            : `
+                              bg-neon-pink shadow-[1px_1px_0px_#000]
+                              dark:shadow-[1px_1px_0px_#f5f5f0]
+                            `
+                          }
+                        `}>
+                          {passed ? (
+                            <Check className="size-5 stroke-3 text-black" />
+                          ) : (
+                            <X className="size-5 stroke-3 text-white" />
+                          )}
+                        </span>
                       ) : (
                         <span className="text-muted-foreground">–</span>
                       )}
                     </TableCell>
-                    <TableCell className="text-center">{ratePct}%</TableCell>
+                    <TableCell className="text-center font-mono font-bold">
+                      {ratePct}%
+                    </TableCell>
                     <TableCell>
                       {entry.latestRun?.rawResponse != null ? (
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="sm">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="
+                                cursor-pointer border-2 border-black
+                                dark:border-foreground
+                              "
+                            >
                               <Eye className="size-4" />
                             </Button>
                           </DialogTrigger>
@@ -167,8 +234,9 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
                               <DialogTitle>Raw response</DialogTitle>
                             </DialogHeader>
                             <pre className="
-                              rounded-sm bg-muted p-4 text-sm wrap-break-word
-                              whitespace-pre-wrap
+                              border-2 border-black bg-muted p-4 text-sm
+                              wrap-break-word whitespace-pre-wrap
+                              dark:border-foreground
                             ">
                               {entry.latestRun.rawResponse}
                             </pre>

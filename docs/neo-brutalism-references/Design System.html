@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#E63946',
+                            blue: '#457B9D',
+                            yellow: '#F4A261',
+                            green: '#2A9D8F',
+                            orange: '#E76F51',
+                            purple: '#8B5CF6',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #457B9D;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #F4A261;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #2A9D8F;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #E76F51;
+        }
+        .brutalist-shadow-pink {
+            box-shadow: 8px 8px 0px #E63946;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="navbar">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Models</a>
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Challenges</a>
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-green transition-colors uppercase tracking-wider">Providers</a>
+                <a href="#design-system" class="text-sm font-bold text-neon-pink uppercase tracking-wider">Design System</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-white">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-5 py-2 bg-neon-pink border-4 border-black text-white text-xs font-bold mb-8 uppercase tracking-widest rotate-slight-reverse brutalist-shadow-sm">
+                <i class="fa-solid fa-palette text-sm"></i>
+                Design System
+            </div>
+            
+            <h1 class="text-6xl lg:text-8xl font-display font-bold text-black leading-none mb-8 uppercase">
+                Neo<br>
+                <span class="text-neon-blue" style="text-shadow: 6px 6px 0px #F4A261;">Brutalist</span>
+            </h1>
+            
+            <p class="text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto mb-12 leading-relaxed font-mono">
+                Bold. Playful. Unapologetic. A design system that breaks the rules while keeping things minimal.
+            </p>
+        </div>
+    </section>
+
+    <!-- Color Palette -->
+    <section id="design-system" class="py-20 bg-gray-100 border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <h2 class="text-5xl font-display font-bold text-black mb-12 uppercase">Color Palette</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Primary Colors -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Primary</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-black border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#000000</div>
+                                <div class="text-xs text-gray-600 uppercase">Black</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#FFFFFF</div>
+                                <div class="text-xs text-gray-600 uppercase">White</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-gray-100 border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#F5F5F0</div>
+                                <div class="text-xs text-gray-600 uppercase">Background</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accent Colors -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-pink">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Accents</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-pink border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#E63946</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Pink</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-blue border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#457B9D</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Blue</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-yellow border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#F4A261</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Yellow</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extended Colors -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-green">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Extended</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-green border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#2A9D8F</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Green</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-orange border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#E76F51</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Orange</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-neon-purple border-4 border-black"></div>
+                            <div>
+                                <div class="font-mono text-sm font-bold">#8B5CF6</div>
+                                <div class="text-xs text-gray-600 uppercase">Neon Purple</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <h2 class="text-5xl font-display font-bold text-black mb-12 uppercase">Typography</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-blue">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Fonts</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-4xl font-display font-bold mb-2">Space Grotesk</div>
+                            <div class="text-sm text-gray-600 font-mono uppercase tracking-wider">Display & Headers</div>
+                        </div>
+                        <div>
+                            <div class="text-xl font-mono">Space Mono</div>
+                            <div class="text-sm text-gray-600 font-mono uppercase tracking-wider">Code & Details</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-sans">Space Grotesk</div>
+                            <div class="text-sm text-gray-600 font-mono uppercase tracking-wider">Body Text</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-yellow">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Scales</h3>
+                    <div class="space-y-4">
+                        <div class="text-6xl font-display font-bold">H1 Heading</div>
+                        <div class="text-4xl font-display font-bold">H2 Heading</div>
+                        <div class="text-2xl font-display font-bold">H3 Heading</div>
+                        <div class="text-xl font-sans">Body Large</div>
+                        <div class="text-base font-sans">Body Regular</div>
+                        <div class="text-sm font-mono">Caption Mono</div>
+                        <div class="text-xs font-mono uppercase tracking-widest">Label Caps</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Components -->
+            <h2 class="text-5xl font-display font-bold text-black mb-12 uppercase">Components</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <!-- Buttons -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Buttons</h3>
+                    <div class="space-y-4">
+                        <button class="w-full px-6 py-3 bg-neon-blue text-white border-4 border-black font-bold uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                            Primary Button
+                        </button>
+                        <button class="w-full px-6 py-3 bg-white text-black border-4 border-black font-bold uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                            Secondary Button
+                        </button>
+                        <button class="w-full px-6 py-3 bg-neon-pink text-white border-4 border-black font-bold uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                            Danger Button
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cards -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-orange">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Cards</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 border-4 border-black p-4 rotate-slight">
+                            <div class="text-lg font-bold mb-2">Basic Card</div>
+                            <div class="text-sm text-gray-600">With subtle rotation</div>
+                        </div>
+                        <div class="bg-neon-yellow border-4 border-black p-4 brutalist-shadow-sm">
+                            <div class="text-lg font-bold mb-2">Accent Card</div>
+                            <div class="text-sm text-black">With shadow</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-green">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Badges</h3>
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-neon-green text-white text-xs font-bold uppercase border-2 border-black">#1</span>
+                            <span class="px-3 py-1 bg-neon-blue text-white text-xs font-bold uppercase border-2 border-black">New</span>
+                            <span class="px-3 py-1 bg-neon-yellow text-black text-xs font-bold uppercase border-2 border-black">Hot</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Tag</span>
+                            <span class="px-3 py-1 bg-white border-2 border-black text-xs font-bold uppercase">Label</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icons -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-blue">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Icons</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="w-12 h-12 bg-neon-pink border-4 border-black flex items-center justify-center text-white">
+                            <i class="fa-solid fa-skull"></i>
+                        </div>
+                        <div class="w-12 h-12 bg-neon-blue border-4 border-black flex items-center justify-center text-white">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="w-12 h-12 bg-neon-green border-4 border-black flex items-center justify-center text-white">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="w-12 h-12 bg-neon-yellow border-4 border-black flex items-center justify-center text-black">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shadows -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-pink">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Shadows</h3>
+                    <div class="space-y-4">
+                        <div class="w-full h-12 bg-gray-100 border-4 border-black brutalist-shadow"></div>
+                        <div class="w-full h-12 bg-gray-100 border-4 border-black brutalist-shadow-sm"></div>
+                        <div class="w-full h-12 bg-gray-100 border-4 border-black brutalist-shadow-blue"></div>
+                    </div>
+                </div>
+
+                <!-- Layout -->
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-yellow">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Layout</h3>
+                    <div class="space-y-4">
+                        <div class="text-sm font-mono text-gray-600">Max Width: 1440px</div>
+                        <div class="text-sm font-mono text-gray-600">Padding: 6px → 12px</div>
+                        <div class="text-sm font-mono text-gray-600">Borders: 4px solid</div>
+                        <div class="text-sm font-mono text-gray-600">Grid: 1/2/3 columns</div>
+                        <div class="text-sm font-mono text-gray-600">Rotation: ±1-3deg</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Guidelines -->
+            <h2 class="text-5xl font-display font-bold text-black mb-12 uppercase">Guidelines</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Do's</h3>
+                    <ul class="space-y-3 text-lg font-mono">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-neon-green"></i>
+                            Use bold, thick borders
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-neon-green"></i>
+                            Apply subtle rotations
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-neon-green"></i>
+                            Keep high contrast
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-neon-green"></i>
+                            Use ALL CAPS sparingly
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-neon-green"></i>
+                            Embrace asymmetry
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border-4 border-black p-8 brutalist-shadow-pink">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Don'ts</h3>
+                    <ul class="space-y-3 text-lg font-mono">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-times text-neon-pink"></i>
+                            Use thin, delicate lines
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-times text-neon-pink"></i>
+                            Over-rotate elements
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-times text-neon-pink"></i>
+                            Mix too many colors
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-times text-neon-pink"></i>
+                            Use drop shadows
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-times text-neon-pink"></i>
+                            Make it too perfect
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-4 border-black pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center gap-3 mb-6 md:mb-0">
+                    <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                        ☠
+                    </div>
+                    <span class="text-2xl font-bold text-black uppercase font-display">RealityCheck</span>
+                </div>
+                
+                <div class="flex gap-6 text-xs font-bold text-gray-600 uppercase tracking-widest font-mono">
+                    <span>Bold Design</span>
+                    <span class="text-black">|</span>
+                    <span>Neo Brutalist</span>
+                </div>
+            </div>
+            
+            <div class="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 font-mono">
+                <p>&copy; 2024 RealityCheck AI. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-neon-orange transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-pink transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

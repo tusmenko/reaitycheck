@@ -65,11 +65,10 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
             </span>
             <div className="flex items-center gap-3">
               <div className="
-                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
-                bg-red-500/20
+                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden bg-red-500/20
               ">
                 <div
-                  className="h-full rounded-full transition-all"
+                  className="h-full transition-all"
                   style={{
                     width: `${Math.min(100, Math.round(stats.resilienceRate))}%`,
                     backgroundColor: resilienceBarColor(stats.resilienceRate),
@@ -103,8 +102,8 @@ export const ModelDetailPage = (props: ModelDetailPageProps) => {
                 {!isDescriptionExpanded && (
                   <div className="
                     pointer-events-none absolute inset-x-0 bottom-0 h-8
-                    bg-linear-to-t from-background via-background/80
-                    to-transparent
+                    border-t-4 border-black bg-background
+                    dark:border-foreground
                   " />
                 )}
               </div>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Providers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#E63946',
+                            blue: '#457B9D',
+                            yellow: '#F4A261',
+                            green: '#2A9D8F',
+                            orange: '#E76F51',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #457B9D;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #F4A261;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #2A9D8F;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #E76F51;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="navbar">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Models</a>
+                <a href="#" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Challenges</a>
+                <a href="#providers" class="text-sm font-bold text-neon-orange uppercase tracking-wider">Providers</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                    Submit Model
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-white">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-5 py-2 bg-neon-blue border-4 border-black text-white text-xs font-bold mb-8 uppercase tracking-widest rotate-slight-reverse brutalist-shadow-sm">
+                <i class="fa-solid fa-building text-sm"></i>
+                AI Providers
+            </div>
+            
+            <h1 class="text-6xl lg:text-8xl font-display font-bold text-black leading-none mb-8 uppercase">
+                The<br>
+                <span class="text-neon-blue" style="text-shadow: 6px 6px 0px #F4A261;">Ecosystem</span>
+            </h1>
+            
+            <p class="text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto mb-12 leading-relaxed font-mono">
+                Meet the companies behind the models. Who's building what, and how they stack up.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a href="#provider-stats" class="w-full sm:w-auto px-10 py-4 bg-neon-blue text-white border-4 border-black font-bold text-lg uppercase tracking-wider hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm">
+                    View Rankings →
+                </a>
+                <a href="#submit-provider" class="w-full sm:w-auto px-10 py-4 bg-white text-black border-4 border-black font-bold text-lg uppercase tracking-wider hover:bg-neon-yellow hover:text-black transition-all brutalist-shadow-sm">
+                    Add Provider
+                </a>
+            </div>
+
+            <!-- Provider count stats -->
+            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="bg-white border-4 border-black p-6 rotate-slight brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-blue mb-2 font-mono">8</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Providers</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight-reverse brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-orange mb-2 font-mono">23</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Models</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-yellow mb-2 font-mono">4.2B</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Parameters</div>
+                </div>
+                <div class="bg-white border-4 border-black p-6 rotate-slight-reverse brutalist-shadow-sm">
+                    <div class="text-5xl font-bold text-neon-green mb-2 font-mono">98%</div>
+                    <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Coverage</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Provider Rankings -->
+    <section id="provider-stats" class="py-20 bg-gray-100 relative border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="mb-12">
+                <h2 class="text-5xl font-display font-bold text-black mb-4 uppercase">Provider Rankings</h2>
+                <p class="text-xl text-gray-600 font-mono">Ranked by average model survival rate</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Provider 1 - UX Pilot AI -->
+                <div class="bg-white border-4 border-black p-8 hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow group">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div class="flex items-start gap-6">
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-[#2A9D8F] border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    O
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h3 class="text-3xl font-bold text-black uppercase">UX Pilot AI</h3>
+                                    <span class="px-4 py-2 bg-neon-yellow text-black text-sm font-bold uppercase border-2 border-black">#1</span>
+                                </div>
+                                <p class="text-gray-600 text-lg font-mono mb-4">The GPT powerhouse. Industry standard setter.</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">GPT-4 Turbo</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">GPT-3.5</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">GPT-4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-green mb-2 font-mono">94.2%</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Avg Survival</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-black mb-2 font-mono">3</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Models</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-blue mb-2 font-mono">2019</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Founded</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Provider 2 - UX Pilot AI -->
+                <div class="bg-white border-4 border-black p-8 hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-blue group">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div class="flex items-start gap-6">
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-[#457B9D] border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    UX
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h3 class="text-3xl font-bold text-black uppercase">UX Pilot AI</h3>
+                                    <span class="px-4 py-2 bg-white text-black text-sm font-bold uppercase border-2 border-black">#2</span>
+                                </div>
+                                <p class="text-gray-600 text-lg font-mono mb-4">Specialized in UX/UI design and creative workflows.</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">UX Pilot 3.5</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">UX Pilot 3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-green mb-2 font-mono">91.8%</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Avg Survival</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-black mb-2 font-mono">2</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Models</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-blue mb-2 font-mono">2023</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Founded</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Provider 3 - Google -->
+                <div class="bg-white border-4 border-black p-8 hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-yellow group">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div class="flex items-start gap-6">
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-[#F4A261] border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    G
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h3 class="text-3xl font-bold text-black uppercase">Google</h3>
+                                    <span class="px-4 py-2 bg-white text-black text-sm font-bold uppercase border-2 border-black">#3</span>
+                                </div>
+                                <p class="text-gray-600 text-lg font-mono mb-4">Search giant's AI division. Bard and Gemini family.</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Gemini Pro</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Bard</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">PaLM 2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-yellow mb-2 font-mono">87.5%</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Avg Survival</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-black mb-2 font-mono">4</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Models</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-blue mb-2 font-mono">1998</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Founded</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Provider 4 - UX Pilot AI -->
+                <div class="bg-white border-4 border-black p-8 hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-orange group">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div class="flex items-start gap-6">
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-[#E76F51] border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    A
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h3 class="text-3xl font-bold text-black uppercase">UX Pilot AI</h3>
+                                    <span class="px-4 py-2 bg-white text-black text-sm font-bold uppercase border-2 border-black">#4</span>
+                                </div>
+                                <p class="text-gray-600 text-lg font-mono mb-4">AI safety focused. Constitutional AI approach.</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">UX Pilot 2</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">UX Pilot Instant</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-orange mb-2 font-mono">84.3%</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Avg Survival</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-black mb-2 font-mono">2</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Models</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-blue mb-2 font-mono">2021</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Founded</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Provider 5 - Meta -->
+                <div class="bg-white border-4 border-black p-8 hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow group">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div class="flex items-start gap-6">
+                            <div class="flex-shrink-0">
+                                <div class="w-20 h-20 bg-[#8B5CF6] border-4 border-black flex items-center justify-center text-white font-bold text-3xl">
+                                    M
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <h3 class="text-3xl font-bold text-black uppercase">Meta</h3>
+                                    <span class="px-4 py-2 bg-white text-black text-sm font-bold uppercase border-2 border-black">#5</span>
+                                </div>
+                                <p class="text-gray-600 text-lg font-mono mb-4">Open source champion. Llama family dominance.</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Llama 3</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Llama 2</span>
+                                    <span class="px-3 py-1 bg-gray-100 border-2 border-black text-xs font-bold uppercase">Code Llama</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-6 lg:gap-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-pink mb-2 font-mono">79.6%</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Avg Survival</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-black mb-2 font-mono">5</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Models</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-neon-blue mb-2 font-mono">2004</div>
+                                <div class="text-xs text-gray-600 font-bold uppercase">Founded</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Submit Provider CTA -->
+    <section id="submit-provider" class="py-20 bg-white border-t-4 border-black">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="bg-neon-pink border-4 border-black p-10 lg:p-16 relative overflow-hidden text-center lg:text-left brutalist-shadow">
+                <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
+                    <div class="max-w-xl">
+                        <h3 class="text-4xl font-display font-bold text-white mb-4 uppercase">Missing a Provider?</h3>
+                        <p class="text-white text-lg mb-8 font-mono">Know of an AI company we should be tracking? Submit their details and we'll add their models to our testing gauntlet.</p>
+                        <button class="px-8 py-4 bg-white text-black font-bold hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm uppercase tracking-wider border-4 border-black">Submit Provider →</button>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div class="w-64 h-64 bg-white border-4 border-black p-6 rotate-3 hover:rotate-0 transition-transform duration-500 brutalist-shadow-sm">
+                             <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 bg-neon-blue border-2 border-black flex items-center justify-center text-white text-xs">
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+                                <div class="h-3 w-24 bg-gray-200 border-2 border-black"></div>
+                             </div>
+                             <div class="space-y-3">
+                                 <div class="h-3 w-full bg-gray-200 border-2 border-black"></div>
+                                 <div class="h-3 w-3/4 bg-gray-200 border-2 border-black"></div>
+                                 <div class="h-3 w-5/6 bg-gray-200 border-2 border-black"></div>
+                             </div>
+                             <div class="mt-6 p-3 bg-neon-green border-4 border-black">
+                                 <div class="flex items-center gap-2 text-white text-xs font-bold uppercase">
+                                     <i class="fa-solid fa-plus"></i> Provider Added
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-4 border-black pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="flex items-center gap-3 mb-6 md:mb-0">
+                    <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                        ☠
+                    </div>
+                    <span class="text-2xl font-bold text-black uppercase font-display">RealityCheck</span>
+                </div>
+                
+                <div class="flex gap-6 text-xs font-bold text-gray-600 uppercase tracking-widest font-mono">
+                    <span>Verified Metrics</span>
+                    <span class="text-black">|</span>
+                    <span>Open Methodology</span>
+                </div>
+            </div>
+            
+            <div class="border-t-4 border-black pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 font-mono">
+                <p>&copy; 2024 RealityCheck AI. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-neon-orange transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-blue transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                    <a href="#" class="hover:text-neon-pink transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

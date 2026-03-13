@@ -18,16 +18,10 @@ export const BenchmarkPageContent = (props: BenchmarkPageContentProps) => {
             relative bg-background px-6 pt-8 pb-16
             lg:px-12
           ">
-            <div className="
-              absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10
-              blur-3xl
-            " />
-            <div className="
-              absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
-              blur-3xl
-            " />
             <div className="relative z-10 mx-auto max-w-6xl">
-              <p className="text-gray-400">Loading benchmark data…</p>
+              <p className="font-mono text-muted-foreground">
+                Loading benchmark data…
+              </p>
             </div>
           </section>
         ) : (
@@ -38,29 +32,24 @@ export const BenchmarkPageContent = (props: BenchmarkPageContentProps) => {
               lg:px-12
             "
           >
-            <div className="
-              absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10
-              blur-3xl
-            " />
-            <div className="
-              absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
-              blur-3xl
-            " />
             <div className="relative z-10 mx-auto max-w-6xl">
               <div className="mb-16">
-                <p className="
-                  text-sm font-semibold tracking-wide text-accent-red uppercase
+                <span className="
+                  inline-block -rotate-1 border-4 border-black bg-neon-blue px-3
+                  py-1 text-xs font-bold tracking-wide text-white uppercase
+                  shadow-[3px_3px_0px_#000]
+                  dark:border-foreground
                 ">
                   Benchmark
-                </p>
+                </span>
                 <h2 className="
-                  mt-3 font-display text-4xl font-bold text-white
+                  mt-4 font-display text-4xl font-bold text-foreground uppercase
                   lg:text-5xl
                 ">
                   Models Performance
                 </h2>
                 <p className="
-                  mt-4 max-w-2xl text-base text-gray-400
+                  mt-4 max-w-2xl font-mono text-base text-muted-foreground
                   lg:text-lg
                 ">
                   Failure-rate snapshot across current challenge suites.

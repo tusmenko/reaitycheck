@@ -32,9 +32,12 @@ export const TestRunStatusIcon = ({ cell, expectedAnswer }: TestRunStatusIconPro
         <Tooltip>
           <TooltipTrigger asChild>
             <span className="
-              inline-flex cursor-help items-center justify-center
+              inline-flex size-8 cursor-help items-center justify-center
+              border-2 border-black bg-neon-yellow font-mono text-xs font-bold
+              text-black
+              dark:border-foreground
             ">
-              <AlertTriangle className="size-5 text-amber-500" />
+              <AlertTriangle className="size-4" />
             </span>
           </TooltipTrigger>
           <TooltipContent>{ERROR_TOOLTIP}</TooltipContent>
@@ -52,21 +55,29 @@ export const TestRunStatusIcon = ({ cell, expectedAnswer }: TestRunStatusIconPro
       <DialogTrigger asChild>
         <button
           type="button"
-          className="
-            inline-flex cursor-pointer items-center justify-center rounded-sm
-            p-0.5 transition-opacity
-            hover:opacity-80
+          className={`
+            inline-flex size-8 cursor-pointer items-center justify-center
+            border-2 border-black transition-all
+            hover:translate-px hover:shadow-none
             focus:ring-2 focus:ring-white/50 focus:outline-none
-          "
+            dark:border-foreground
+            ${cell.isCorrect
+              ? `
+                bg-neon-green shadow-[1px_1px_0px_#000]
+                dark:shadow-[1px_1px_0px_#f5f5f0]
+              `
+              : `
+                bg-neon-pink shadow-[1px_1px_0px_#000]
+                dark:shadow-[1px_1px_0px_#f5f5f0]
+              `
+            }
+          `}
           aria-label="View model answer and expected answer"
         >
           {cell.isCorrect ? (
-            <Check className="
-              size-5 text-green-600
-              dark:text-green-500
-            " />
+            <Check className="size-5 stroke-3 text-black" />
           ) : (
-            <X className="size-5 text-destructive" />
+            <X className="size-5 stroke-3 text-white" />
           )}
         </button>
       </DialogTrigger>

@@ -1,6 +1,10 @@
 import type { HeroSectionProps } from "./HeroSection.types";
 import { useHeroSection } from "./useHeroSection";
 
+const GRAIN_BG =
+  // eslint-disable-next-line max-len
+  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E\")";
+
 export const HeroSection = ({
   modelCount,
   testCount,
@@ -12,32 +16,31 @@ export const HeroSection = ({
 
   return (
     <section className="
-      relative pt-16 pb-20
+      relative bg-background pt-16 pb-20
       lg:py-28
     ">
-      <div className="absolute inset-0" />
-      <div className="
-        absolute top-20 right-0 z-0 h-144 w-xl rounded-full bg-accent-red/10
-        blur-3xl
-      " />
-      <div className="
-        absolute bottom-0 left-0 z-0 size-96 rounded-full bg-accent-orange/10
-        blur-3xl
-      " />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: GRAIN_BG,
+          backgroundSize: "256px 256px",
+        }}
+      />
 
       <div className="
         relative z-10 mx-auto w-full max-w-[1440px] px-6 text-center
         lg:px-12
       ">
         <div className="
-          mb-8 inline-flex items-center gap-2 rounded-full border
-          border-dark-200 bg-dark-100 px-4 py-2 text-xs font-semibold
-          text-accent-red shadow-sm
+          mb-8 inline-flex -rotate-1 animate-border-pulse items-center gap-2
+          border-4 bg-neon-yellow px-4 py-2 text-xs font-bold tracking-wider
+          text-black uppercase shadow-brutalist-sm
+          dark:shadow-[4px_4px_0px_#f5f5f0]
         ">
           <span
             className={`
-              size-2 animate-pulse rounded-full
-              ${isFresh ? "bg-green-500" : "bg-accent-red"
+              size-2 animate-pulse
+              ${isFresh ? "bg-neon-green" : "bg-neon-pink"
               }
             `}
           />
@@ -45,25 +48,27 @@ export const HeroSection = ({
         </div>
 
         <h1 className="
-          font-display text-5xl/tight font-bold text-white
+          font-display text-5xl/tight font-bold text-foreground uppercase
           lg:text-7xl
         ">
           Where AI Models <br />
-          <span className="
-            bg-linear-to-r from-accent-red via-accent-orange to-accent-red
-            bg-clip-text text-transparent
-          ">
-            Face Reality
+          <span className="relative inline-block animate-head-shake-no">
+            <span className="
+              inline-block animate-shadow-neon-cycle bg-neon-pink px-4
+              text-white
+            ">
+              Face Reality
+            </span>
           </span>
         </h1>
         <p className="
-          mx-auto mt-6 max-w-2xl text-lg/relaxed text-gray-400
+          mx-auto mt-6 max-w-2xl font-mono text-lg/relaxed text-muted-foreground
           lg:text-xl
         ">
-          We run non-trivial prompts across popular models to surface failures
-          that benchmark averages hide. No fluff, just edge cases.
+          We throw tricky but funny prompts at top AI models and watch them squirm.
+          Count letters. Flip cups. Cite imaginary dolphins.
           <br />
-          And a bit of fun 🧪
+          Nobody passes clean.
         </p>
 
         <div className="
@@ -73,11 +78,12 @@ export const HeroSection = ({
           <a
             href="#test-runs"
             className="
-              w-full rounded-full bg-linear-to-r from-accent-red
-              to-accent-orange px-8 py-3.5 font-medium text-white shadow-xl
+              w-full border-4 border-black bg-neon-blue px-8 py-3.5 font-bold
+              tracking-wider text-white uppercase shadow-brutalist-sm
               transition-all
-              hover:-translate-y-1 hover:shadow-glow
+              hover:translate-1 hover:shadow-none
               sm:w-auto
+              dark:border-foreground dark:shadow-[4px_4px_0px_#f5f5f0]
             "
           >
             View Live Results
@@ -85,10 +91,12 @@ export const HeroSection = ({
           <a
             href="#challenges"
             className="
-              w-full rounded-full border border-dark-200 bg-dark-100 px-8 py-3.5
-              font-medium text-white transition-all
-              hover:bg-dark-200
+              w-full border-4 border-black bg-card px-8 py-3.5 font-bold
+              tracking-wider text-foreground uppercase shadow-brutalist-sm
+              transition-all
+              hover:translate-1 hover:shadow-none
               sm:w-auto
+              dark:border-foreground dark:shadow-[4px_4px_0px_#f5f5f0]
             "
           >
             Explore Challenges
@@ -96,38 +104,81 @@ export const HeroSection = ({
         </div>
 
         <div className="
-          mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-8 border-t
-          border-dark-200/60 pt-8
+          mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-6
           md:grid-cols-4
         ">
-          <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">{modelCount}</div>
+          <div
+            className="
+              animate-rock border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "0s" }}
+          >
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-blue">
+              {modelCount}
+            </div>
             <div className="
-              text-sm font-medium tracking-wide text-gray-500 uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Models Tracked
             </div>
           </div>
-          <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">{testCount}</div>
+          <div
+            className="
+              animate-rock-reverse border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "1s" }}
+          >
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-orange">
+              {testCount}
+            </div>
             <div className="
-              text-sm font-medium tracking-wide text-gray-500 uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Active Challenges
             </div>
           </div>
-          <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">{providerCount}</div>
+          <div
+            className="
+              animate-rock border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "2s" }}
+          >
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-yellow">
+              {providerCount}
+            </div>
             <div className="
-              text-sm font-medium tracking-wide text-gray-500 uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Providers
             </div>
           </div>
-          <div className="text-center">
-            <div className="mb-1 text-3xl font-bold text-white">Daily</div>
+          <div
+            className="
+              animate-rock-reverse border-4 border-black bg-white p-6
+              shadow-brutalist-sm transition-transform duration-200
+              hover:scale-105 hover:paused
+              dark:border-foreground dark:bg-card
+            "
+            style={{ animationDelay: "3s" }}
+          >
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-green">
+              Daily
+            </div>
             <div className="
-              text-sm font-medium tracking-wide text-gray-500 uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Automated Runs
             </div>

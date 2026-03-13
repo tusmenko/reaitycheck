@@ -3,6 +3,7 @@
 import { ComparisonGridSection } from "../comparison-grid-section";
 import { HeroSection } from "../hero-section";
 import { LeaderboardSection } from "../leaderboard-section";
+import { MarqueeDivider } from "../marquee-divider";
 import { SubmitChallengeCta } from "../submit-challenge-cta";
 import { TestsSection } from "../tests-section";
 import type { LandingPageProps } from "./LandingPage.types";
@@ -29,27 +30,37 @@ export const LandingPage = (props: LandingPageProps) => {
         nowMs={nowMs}
       />
 
+      <MarqueeDivider />
+
       <main className="relative z-10">
         <LeaderboardSection leaderboard={leaderboardEntries} />
         <TestsSection tests={testCases} />
-        <section id="test-runs" className="bg-background py-20">
+        <section id="test-runs" className="
+          border-t-4 border-black bg-muted py-20
+          dark:border-foreground
+        ">
           <div className="
             mx-auto w-full max-w-[1440px] px-6
             lg:px-12
           ">
             <div className="mb-16 text-center">
-              <p className="
-                text-sm font-semibold tracking-wide text-accent-red uppercase
+              <span className="
+                inline-block -rotate-1 border-4 border-black bg-neon-blue px-3
+                py-1 text-xs font-bold tracking-wide text-white uppercase
+                shadow-[3px_3px_0px_#000]
+                dark:border-foreground
               ">
                 Benchmark
-              </p>
+              </span>
               <h2 className="
-                mt-2 font-display text-3xl font-bold text-white
+                mt-4 font-display text-3xl font-bold text-foreground uppercase
                 lg:text-4xl
               ">
                 Providers Performance
               </h2>
-              <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+              <p className="
+                mx-auto mt-4 max-w-2xl font-mono text-muted-foreground
+              ">
                 Failure-rate snapshot by provider (averaged across their
                 models).
               </p>
