@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function BenchmarkPage() {
   const [preloadedTests, preloadedModels] = await Promise.all([
-    preloadQuery(api.queries.getActiveTestCases),
+    preloadQuery(api.queries.getActiveTestCasesWithKillRates),
     preloadQuery(api.queries.getActiveModels),
   ]);
 

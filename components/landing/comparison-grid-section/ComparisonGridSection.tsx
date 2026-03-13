@@ -30,6 +30,7 @@ export const ComparisonGridSection = ({
   const { tableProviders, tableModels, tableTests } = useComparisonGridSection(
     tests,
     models,
+    grid,
     variant
   );
 
