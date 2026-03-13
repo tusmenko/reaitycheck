@@ -48,8 +48,8 @@ export const useComparisonGridSection = (
       });
     }
 
-    return variant === "full" ? all : all.slice(0, 6);
-  }, [models, grid, tests, variant, sortByTestId]);
+    return all;
+  }, [models, grid, tests, sortByTestId]);
 
   const tableModels = useMemo(() => {
     const sorted = [...models].sort((a, b) => {
