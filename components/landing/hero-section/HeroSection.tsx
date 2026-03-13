@@ -63,10 +63,10 @@ export const HeroSection = ({
           mx-auto mt-6 max-w-2xl font-mono text-lg/relaxed text-muted-foreground
           lg:text-xl
         ">
-          We run non-trivial prompts across popular models to surface failures
-          that benchmark averages hide. No fluff, just edge cases.
+          We throw tricky but funny prompts at top AI models and watch them squirm.
+          Count letters. Flip cups. Cite imaginary dolphins.
           <br />
-          And a bit of fun 🧪
+          Nobody passes clean.
         </p>
 
         <div className="
