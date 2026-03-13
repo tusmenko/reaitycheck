@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { TestRunStatusIcon } from "@/components/custom/test-run-status-icon";
 import {
@@ -27,11 +27,13 @@ export const ComparisonGridSection = ({
   granularity = "provider",
   variant = "preview",
 }: ComparisonGridSectionProps) => {
-  const { tableProviders, tableModels, tableTests } = useComparisonGridSection(
-    tests,
-    models,
-    variant
-  );
+  const {
+    tableProviders,
+    tableModels,
+    tableTests,
+    sortByTestId,
+    toggleSortByTest,
+  } = useComparisonGridSection(tests, models, grid, variant);
 
   const tableContent = (
     <TooltipProvider>
@@ -52,46 +54,68 @@ export const ComparisonGridSection = ({
               ">
                 {granularity === "model" ? "Model" : "Provider"}
               </th>
-              {tableTests.map((test) => (
-                <th
-                  key={test._id}
-                  className="w-12 px-2 py-3 text-center align-bottom"
-                >
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={`/challenges/${test.slug}`}
-                        className="
-                          rotate-180 text-xs font-bold tracking-wider
-                          whitespace-nowrap text-foreground/60 uppercase
-                          transition-colors [writing-mode:vertical-rl]
-                          hover:text-foreground
-                        "
-                      >
-                        {test.name}
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-[260px]">
-                      <p className="font-bold text-foreground">{test.name}</p>
-                      <p className="
-                        mt-0.5 text-xs tracking-wide text-muted-foreground
-                        uppercase
-                      ">
-                        {test.category}
-                      </p>
-                      {test.prompt && (
+              {tableTests.map((test) => {
+                const isActive = sortByTestId === test._id;
+                return (
+                  <th
+                    key={test._id}
+                    className="w-12 px-2 py-3 text-center align-bottom"
+                  >
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          type="button"
+                          onClick={() => toggleSortByTest(test._id)}
+                          className={`
+                            rotate-180 cursor-pointer text-xs font-bold
+                            tracking-wider whitespace-nowrap uppercase
+                            transition-colors [writing-mode:vertical-rl]
+                            hover:text-foreground
+                            ${isActive
+                              ? "text-neon-pink"
+                              : "text-foreground/60"
+                            }
+                          `}
+                        >
+                          {test.name}
+                          {isActive ? " ▼" : ""}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-[260px]">
+                        <Link
+                          href={`/challenges/${test.slug}`}
+                          target="_blank"
+                          className="
+                            font-bold text-foreground underline
+                            decoration-neon-pink underline-offset-2
+                            transition-colors
+                            hover:text-neon-pink
+                          "
+                        >
+                          {test.name}
+                          <ArrowUpRight className="ml-0.5 inline size-3.5" />
+                        </Link>
                         <p className="
-                          mt-1.5 font-mono text-xs/relaxed text-muted-foreground
+                          mt-0.5 text-xs tracking-wide text-muted-foreground
+                          uppercase
                         ">
-                          {test.prompt.length > 120
-                            ? `${test.prompt.slice(0, 120)}…`
-                            : test.prompt}
+                          {test.category}
                         </p>
-                      )}
-                    </TooltipContent>
-                  </Tooltip>
-                </th>
-              ))}
+                        {test.prompt && (
+                          <p className="
+                            mt-1.5 font-mono text-xs/relaxed
+                            text-muted-foreground
+                          ">
+                            {test.prompt.length > 120
+                              ? `${test.prompt.slice(0, 120)}…`
+                              : test.prompt}
+                          </p>
+                        )}
+                      </TooltipContent>
+                    </Tooltip>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody className="
@@ -141,7 +165,7 @@ export const ComparisonGridSection = ({
                   transition-colors
                   hover:bg-muted/50
                 ">
-                  <td className="px-8 py-2">
+                  <td className="px-8 py-2 whitespace-nowrap">
                     <Link
                       href={providerPageHref(provider)}
                       className="
