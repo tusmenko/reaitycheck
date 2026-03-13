@@ -387,7 +387,8 @@ export const testCases = [
     expectedAnswer: "race all 6 together",
     explanation:
       "The obvious answer is to race all 6 horses at once. "
-      + "But models have seen the classic tournament-style puzzle (where you can only race 3 at a time) "
+      + "But models have seen the classic tournament-style puzzle "
+      + "(where you can only race 3 at a time) "
       + "so many times in training that they default to it — adding a constraint "
       + "that doesn't exist in the question. Classic pattern-matching over reading.",
     validationType: "llm_judge",
@@ -422,7 +423,8 @@ export const testCases = [
     validationConfig: {
       judgeCriteria:
         "The boat has three separate locked compartments. "
-        + "The wolf cannot eat the goat and the goat cannot eat the cabbage while locked in separate compartments. "
+        + "The wolf cannot eat the goat and the goat cannot eat the cabbage "
+        + "while locked in separate compartments. "
         + "Pass if the model concludes that one trip is sufficient — all three go at once. "
         + "Fail if the model ignores the compartments and proposes multiple trips "
         + "as in the classic river-crossing puzzle.",
