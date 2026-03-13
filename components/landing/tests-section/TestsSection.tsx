@@ -1,6 +1,5 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { MemenessStars } from "@/components/custom/memeness-stars";
 import { formatCategory } from "@/lib/model-detail-utils";
 import type { TestsSectionProps } from "./TestsSection.types";
 import { useTestsSection } from "./useTestsSection";
@@ -108,10 +107,10 @@ export const TestsSection = ({ tests }: TestsSectionProps) => {
                 </p>
 
                 <div className="
-                  flex items-center justify-between border-t-4 border-black pt-4
+                  border-t-4 border-black pt-4
                   dark:border-foreground
                 ">
-                  <div className="flex items-center gap-2">
+                  <div className="mb-2 flex items-center justify-between">
                     <span className="
                       text-xs font-bold text-muted-foreground uppercase
                     ">
@@ -121,7 +120,17 @@ export const TestsSection = ({ tests }: TestsSectionProps) => {
                       {hasRealKillRate ? `${killRate}%` : "—"}
                     </span>
                   </div>
-                  <MemenessStars score={test.memenessScore} />
+                  {hasRealKillRate && (
+                    <div className="
+                      h-3 w-full border-2 border-black bg-muted
+                      dark:border-foreground
+                    ">
+                      <div
+                        className="h-full bg-neon-pink"
+                        style={{ width: `${killRate}%` }}
+                      />
+                    </div>
+                  )}
                 </div>
               </Link>
             );

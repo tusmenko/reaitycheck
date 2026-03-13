@@ -1,6 +1,5 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { MemenessStars } from "@/components/custom/memeness-stars";
 import {
   formatCategory,
   killRateColorClass,
@@ -76,7 +75,6 @@ export const ChallengeListItem = ({ test, rank }: ChallengeListItemProps) => {
               ">
                 {formatCategory(test.category)}
               </span>
-              <MemenessStars score={test.memenessScore} />
             </div>
             <div className="
               shrink-0
