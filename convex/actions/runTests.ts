@@ -224,6 +224,60 @@ export const orchestrateErroredTests = action({
   },
 });
 
+// Daily cron target: runs all challenges against a day-of-week slice of models
+export const orchestrateDailySlice = action({
+  args: {},
+  handler: async (ctx) => {
+    const dayOfWeek = new Date().getUTCDay(); // 0=Sun ... 6=Sat
+    const tests = await ctx.runQuery(api.queries.getActiveTestCases);
+    const allModels = await ctx.runQuery(api.queries.getActiveModels);
+
+    // Stable ordering by _id, then pick models whose index falls on today
+    const sorted = [...allModels].sort((a, b) => (a._id < b._id ? -1 : 1));
+    const models = sorted.filter((_, i) => i % 7 === dayOfWeek);
+
+    console.log(
+      `[orchestrateDailySlice] day=${dayOfWeek} | ` +
+      `${models.length}/${allModels.length} models × ` +
+      `${tests.length} challenges`
+    );
+
+    let delayMs = 0;
+    let scheduled = 0;
+
+    for (const model of models) {
+      const maxTokens = effectiveMaxTokens(model);
+      for (const test of tests) {
+        await ctx.scheduler.runAfter(
+          delayMs,
+          internal.actions.runTests.executeScheduledTest,
+          {
+            testCaseId: test._id,
+            modelId: model._id,
+            testName: test.name,
+            prompt: test.prompt,
+            expectedAnswer: test.expectedAnswer,
+            validationType: test.validationType,
+            validationConfig: test.validationConfig,
+            modelName: model.modelName,
+            apiIdentifier: model.apiIdentifier,
+            maxTokens,
+          }
+        );
+        scheduled++;
+        delayMs += DELAY_BETWEEN_REQUESTS_MS;
+      }
+    }
+
+    const durationMinutes = Math.ceil(delayMs / 60_000);
+    console.log(
+      `[orchestrateDailySlice] Scheduled ${scheduled} tests ` +
+      `(staggered over ~${durationMinutes} minutes)`
+    );
+    return { scheduled, estimatedDurationMinutes: durationMinutes };
+  },
+});
+
 // Deprecated: redirects to orchestrateAllTests
 export const runAllTests = action({
   args: {},

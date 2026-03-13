@@ -16,9 +16,9 @@ if (cronTime) {
     const minuteUTC = parseInt(match[2], 10);
     if (hourUTC >= 0 && hourUTC <= 23 && minuteUTC >= 0 && minuteUTC <= 59) {
       crons.daily(
-        "orchestrate all tests",
+        "orchestrate daily slice",
         { hourUTC, minuteUTC },
-        api.actions.runTests.orchestrateAllTests
+        api.actions.runTests.orchestrateDailySlice
       );
     }
   }
