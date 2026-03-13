@@ -62,11 +62,10 @@ export const TestDetailPage = (props: TestDetailPageProps) => {
             </span>
             <div className="flex items-center gap-3">
               <div className="
-                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden rounded-full
-                bg-muted
+                h-2 max-w-xs min-w-[120px] flex-1 overflow-hidden bg-muted
               ">
                 <div
-                  className="h-full rounded-full transition-all"
+                  className="h-full transition-all"
                   style={{
                     width: `${Math.min(100, Math.round(stats.breakRate))}%`,
                     backgroundColor: killRateBarColor(stats.breakRate),

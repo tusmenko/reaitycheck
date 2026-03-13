@@ -4,9 +4,9 @@ import { Trophy, Brain, Bot } from "lucide-react";
 export { TOUGHEST_BREAKER_RANKS } from "@/lib/shared-constants";
 
 export const AVATAR_GRADIENT_BY_RANK: Record<number, string> = {
-  1: "from-orange-400 to-red-500",
-  2: "from-purple-500 to-indigo-600",
-  3: "from-gray-600 to-gray-800",
+  1: "bg-neon-pink",
+  2: "bg-neon-blue",
+  3: "bg-neon-green",
 };
 
 export const RANK_ICON_COLOR_BY_RANK: Record<number, string> = {

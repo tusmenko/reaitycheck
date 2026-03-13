@@ -18,10 +18,13 @@ import {
 } from "@/convex/challengeSubmissionLimits";
 
 const inputClass =
-  "w-full rounded-xl border border-dark-300 bg-dark-200 px-4 py-3 " +
-  "text-white placeholder:text-dark-500 focus:border-accent-red/50 " +
-  "focus:outline-none focus:ring-2 focus:ring-accent-red/20";
-const labelClass = "mb-1.5 block text-sm font-medium text-gray-300";
+  "w-full border-4 border-black bg-background px-4 py-3 " +
+  "text-foreground placeholder:text-muted-foreground " +
+  "focus:border-neon-blue focus:outline-none focus:ring-2 " +
+  "focus:ring-neon-blue/20 dark:border-foreground " +
+  "dark:focus:border-neon-blue";
+const labelClass =
+  "mb-1.5 block text-sm font-bold text-foreground uppercase";
 
 function isValidHttpUrl(s: string): boolean {
   try {
@@ -143,8 +146,6 @@ export default function SubmitChallengePage() {
       };
       if (!res.ok) {
         setSubmitError(json.error ?? "Submission failed. Please try again.");
-        // Only reset Turnstile when the token was invalid/expired,
-        // not for rate limit or other errors
         if (res.status === 400 && json.code === "turnstile_invalid") {
           setTurnstileToken(null);
           setTurnstileKey((k) => k + 1);
@@ -163,39 +164,35 @@ export default function SubmitChallengePage() {
         relative min-h-screen px-6 pt-8 pb-16
         lg:px-12
       ">
-        <div className="
-          absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10 blur-3xl
-        " />
-        <div className="
-          absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
-          blur-3xl
-        " />
-
         <section className="
-          relative z-10 mx-auto w-full max-w-4xl rounded-3xl border
-          border-dark-200 bg-dark-100/80 p-10 shadow-sm backdrop-blur-sm
+          relative z-10 mx-auto w-full max-w-4xl border-4 border-black bg-card
+          p-10 shadow-brutalist
           lg:p-14
+          dark:border-foreground dark:shadow-[8px_8px_0px_#f5f5f0]
         ">
           {submitted ? (
             <div className="flex flex-col items-center text-center">
-              <p className="
-                text-sm font-semibold tracking-wide text-accent-red uppercase
+              <span className="
+                inline-block -rotate-1 border-4 border-black bg-neon-green px-3
+                py-1 text-xs font-bold tracking-wide text-white uppercase
+                shadow-[3px_3px_0px_#000]
+                dark:border-foreground
               ">
                 Thank you
-              </p>
+              </span>
               <h1 className="
-                mt-3 font-display text-4xl font-bold text-white
+                mt-4 font-display text-4xl font-bold text-foreground uppercase
                 lg:text-5xl
               ">
                 Challenge submitted
               </h1>
               <p className="
-                mt-4 max-w-2xl text-base text-gray-400
+                mt-4 max-w-2xl font-mono text-base text-muted-foreground
                 lg:text-lg
               ">
-                Your submission will be reviewed. If it passes our initial
-                kill-rate check, we&apos;ll add it to the challenges ladder and
-                you&apos;ll see it in the catalog.
+                Your submission will be reviewed. If it passes our
+                initial kill-rate check, we&apos;ll add it to the
+                challenges ladder and you&apos;ll see it in the catalog.
               </p>
               <div className="
                 mt-8 flex flex-col gap-3
@@ -204,9 +201,11 @@ export default function SubmitChallengePage() {
                 <Link
                   href="/challenges"
                   className="
-                    rounded-full bg-linear-to-r from-accent-red to-accent-orange
-                    px-6 py-3 text-sm font-semibold text-dark-50 transition-all
-                    hover:shadow-glow
+                    border-4 border-black bg-neon-blue px-6 py-3 text-sm
+                    font-bold tracking-wider text-white uppercase
+                    shadow-brutalist-sm transition-all
+                    hover:translate-1 hover:shadow-none
+                    dark:border-foreground
                   "
                 >
                   Browse Challenges
@@ -214,9 +213,11 @@ export default function SubmitChallengePage() {
                 <Link
                   href="/"
                   className="
-                    rounded-full border border-dark-200 px-6 py-3 text-sm
-                    font-semibold text-gray-300 transition-colors
-                    hover:border-accent-red/50 hover:text-white
+                    border-4 border-black bg-card px-6 py-3 text-sm font-bold
+                    tracking-wider text-foreground uppercase shadow-brutalist-sm
+                    transition-all
+                    hover:translate-1 hover:shadow-none
+                    dark:border-foreground
                   "
                 >
                   Back to Homepage
@@ -225,23 +226,26 @@ export default function SubmitChallengePage() {
             </div>
           ) : (
             <>
-              <p className="
-                text-sm font-semibold tracking-wide text-accent-red uppercase
+              <span className="
+                inline-block rotate-1 border-4 border-black bg-neon-purple px-3
+                py-1 text-xs font-bold tracking-wide text-white uppercase
+                shadow-[3px_3px_0px_#000]
+                dark:border-foreground
               ">
                 Submit a challenge
-              </p>
+              </span>
               <h1 className="
-                mt-3 font-display text-4xl font-bold text-white
+                mt-4 font-display text-4xl font-bold text-foreground uppercase
                 lg:text-5xl
               ">
                 Have a tricky prompt?
               </h1>
               <p className="
-                mt-2 max-w-2xl text-base text-gray-400
+                mt-2 max-w-2xl font-mono text-base text-muted-foreground
                 lg:text-lg
               ">
-                Submit your edge case. If it breaks major models, we add it to
-                the gauntlet and credit the submission.
+                Submit your edge case. If it breaks major models, we
+                add it to the gauntlet and credit the submission.
               </p>
 
               <form
@@ -250,7 +254,10 @@ export default function SubmitChallengePage() {
               >
                 <div>
                   <label htmlFor="prompt" className={labelClass}>
-                    Prompt <span className="text-gray-500">(required)</span>
+                    Prompt{" "}
+                    <span className="text-muted-foreground">
+                      (required)
+                    </span>
                   </label>
                   <textarea
                     id="prompt"
@@ -261,15 +268,20 @@ export default function SubmitChallengePage() {
                     placeholder="The prompt or instruction you want to test…"
                   />
                   {errors.prompt && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.prompt.message}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="expectedResult" className={labelClass}>
+                  <label
+                    htmlFor="expectedResult"
+                    className={labelClass}
+                  >
                     Expected result{" "}
-                    <span className="text-gray-500">(required)</span>
+                    <span className="text-muted-foreground">
+                      (required)
+                    </span>
                   </label>
                   <textarea
                     id="expectedResult"
@@ -280,15 +292,20 @@ export default function SubmitChallengePage() {
                     placeholder="What the model should answer or do when it gets it right?"
                   />
                   {errors.expectedResult && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.expectedResult.message}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="trickDescription" className={labelClass}>
+                  <label
+                    htmlFor="trickDescription"
+                    className={labelClass}
+                  >
                     What&apos;s the trick?{" "}
-                    <span className="text-gray-500">(required)</span>
+                    <span className="text-muted-foreground">
+                      (required)
+                    </span>
                   </label>
                   <textarea
                     id="trickDescription"
@@ -299,15 +316,20 @@ export default function SubmitChallengePage() {
                     placeholder="Describe what makes this prompt tricky or easy to get wrong."
                   />
                   {errors.trickDescription && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.trickDescription.message}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="modelFailureInsight" className={labelClass}>
+                  <label
+                    htmlFor="modelFailureInsight"
+                    className={labelClass}
+                  >
                     What does it reveal about a model when it fails?{" "}
-                    <span className="text-gray-500">(optional)</span>
+                    <span className="text-muted-foreground">
+                      (optional)
+                    </span>
                   </label>
                   <textarea
                     id="modelFailureInsight"
@@ -318,15 +340,20 @@ export default function SubmitChallengePage() {
                     placeholder="e.g. tendency to comply, lack of reasoning, etc."
                   />
                   {errors.modelFailureInsight && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.modelFailureInsight.message}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="submitterName" className={labelClass}>
+                  <label
+                    htmlFor="submitterName"
+                    className={labelClass}
+                  >
                     Your nickname {" "}
-                    <span className="text-gray-500">(optional)</span>
+                    <span className="text-muted-foreground">
+                      (optional)
+                    </span>
                   </label>
                   <input
                     id="submitterName"
@@ -337,15 +364,20 @@ export default function SubmitChallengePage() {
                     placeholder="How we can credit you"
                   />
                   {errors.submitterName && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.submitterName.message}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label htmlFor="submitterLink" className={labelClass}>
+                  <label
+                    htmlFor="submitterLink"
+                    className={labelClass}
+                  >
                     Link to show on your challenge{" "}
-                    <span className="text-gray-500">(optional)</span>
+                    <span className="text-muted-foreground">
+                      (optional)
+                    </span>
                   </label>
                   <input
                     id="submitterLink"
@@ -356,7 +388,7 @@ export default function SubmitChallengePage() {
                     placeholder="e.g. https://…"
                   />
                   {errors.submitterLink && (
-                    <p className="mt-1 text-sm text-red-400">
+                    <p className="mt-1 text-sm text-neon-pink">
                       {errors.submitterLink.message}
                     </p>
                   )}
@@ -367,40 +399,41 @@ export default function SubmitChallengePage() {
                     type="checkbox"
                     {...register("rulesAccepted")}
                     className="
-                      mt-1 size-4 shrink-0 rounded-sm border-dark-300
-                      bg-dark-200 text-accent-red
-                      focus:ring-2 focus:ring-accent-red/20 focus:ring-offset-0
+                      mt-1 size-4 shrink-0 border-2 border-black bg-background
+                      text-neon-blue
+                      focus:ring-2 focus:ring-neon-blue/20 focus:ring-offset-0
+                      dark:border-foreground
                     "
                   />
                   <label
                     htmlFor="rulesAccepted"
-                    className="text-sm text-gray-300"
+                    className="text-sm text-foreground"
                   >
                     I have read and agree to the{" "}
                     <Link
                       href="/submit-challenge/rules"
                       className="
-                        font-medium text-accent-red underline
-                        hover:text-accent-orange
+                        font-bold text-neon-pink underline
+                        hover:text-neon-orange
                       "
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       Submission rules
                     </Link>{" "}
-                    and the license I grant there. I will not submit personal,
-                    confidential, or policy-violating content.
+                    and the license I grant there. I will not submit
+                    personal, confidential, or policy-violating content.
                   </label>
                 </div>
                 {errors.rulesAccepted && (
-                  <p className="mt-1 text-sm text-red-400">
+                  <p className="mt-1 text-sm text-neon-pink">
                     {errors.rulesAccepted.message}
                   </p>
                 )}
                 {submitError && (
                   <p className="
-                    rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2
-                    text-sm text-red-400
+                    border-4 border-neon-pink bg-neon-pink/10 px-4 py-2 text-sm
+                    text-neon-pink
                   ">
                     {submitError}
                   </p>
@@ -414,10 +447,7 @@ export default function SubmitChallengePage() {
                       (!!turnstileSiteKey && !turnstileToken)
                     }
                     className="
-                      cursor-pointer rounded-full bg-linear-to-r from-accent-red
-                      to-accent-orange px-8 py-3 font-semibold text-dark-50
-                      transition-all
-                      hover:shadow-glow
+                      cursor-pointer
                       disabled:cursor-not-allowed disabled:opacity-70
                     "
                   >

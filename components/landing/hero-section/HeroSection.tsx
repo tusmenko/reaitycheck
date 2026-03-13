@@ -103,55 +103,61 @@ export const HeroSection = ({
         </div>
 
         <div className="
-          mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-8 border-t-4 border-black
-          pt-8
+          mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-6
           md:grid-cols-4
-          dark:border-foreground
         ">
           <div className="
-            -rotate-1 border-4 border-black bg-card p-4 text-center
-            shadow-[4px_4px_0px_#E63946]
-            dark:border-foreground
+            -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            dark:border-foreground dark:bg-card
           ">
-            <div className="mb-1 font-mono text-3xl font-bold text-foreground">{modelCount}</div>
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-blue">
+              {modelCount}
+            </div>
             <div className="
-              text-xs font-bold tracking-wide text-muted-foreground uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Models Tracked
             </div>
           </div>
           <div className="
-            rotate-1 border-4 border-black bg-card p-4 text-center
-            shadow-[4px_4px_0px_#457B9D]
-            dark:border-foreground
+            rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            dark:border-foreground dark:bg-card
           ">
-            <div className="mb-1 font-mono text-3xl font-bold text-foreground">{testCount}</div>
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-orange">
+              {testCount}
+            </div>
             <div className="
-              text-xs font-bold tracking-wide text-muted-foreground uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Active Challenges
             </div>
           </div>
           <div className="
-            -rotate-1 border-4 border-black bg-card p-4 text-center
-            shadow-[4px_4px_0px_#2A9D8F]
-            dark:border-foreground
+            -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            dark:border-foreground dark:bg-card
           ">
-            <div className="mb-1 font-mono text-3xl font-bold text-foreground">{providerCount}</div>
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-yellow">
+              {providerCount}
+            </div>
             <div className="
-              text-xs font-bold tracking-wide text-muted-foreground uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Providers
             </div>
           </div>
           <div className="
-            rotate-1 border-4 border-black bg-card p-4 text-center
-            shadow-[4px_4px_0px_#F4A261]
-            dark:border-foreground
+            rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            dark:border-foreground dark:bg-card
           ">
-            <div className="mb-1 font-mono text-3xl font-bold text-foreground">Daily</div>
+            <div className="mb-2 font-mono text-5xl font-bold text-neon-green">
+              Daily
+            </div>
             <div className="
-              text-xs font-bold tracking-wide text-muted-foreground uppercase
+              text-xs font-bold tracking-widest text-gray-600 uppercase
+              dark:text-gray-400
             ">
               Automated Runs
             </div>

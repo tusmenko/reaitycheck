@@ -16,18 +16,13 @@ export const ChallengesCatalogContent = ({
         relative h-full bg-background px-6 pt-8 pb-16
         lg:px-12
       ">
-        <div className="
-          absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10 blur-3xl
-        " />
-        <div className="
-          absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
-          blur-3xl
-        " />
         <section className="relative z-10 mx-auto max-w-2xl py-16 text-center">
-          <h1 className="font-display text-2xl font-bold text-white">
+          <h1 className="
+            font-display text-2xl font-bold text-foreground uppercase
+          ">
             No challenges yet
           </h1>
-          <p className="mt-2 text-gray-500">
+          <p className="mt-2 font-mono text-muted-foreground">
             Challenge catalog will appear here once tests are added.
           </p>
         </section>
@@ -40,28 +35,23 @@ export const ChallengesCatalogContent = ({
       relative h-full bg-background px-6 pt-8 pb-16
       lg:px-12
     ">
-      <div className="
-        absolute top-1/4 left-0 size-80 rounded-full bg-accent-red/10 blur-3xl
-      " />
-      <div className="
-        absolute right-0 bottom-0 size-80 rounded-full bg-accent-orange/10
-        blur-3xl
-      " />
-
       <div className="relative z-10 mx-auto max-w-6xl">
-        <p className="
-          text-sm font-semibold tracking-wide text-accent-red uppercase
+        <span className="
+          inline-block -rotate-1 border-4 border-black bg-neon-orange px-3 py-1
+          text-xs font-bold tracking-wide text-white uppercase
+          shadow-[3px_3px_0px_#000]
+          dark:border-foreground
         ">
           Challenges
-        </p>
+        </span>
         <h1 className="
-          mt-3 font-display text-4xl font-bold text-white
+          mt-4 font-display text-4xl font-bold text-foreground uppercase
           lg:text-5xl
         ">
           Challenge catalog
         </h1>
         <p className="
-          mt-4 max-w-2xl text-base text-gray-400
+          mt-4 max-w-2xl font-mono text-base text-muted-foreground
           lg:text-lg
         ">
           All prompt gauntlets sorted by kill rate. Top breakers first.
@@ -71,10 +61,10 @@ export const ChallengesCatalogContent = ({
 
         {rest.length > 0 && (
           <section>
-            <h2 className="mb-4 text-xl font-semibold text-white">
+            <h2 className="mb-4 text-xl font-bold text-foreground uppercase">
               All challenges
             </h2>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {rest.map((test, index) => (
                 <ChallengeListItem
                   key={test._id}
