@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenges</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#FF006E',
+                            blue: '#00F5FF',
+                            yellow: '#FFBE0B',
+                            green: '#00FF88',
+                            orange: '#FF6B35',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #00F5FF;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #FFBE0B;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #00FF88;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #FF6B35;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+        ::-webkit-scrollbar { display: none;}
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="header">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Home</a>
+                <a href="/models" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Models</a>
+                <a href="/challenges" class="text-sm font-bold text-neon-orange uppercase tracking-wider">Challenges</a>
+                <a href="/benchmarks" class="text-sm font-bold text-black hover:text-neon-yellow transition-colors uppercase tracking-wider">Benchmarks</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                    Submit Challenge
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-16 lg:pt-40 lg:pb-20 overflow-hidden bg-white border-b-4 border-black" id="hero">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-5 py-2 bg-red-500 border-4 border-black text-white text-xs font-bold mb-8 uppercase tracking-widest rotate-slight-reverse brutalist-shadow-sm">
+                    <i class="fa-solid fa-skull-crossbones"></i>
+                    86 Active Challenges
+                </div>
+                
+                <h1 class="text-6xl lg:text-8xl font-display font-bold text-black leading-none mb-8 uppercase">
+                    Deadly<br>
+                    <span class="text-neon-orange" style="text-shadow: 6px 6px 0px #00F5FF;">Challenges</span>
+                </h1>
+                
+                <p class="text-xl lg:text-2xl text-gray-700 max-w-3xl mb-12 leading-relaxed font-mono">
+                    Edge cases designed to break AI models. No academic fluff. Real failures that matter.
+                </p>
+
+                <div class="flex flex-wrap gap-4 mb-16">
+                    <button class="px-6 py-3 bg-red-500 text-white border-4 border-black font-bold uppercase tracking-wider hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow-sm text-sm">
+                        <i class="fa-solid fa-fire mr-2"></i> Extreme
+                    </button>
+                    <button class="px-6 py-3 bg-white text-black border-4 border-black font-bold uppercase tracking-wider hover:bg-orange-500 hover:text-white transition-all brutalist-shadow-sm text-sm">
+                        <i class="fa-solid fa-bolt mr-2"></i> Hard
+                    </button>
+                    <button class="px-6 py-3 bg-white text-black border-4 border-black font-bold uppercase tracking-wider hover:bg-yellow-500 transition-all brutalist-shadow-sm text-sm">
+                        <i class="fa-solid fa-star mr-2"></i> Medium
+                    </button>
+                    <button class="px-6 py-3 bg-white text-black border-4 border-black font-bold uppercase tracking-wider hover:bg-green-500 hover:text-white transition-all brutalist-shadow-sm text-sm">
+                        All Categories
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-red-500 mb-1 font-mono">24</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Extreme</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-orange-500 mb-1 font-mono">38</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Hard</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-yellow-500 mb-1 font-mono">18</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Medium</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-green-500 mb-1 font-mono">6</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Easy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Grid -->
+    <section class="py-20 bg-gray-100" id="challenges-grid">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            
+            <!-- Category: Security & Jailbreaking -->
+            <div class="mb-16" id="security-category">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-red-500 border-4 border-black flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-black uppercase">Security & Jailbreaking</h2>
+                        <p class="text-gray-600 font-mono text-sm">24 challenges</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-red-500 transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-user-secret text-lg"></i>
+                            </div>
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-red-500 transition-colors">Ignore Instructions Test</h3>
+                        <p class="text-gray-600 text-sm mb-6">Tests if model can be tricked into ignoring system prompts through adversarial inputs.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-red-500 font-mono">68%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,204 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-red-500 transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-lock-open text-lg"></i>
+                            </div>
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-red-500 transition-colors">Role-Play Jailbreak</h3>
+                        <p class="text-gray-600 text-sm mb-6">Attempts to bypass safety filters by framing harmful requests as fictional scenarios.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-red-500 font-mono">72%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">986 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-orange-500 transition-all brutalist-shadow-orange hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-key text-lg"></i>
+                            </div>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-orange-500 transition-colors">Prompt Injection</h3>
+                        <p class="text-gray-600 text-sm mb-6">Embedding malicious instructions within seemingly innocent user inputs.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-orange-500 font-mono">54%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,450 runs</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Category: Logic & Reasoning -->
+            <div class="mb-16" id="logic-category">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-blue-500 border-4 border-black flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-black uppercase">Logic & Reasoning</h2>
+                        <p class="text-gray-600 font-mono text-sm">50 challenges</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-blue-500 transition-all brutalist-shadow-blue hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-calculator text-lg"></i>
+                            </div>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-blue-500 transition-colors">Complex Math Word Problems</h3>
+                        <p class="text-gray-600 text-sm mb-6">Multi-step arithmetic buried in irrelevant narrative details and misdirection.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-blue-500 font-mono">42%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">2,340 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-blue-500 transition-all brutalist-shadow-blue hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-puzzle-piece text-lg"></i>
+                            </div>
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-blue-500 transition-colors">Circular Reasoning Detection</h3>
+                        <p class="text-gray-600 text-sm mb-6">Identifying logical fallacies in complex arguments with circular dependencies.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-blue-500 font-mono">79%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,876 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-yellow-500 transition-all brutalist-shadow-yellow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-yellow-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-chess text-lg"></i>
+                            </div>
+                            <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Medium</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-yellow-500 transition-colors">Multi-Step Planning</h3>
+                        <p class="text-gray-600 text-sm mb-6">Complex scenarios requiring sequential decision-making with dependencies.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-yellow-500 font-mono">31%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">3,120 runs</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Category: Cultural & Context -->
+            <div class="mb-16" id="cultural-category">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-purple-500 border-4 border-black flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-black uppercase">Cultural & Context</h2>
+                        <p class="text-gray-600 font-mono text-sm">18 challenges</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-purple-500 transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-masks-theater text-lg"></i>
+                            </div>
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-purple-500 transition-colors">Sarcasm Detection</h3>
+                        <p class="text-gray-600 text-sm mb-6">Identifying subtle sarcasm without taking statements literally.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-purple-500 font-mono">86%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,654 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-purple-500 transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-language text-lg"></i>
+                            </div>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-purple-500 transition-colors">Idiom Translation</h3>
+                        <p class="text-gray-600 text-sm mb-6">Translating culture-specific idioms while preserving meaning and intent.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-purple-500 font-mono">48%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">2,098 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-purple-500 transition-all brutalist-shadow hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-comment-dots text-lg"></i>
+                            </div>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-purple-500 transition-colors">Implicit Context</h3>
+                        <p class="text-gray-600 text-sm mb-6">Understanding unstated assumptions and reading between the lines.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-purple-500 font-mono">61%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,432 runs</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Category: Code & Technical -->
+            <div class="mb-16" id="code-category">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-12 h-12 bg-green-500 border-4 border-black flex items-center justify-center text-white text-xl">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-display font-bold text-black uppercase">Code & Technical</h2>
+                        <p class="text-gray-600 font-mono text-sm">30 challenges</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-green-500 transition-all brutalist-shadow-green hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-orange-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-bug text-lg"></i>
+                            </div>
+                            <span class="bg-orange-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Hard</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-green-500 transition-colors">API Hallucination</h3>
+                        <p class="text-gray-600 text-sm mb-6">Documentation for non-existent libraries to check for hallucinations.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-green-500 font-mono">18%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">3,245 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-green-500 transition-all brutalist-shadow-green hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-yellow-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-terminal text-lg"></i>
+                            </div>
+                            <span class="bg-yellow-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Medium</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-green-500 transition-colors">Code Refactoring</h3>
+                        <p class="text-gray-600 text-sm mb-6">Improving legacy code while maintaining functionality and edge cases.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-green-500 font-mono">24%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">2,876 runs</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="group bg-white border-4 border-black p-6 hover:border-green-500 transition-all brutalist-shadow-green hover:translate-x-2 hover:translate-y-2">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-red-500 text-white flex items-center justify-center border-4 border-black">
+                                <i class="fa-solid fa-shield-virus text-lg"></i>
+                            </div>
+                            <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 border-2 border-black uppercase">Extreme</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-black mb-2 group-hover:text-green-500 transition-colors">Security Vulnerability Detection</h3>
+                        <p class="text-gray-600 text-sm mb-6">Identifying subtle security flaws in complex codebases.</p>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t-2 border-gray-200">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-500 font-bold uppercase">Kill Rate</span>
+                                <span class="text-sm font-bold text-green-500 font-mono">65%</span>
+                            </div>
+                            <span class="text-xs text-gray-500 font-mono">1,987 runs</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-white border-t-4 border-b-4 border-black" id="cta-section">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 text-center">
+            <div class="inline-flex items-center gap-2 px-5 py-2 bg-neon-yellow border-4 border-black text-black text-xs font-bold mb-8 uppercase tracking-widest rotate-slight brutalist-shadow-sm">
+                <i class="fa-solid fa-lightbulb"></i>
+                Open Source
+            </div>
+            
+            <h2 class="text-5xl lg:text-7xl font-display font-bold text-black mb-6 uppercase">
+                Submit Your<br>Challenge
+            </h2>
+            
+            <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-12 font-mono">
+                Found an edge case that breaks AI models? Share it with the community and help expose real limitations.
+            </p>
+
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="#" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-2 hover:translate-y-2 transition-transform brutalist-shadow">
+                    <i class="fa-brands fa-github mr-3 text-xl"></i>
+                    Submit on GitHub
+                </a>
+                <a href="#" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-black bg-white border-4 border-black uppercase tracking-wider hover:bg-neon-blue transition-all brutalist-shadow">
+                    <i class="fa-solid fa-book mr-3"></i>
+                    Read Guidelines
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white border-t-4 border-black" id="footer">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                            ☠
+                        </div>
+                        <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+                    </div>
+                    <p class="text-gray-600 text-sm max-w-md font-mono">
+                        Testing AI models with real edge cases that matter. No fluff, just brutal reality checks.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-black uppercase tracking-wider mb-4">Navigate</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Home</a></li>
+                        <li><a href="/models" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Models</a></li>
+                        <li><a href="/challenges" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Challenges</a></li>
+                        <li><a href="/benchmarks" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Benchmarks</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-black uppercase tracking-wider mb-4">Community</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">GitHub</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Discord</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Twitter</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-black transition-colors text-sm font-mono">Submit Challenge</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t-4 border-black flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-600 text-sm font-mono">© 2024 RealityCheck. Open source AI testing.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-gray-600 hover:text-black transition-colors">
+                        <i class="fa-brands fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-black transition-colors">
+                        <i class="fa-brands fa-discord text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-black transition-colors">
+                        <i class="fa-brands fa-twitter text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

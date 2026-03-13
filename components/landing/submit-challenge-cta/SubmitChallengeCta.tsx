@@ -4,35 +4,30 @@ import Link from "next/link";
 export const SubmitChallengeCta = () => {
   return (
     <div className="
-      relative mt-16 rounded-3xl border border-dark-200 bg-linear-to-br
-      from-dark-100 to-dark-50 p-10 text-center
+      relative mt-16 border-4 border-black bg-neon-pink p-10 text-center
+      shadow-brutalist
       lg:p-16 lg:text-left
+      dark:border-foreground dark:shadow-[8px_8px_0px_#f5f5f0]
     ">
-      <div className="absolute inset-0 opacity-10" />
-      <div className="
-        absolute -top-20 -right-20 size-80 rounded-full bg-accent-red/20
-        blur-3xl
-      " />
-
       <div className="
         relative z-10 flex flex-col items-center justify-between gap-10
         lg:flex-row
       ">
         <div className="max-w-xl">
-          <h3 className="font-display text-3xl font-bold text-white">
+          <h3 className="font-display text-3xl font-bold text-white uppercase">
             Have a tricky prompt?
           </h3>
-          <p className="mt-4 mb-8 text-lg text-gray-400">
+          <p className="mt-4 mb-8 text-lg text-white/80">
             Submit your edge case. If it breaks major models, we add it to the
             gauntlet and credit the submission.
           </p>
           <Link
             href="/submit-challenge"
             className="
-              inline-flex rounded-full bg-linear-to-r from-accent-red
-              to-accent-orange px-8 py-3 font-bold text-white shadow-lg
+              inline-flex border-4 border-white bg-black px-8 py-3 font-bold
+              tracking-wider text-white uppercase shadow-[4px_4px_0px_#fff]
               transition-all
-              hover:shadow-glow
+              hover:translate-1 hover:shadow-none
             "
           >
             Submit Challenge
@@ -41,29 +36,27 @@ export const SubmitChallengeCta = () => {
 
         <div className="shrink-0">
           <div className="
-            w-64 rotate-3 rounded-2xl border border-dark-200 bg-dark-100/50 p-6
-            backdrop-blur-md transition-transform duration-500
+            w-64 rotate-3 border-4 border-white bg-white/10 p-6
+            shadow-[6px_6px_0px_#000] transition-transform duration-500
             hover:rotate-0
           ">
             <div className="mb-4 flex items-center gap-3">
               <div className="
-                flex size-8 items-center justify-center rounded-full border
-                border-accent-red/50 bg-accent-red/30 text-accent-red
+                flex size-8 items-center justify-center border-2 border-white
+                bg-white/20 text-white
               ">
                 <Skull className="size-4" />
               </div>
-              <div className="h-2 w-24 rounded-full bg-gray-700" />
+              <div className="h-2 w-24 bg-white/30" />
             </div>
             <div className="space-y-3">
-              <div className="h-2 w-full rounded-full bg-gray-700" />
-              <div className="h-2 w-3/4 rounded-full bg-gray-700" />
-              <div className="h-2 w-5/6 rounded-full bg-gray-700" />
+              <div className="h-2 w-full bg-white/30" />
+              <div className="h-2 w-3/4 bg-white/30" />
+              <div className="h-2 w-5/6 bg-white/30" />
             </div>
-            <div className="
-              mt-6 rounded-lg border border-red-800 bg-red-900/30 p-3
-            ">
+            <div className="mt-6 border-4 border-white bg-black/30 p-3">
               <div className="
-                flex items-center gap-2 text-xs font-bold text-red-400
+                flex items-center gap-2 text-xs font-bold text-white uppercase
               ">
                 <Skull className="size-3.5" />
                 Model Eliminated

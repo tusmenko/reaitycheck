@@ -11,8 +11,8 @@ export const Navbar = () => {
   return (
     <>
       <nav className="
-        fixed inset-x-0 top-0 z-50 border-b border-dark-200 bg-dark-50/80
-        backdrop-blur-md
+        fixed inset-x-0 top-0 z-50 border-b-4 border-black bg-card
+        dark:border-foreground dark:bg-card
       ">
         <div className="
           mx-auto flex h-20 w-full max-w-[1440px] items-center justify-between
@@ -21,13 +21,13 @@ export const Navbar = () => {
         ">
           <Link href="/" className="flex items-center gap-3">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-white">Re</span>
+              <span className="text-2xl font-bold text-foreground uppercase">Re</span>
               <span className="
-                mx-1 inline-block -rotate-6 transform rounded-sm bg-linear-to-r
-                from-accent-red to-accent-orange px-2 py-1 text-lg font-bold
-                text-white shadow-lg
+                mx-1 inline-block -rotate-6 border-4 border-black bg-neon-pink
+                px-2 py-1 text-lg font-bold text-white shadow-[3px_3px_0px_#000]
+                dark:border-foreground
               ">AI</span>
-              <span className="text-2xl font-bold text-white">ty Check</span>
+              <span className="text-2xl font-bold text-foreground uppercase">ty Check</span>
             </div>
           </Link>
 
@@ -38,8 +38,9 @@ export const Navbar = () => {
             <Link
               href="/providers"
               className="
-                text-sm font-medium text-gray-400 transition-colors
-                hover:text-white
+                text-sm font-bold tracking-wider text-foreground/70 uppercase
+                transition-colors
+                hover:text-foreground
               "
             >
               Models
@@ -47,8 +48,9 @@ export const Navbar = () => {
             <Link
               href="/challenges"
               className="
-                text-sm font-medium text-gray-400 transition-colors
-                hover:text-white
+                text-sm font-bold tracking-wider text-foreground/70 uppercase
+                transition-colors
+                hover:text-foreground
               "
             >
               Challenges
@@ -56,8 +58,9 @@ export const Navbar = () => {
             <Link
               href="/benchmark"
               className="
-                text-sm font-medium text-gray-400 transition-colors
-                hover:text-white
+                text-sm font-bold tracking-wider text-foreground/70 uppercase
+                transition-colors
+                hover:text-foreground
               "
             >
               Benchmarks
@@ -65,8 +68,9 @@ export const Navbar = () => {
             <Link
               href="/about"
               className="
-                text-sm font-medium text-gray-400 transition-colors
-                hover:text-white
+                text-sm font-bold tracking-wider text-foreground/70 uppercase
+                transition-colors
+                hover:text-foreground
               "
             >
               About
@@ -79,8 +83,8 @@ export const Navbar = () => {
               target="_blank"
               rel="noreferrer"
               className="
-                text-gray-400 transition-colors
-                hover:text-white
+                text-foreground/60 transition-colors
+                hover:text-foreground
               "
             >
               <Github className="size-5" />
@@ -90,8 +94,8 @@ export const Navbar = () => {
               target="_blank"
               rel="noreferrer"
               className="
-                text-gray-400 transition-colors
-                hover:text-yellow-500
+                text-foreground/60 transition-colors
+                hover:text-neon-yellow
               "
               title="Support ReAIty Check via Buy Me a Coffee"
             >
@@ -100,11 +104,12 @@ export const Navbar = () => {
             <Link
               href="/submit-challenge"
               className="
-                hidden rounded-full bg-linear-to-r from-accent-red
-                to-accent-orange px-5 py-2.5 text-sm font-medium text-dark-50
-                transition-all
-                hover:shadow-glow
+                hidden border-4 border-black bg-neon-pink px-5 py-2.5 text-sm
+                font-bold tracking-wider text-white uppercase
+                shadow-brutalist-sm transition-all
+                hover:translate-1 hover:shadow-none
                 sm:inline-flex
+                dark:border-foreground dark:shadow-[4px_4px_0px_#f5f5f0]
               "
             >
               Submit Challenge
@@ -113,10 +118,11 @@ export const Navbar = () => {
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               className="
-                flex size-10 items-center justify-center rounded-lg
-                text-gray-400 transition-colors
-                hover:text-white
+                flex size-10 items-center justify-center border-2 border-black
+                text-foreground/60 transition-colors
+                hover:text-foreground
                 md:hidden
+                dark:border-foreground
               "
               onClick={handleToggleMenu}
             >
@@ -142,9 +148,10 @@ export const Navbar = () => {
       {/* Mobile menu panel */}
       <div
         className={`
-          fixed inset-x-0 top-20 z-50 border-b border-dark-200 bg-dark-50 p-6
+          fixed inset-x-0 top-20 z-50 border-b-4 border-black bg-card p-6
           transition-all duration-200 ease-out
           md:hidden
+          dark:border-foreground
           ${menuOpen
           ? "visible opacity-100"
           : "pointer-events-none invisible opacity-0"
@@ -157,9 +164,9 @@ export const Navbar = () => {
               key={href}
               href={href}
               className="
-                rounded-lg p-3 text-sm font-medium text-gray-400
-                transition-colors
-                hover:bg-dark-200 hover:text-white
+                border-2 border-transparent p-3 text-sm font-bold tracking-wider
+                text-foreground/70 uppercase transition-colors
+                hover:border-black hover:bg-muted hover:text-foreground
               "
               onClick={handleCloseMenu}
             >

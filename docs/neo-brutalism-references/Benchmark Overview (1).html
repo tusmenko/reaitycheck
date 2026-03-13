@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benchmarks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Space Grotesk', 'ui-sans-serif', 'system-ui'],
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#FF006E',
+                            blue: '#00F5FF',
+                            yellow: '#FFBE0B',
+                            green: '#00FF88',
+                            orange: '#FF6B35',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f0;
+        }
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .brutalist-shadow-blue {
+            box-shadow: 8px 8px 0px #00F5FF;
+        }
+        .brutalist-shadow-yellow {
+            box-shadow: 8px 8px 0px #FFBE0B;
+        }
+        .brutalist-shadow-green {
+            box-shadow: 6px 6px 0px #00FF88;
+        }
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #FF6B35;
+        }
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .rotate-slight {
+            transform: rotate(-1deg);
+        }
+        .rotate-slight-reverse {
+            transform: rotate(1deg);
+        }
+        ::-webkit-scrollbar { display: none;}
+        .benchmark-table {
+            font-size: 11px;
+        }
+        .benchmark-table th {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        .benchmark-table td, .benchmark-table th {
+            padding: 6px 8px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="text-black antialiased overflow-x-hidden grain font-sans">
+
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b-4 border-black" id="header">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-xl">
+                    ☠
+                </div>
+                <span class="text-2xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/" class="text-sm font-bold text-black hover:text-neon-orange transition-colors uppercase tracking-wider">Home</a>
+                <a href="/models" class="text-sm font-bold text-black hover:text-neon-blue transition-colors uppercase tracking-wider">Models</a>
+                <a href="/challenges" class="text-sm font-bold text-black hover:text-neon-yellow transition-colors uppercase tracking-wider">Challenges</a>
+                <a href="/benchmarks" class="text-sm font-bold text-neon-orange uppercase tracking-wider">Benchmarks</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-black hover:text-neon-orange transition-colors">
+                    <i class="fa-brands fa-github text-2xl"></i>
+                </button>
+                <a href="#" class="hidden sm:inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-white bg-black border-4 border-black uppercase tracking-wider hover:translate-x-1 hover:translate-y-1 transition-transform brutalist-shadow-sm">
+                    Submit Challenge
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-16 lg:pt-40 lg:pb-20 overflow-hidden bg-white border-b-4 border-black" id="hero">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center gap-2 px-5 py-2 bg-neon-blue border-4 border-black text-black text-xs font-bold mb-8 uppercase tracking-widest rotate-slight-reverse brutalist-shadow-sm">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Live Data
+                </div>
+                
+                <h1 class="text-6xl lg:text-8xl font-display font-bold text-black leading-none mb-8 uppercase">
+                    Live<br>
+                    <span class="text-neon-orange" style="text-shadow: 6px 6px 0px #00F5FF;">Benchmarks</span>
+                </h1>
+                
+                <p class="text-xl lg:text-2xl text-gray-700 max-w-3xl mb-12 leading-relaxed font-mono">
+                    Real-time performance data across all models and challenges. Watch AI fail in real-time.
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-neon-blue mb-1 font-mono">12</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Models Tested</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-neon-orange mb-1 font-mono">86</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Active Tests</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-neon-yellow mb-1 font-mono">24K</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Total Runs</div>
+                    </div>
+                    <div class="bg-white border-4 border-black p-4 brutalist-shadow-sm">
+                        <div class="text-3xl font-bold text-red-500 mb-1 font-mono">47%</div>
+                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest">Avg Kill Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-gray-100" id="benchmark-overview">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-neon-blue border-4 border-black flex items-center justify-center text-black text-xl">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h2 class="text-4xl font-display font-bold text-black uppercase">Overall Performance</h2>
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="px-4 py-2 bg-white border-4 border-black font-bold text-xs uppercase hover:bg-neon-yellow transition-all brutalist-shadow-sm">
+                        All Categories
+                    </button>
+                    <button class="px-4 py-2 bg-white border-4 border-black font-bold text-xs uppercase hover:bg-red-500 hover:text-white transition-all brutalist-shadow-sm">
+                        Extreme Only
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white border-4 border-black p-8 brutalist-shadow mb-12">
+                <div id="performanceChart" style="height: 500px"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="bg-white border-4 border-black p-6 brutalist-shadow-blue">
+                    <h3 class="text-2xl font-bold mb-6 uppercase flex items-center gap-3">
+                        <i class="fa-solid fa-skull text-red-500"></i>
+                        Deadliest Challenges
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Sarcasm Detection</span>
+                            <span class="font-mono text-red-500 font-bold">86%</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Circular Reasoning</span>
+                            <span class="font-mono text-red-500 font-bold">79%</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Role-Play Jailbreak</span>
+                            <span class="font-mono text-red-500 font-bold">72%</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Ignore Instructions</span>
+                            <span class="font-mono text-orange-500 font-bold">68%</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Implicit Context</span>
+                            <span class="font-mono text-orange-500 font-bold">61%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border-4 border-black p-6 brutalist-shadow-green">
+                    <h3 class="text-2xl font-bold mb-6 uppercase flex items-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-green-500"></i>
+                        Best Performers
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">GPT-4</span>
+                            <span class="font-mono text-green-500 font-bold">38% killed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">UX Pilot 3 Opus</span>
+                            <span class="font-mono text-green-500 font-bold">42% killed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">Gemini 1.5 Pro</span>
+                            <span class="font-mono text-yellow-500 font-bold">46% killed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">UX Pilot 3 Sonnet</span>
+                            <span class="font-mono text-yellow-500 font-bold">51% killed</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 border-2 border-black">
+                            <span class="font-bold text-sm">GPT-3.5 Turbo</span>
+                            <span class="font-mono text-orange-500 font-bold">58% killed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-white border-t-4 border-b-4 border-black" id="detailed-benchmark">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 bg-neon-orange border-4 border-black flex items-center justify-center text-white text-xl">
+                    <i class="fa-solid fa-table"></i>
+                </div>
+                <h2 class="text-4xl font-display font-bold text-black uppercase">Complete Benchmark Matrix</h2>
+            </div>
+
+            <div class="bg-white border-4 border-black brutalist-shadow overflow-hidden">
+                <div class="overflow-x-auto" style="max-height: 600px;">
+                    <table class="w-full benchmark-table">
+                        <thead>
+                            <tr class="border-b-4 border-black">
+                                <th class="text-left font-bold uppercase border-r-2 border-black bg-white">Challenge</th>
+                                <th class="text-left font-bold uppercase border-r-2 border-black bg-white">Category</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-white">Difficulty</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-neon-blue bg-opacity-20">GPT-4</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-neon-blue bg-opacity-20">GPT-3.5</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-purple-100">UX Pilot 3 Opus</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-purple-100">UX Pilot 3 Sonnet</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-orange-100">Gemini 1.5 Pro</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-orange-100">Gemini 1.0 Pro</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-green-100">Llama 3 70B</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-green-100">Llama 2 70B</th>
+                                <th class="text-center font-bold uppercase border-r-2 border-black bg-yellow-100">Mistral Large</th>
+                                <th class="text-center font-bold uppercase bg-yellow-100">Mixtral 8x7B</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-mono">
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Sarcasm Detection</td>
+                                <td class="border-r-2 border-gray-200">Cultural</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-red-500 text-white text-xs font-bold">EXT</span></td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">78%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">89%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">81%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">84%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">86%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">91%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">88%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">93%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">87%</td>
+                                <td class="text-center font-bold text-red-500">90%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Circular Reasoning</td>
+                                <td class="border-r-2 border-gray-200">Logic</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-red-500 text-white text-xs font-bold">EXT</span></td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">71%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">82%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">74%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">79%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">77%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">85%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">81%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">87%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">80%</td>
+                                <td class="text-center font-bold text-red-500">84%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Role-Play Jailbreak</td>
+                                <td class="border-r-2 border-gray-200">Security</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-red-500 text-white text-xs font-bold">EXT</span></td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">64%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">76%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">68%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">73%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">71%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">79%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">75%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">81%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">74%</td>
+                                <td class="text-center font-bold text-red-500">78%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Ignore Instructions</td>
+                                <td class="border-r-2 border-gray-200">Security</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-red-500 text-white text-xs font-bold">EXT</span></td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">58%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">71%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">62%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">68%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">65%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">73%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">69%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">75%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">67%</td>
+                                <td class="text-center font-bold text-red-500">72%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Implicit Context</td>
+                                <td class="border-r-2 border-gray-200">Cultural</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-orange-500 text-white text-xs font-bold">HRD</span></td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">52%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">65%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">56%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">62%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">59%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">67%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">63%</td>
+                                <td class="text-center font-bold text-red-500 border-r-2 border-gray-200">69%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">61%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">66%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Prompt Injection</td>
+                                <td class="border-r-2 border-gray-200">Security</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-orange-500 text-white text-xs font-bold">HRD</span></td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">46%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">59%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">49%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">55%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">52%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">61%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">57%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">63%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">54%</td>
+                                <td class="text-center font-bold text-orange-500">60%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Idiom Translation</td>
+                                <td class="border-r-2 border-gray-200">Cultural</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-orange-500 text-white text-xs font-bold">HRD</span></td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">39%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">52%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">42%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">48%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">45%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">54%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">50%</td>
+                                <td class="text-center font-bold text-orange-500 border-r-2 border-gray-200">56%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">47%</td>
+                                <td class="text-center font-bold text-orange-500">53%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Ambiguous References</td>
+                                <td class="border-r-2 border-gray-200">Logic</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-yellow-500 text-black text-xs font-bold">MED</span></td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">33%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">45%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">36%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">41%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">38%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">47%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">43%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">49%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">40%</td>
+                                <td class="text-center font-bold text-yellow-500">46%</td>
+                            </tr>
+                            <tr class="border-b-2 border-gray-200 hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Math Word Problems</td>
+                                <td class="border-r-2 border-gray-200">Logic</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-yellow-500 text-black text-xs font-bold">MED</span></td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">27%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">38%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">29%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">34%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">31%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">40%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">36%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">42%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">33%</td>
+                                <td class="text-center font-bold text-yellow-500">39%</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="font-bold border-r-2 border-gray-200">Basic Instructions</td>
+                                <td class="border-r-2 border-gray-200">Control</td>
+                                <td class="text-center border-r-2 border-gray-200"><span class="px-2 py-1 bg-green-500 text-white text-xs font-bold">ESY</span></td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">12%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">24%</td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">14%</td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">18%</td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">16%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">26%</td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">21%</td>
+                                <td class="text-center font-bold text-yellow-500 border-r-2 border-gray-200">28%</td>
+                                <td class="text-center font-bold text-green-500 border-r-2 border-gray-200">19%</td>
+                                <td class="text-center font-bold text-yellow-500">25%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-white border-t-4 border-black" id="footer">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-black border-4 border-black rotate-12 flex items-center justify-center text-white font-bold text-lg">
+                            ☠
+                        </div>
+                        <span class="text-xl font-display font-bold text-black tracking-tight uppercase">RealityCheck</span>
+                    </div>
+                    <p class="text-sm text-gray-600 font-mono">Breaking AI, one test at a time.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-black uppercase text-sm mb-3">Navigate</h4>
+                    <ul class="space-y-2 text-sm font-mono">
+                        <li><a href="/" class="text-gray-600 hover:text-neon-orange transition-colors">Home</a></li>
+                        <li><a href="/models" class="text-gray-600 hover:text-neon-blue transition-colors">Models</a></li>
+                        <li><a href="/challenges" class="text-gray-600 hover:text-neon-yellow transition-colors">Challenges</a></li>
+                        <li><a href="/benchmarks" class="text-gray-600 hover:text-neon-pink transition-colors">Benchmarks</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-black uppercase text-sm mb-3">Resources</h4>
+                    <ul class="space-y-2 text-sm font-mono">
+                        <li><a href="#" class="text-gray-600 hover:text-neon-orange transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-neon-blue transition-colors">API</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-neon-yellow transition-colors">Submit Test</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-neon-pink transition-colors">GitHub</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-black uppercase text-sm mb-3">Connect</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-black border-4 border-black flex items-center justify-center text-white hover:bg-neon-blue hover:text-black transition-all">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-black border-4 border-black flex items-center justify-center text-white hover:bg-neon-orange hover:text-black transition-all">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-black border-4 border-black flex items-center justify-center text-white hover:bg-neon-yellow hover:text-black transition-all">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t-4 border-black text-center">
+                <p class="text-sm text-gray-600 font-mono">© 2024 RealityCheck. All models tested equally.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+            try {
+                var trace1 = {
+                    x: ['GPT-4', 'UX Pilot 3 Opus', 'Gemini 1.5 Pro', 'UX Pilot 3 Sonnet', 'GPT-3.5 Turbo', 'Llama 3 70B', 'Mistral Large', 'Gemini 1.0 Pro', 'Llama 2 70B', 'Mixtral 8x7B'],
+                    y: [38, 42, 46, 51, 58, 54, 52, 61, 59, 56],
+                    type: 'bar',
+                    marker: {
+                        color: ['#00FF88', '#00FF88', '#FFBE0B', '#FFBE0B', '#FF6B35', '#FF6B35', '#FF6B35', '#FF006E', '#FF006E', '#FF006E']
+                    },
+                    text: ['38%', '42%', '46%', '51%', '58%', '54%', '52%', '61%', '59%', '56%'],
+                    textposition: 'outside',
+                    textfont: {
+                        size: 14,
+                        family: 'Space Mono, monospace',
+                        color: '#000'
+                    }
+                };
+
+                var layout = {
+                    title: {
+                        text: 'Average Kill Rate by Model',
+                        font: { size: 20, family: 'Space Grotesk, sans-serif', color: '#000' }
+                    },
+                    xaxis: {
+                        title: 'Model',
+                        tickangle: -45,
+                        tickfont: { size: 11, family: 'Space Mono, monospace' }
+                    },
+                    yaxis: {
+                        title: 'Kill Rate (%)',
+                        range: [0, 100],
+                        tickfont: { size: 12, family: 'Space Mono, monospace' }
+                    },
+                    margin: { t: 60, r: 20, b: 120, l: 60 },
+                    plot_bgcolor: '#f5f5f0',
+                    paper_bgcolor: '#ffffff',
+                    showlegend: false
+                };
+
+                var config = {
+                    responsive: true,
+                    displayModeBar: false,
+                    displaylogo: false
+                };
+
+                Plotly.newPlot('performanceChart', [trace1], layout, config);
+            } catch(e) {
+                document.getElementById('performanceChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-500 font-mono">Chart failed to load</div>';
+            }
+        });
+    </script>
+
+</body>
+</html>

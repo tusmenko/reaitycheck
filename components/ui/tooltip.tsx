@@ -37,7 +37,8 @@ function TooltipContent({
         sideOffset={sideOffset}
         className={cn(
           "z-50 max-w-[280px] bg-popover text-popover-foreground",
-          "rounded-md border px-3 py-2 text-sm shadow-md",
+          "border-2 border-black px-3 py-2 text-sm shadow-[4px_4px_0px_#000] " +
+          "dark:border-foreground dark:shadow-[4px_4px_0px_#f5f5f0]",
           "data-[state=delayed-open]:animate-in",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
           "data-[state=delayed-open]:fade-in-0",
