@@ -1,4 +1,15 @@
-const TEXT = "EDGE CASES // REAL FAILURES // NO FLUFF // COMMUNITY DRIVEN // ";
+const ITEMS = [
+  " HOW MANY R's in 🍓",
+  "A CUP WITH NO BOTTOM",
+  "WHO ARE YOU TO TELL ME TO BE SILENT 🤫",
+  "CAN'T COUNT THE BROTHERS 👨‍👧‍👧",
+  "WRITE IT BACKWARDS I DARE YOU 🔄",
+  "CITE ME A DOLPHIN PAPER 🐬",
+  "SARCASM 🪧",
+  "I ATE IT ALL🍪",
+  "2 + 2 = 5 🧮"
+];
+const TEXT = ITEMS.join(" // ") + " // ";
 
 export const MarqueeDivider = () => {
   return (
