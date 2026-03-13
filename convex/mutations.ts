@@ -57,6 +57,25 @@ function isValidHttpUrl(s: string): boolean {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
+/** Update only the validation fields of an existing test run (for revalidation). */
+export const updateTestRunValidation = internalMutation({
+  args: {
+    runId: v.id("testRuns"),
+    isCorrect: v.boolean(),
+    parsedAnswer: v.optional(v.string()),
+    judgeTokensUsed: v.optional(
+      v.object({
+        prompt: v.number(),
+        completion: v.number(),
+        total: v.number(),
+      })
+    ),
+  },
+  handler: async (ctx, { runId, ...fields }) => {
+    await ctx.db.patch(runId, fields);
+  },
+});
+
 export const submitChallenge = mutation({
   args: {
     prompt: v.string(),

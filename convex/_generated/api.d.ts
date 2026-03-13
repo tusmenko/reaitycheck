@@ -9,6 +9,7 @@
  */
 
 import type * as actions_openrouter from "../actions/openrouter.js";
+import type * as actions_revalidateChallenge from "../actions/revalidateChallenge.js";
 import type * as actions_runTests from "../actions/runTests.js";
 import type * as actions_syncTopModels from "../actions/syncTopModels.js";
 import type * as actions_validators from "../actions/validators.js";
@@ -33,6 +34,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   "actions/openrouter": typeof actions_openrouter;
+  "actions/revalidateChallenge": typeof actions_revalidateChallenge;
   "actions/runTests": typeof actions_runTests;
   "actions/syncTopModels": typeof actions_syncTopModels;
   "actions/validators": typeof actions_validators;
