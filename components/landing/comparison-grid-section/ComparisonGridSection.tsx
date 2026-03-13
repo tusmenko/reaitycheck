@@ -142,7 +142,7 @@ export const ComparisonGridSection = ({
                   transition-colors
                   hover:bg-muted/50
                 ">
-                  <td className="px-8 py-2">
+                  <td className="px-8 py-2 whitespace-nowrap">
                     <Link
                       href={providerPageHref(provider)}
                       className="
