@@ -108,6 +108,8 @@ export const HeroSection = ({
         ">
           <div className="
             -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            transition-transform duration-200
+            hover:scale-105 hover:rotate-2
             dark:border-foreground dark:bg-card
           ">
             <div className="mb-2 font-mono text-5xl font-bold text-neon-blue">
@@ -122,6 +124,8 @@ export const HeroSection = ({
           </div>
           <div className="
             rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            transition-transform duration-200
+            hover:scale-105 hover:-rotate-2
             dark:border-foreground dark:bg-card
           ">
             <div className="mb-2 font-mono text-5xl font-bold text-neon-orange">
@@ -136,6 +140,8 @@ export const HeroSection = ({
           </div>
           <div className="
             -rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            transition-transform duration-200
+            hover:scale-105 hover:rotate-2
             dark:border-foreground dark:bg-card
           ">
             <div className="mb-2 font-mono text-5xl font-bold text-neon-yellow">
@@ -150,6 +156,8 @@ export const HeroSection = ({
           </div>
           <div className="
             rotate-1 border-4 border-black bg-white p-6 shadow-brutalist-sm
+            transition-transform duration-200
+            hover:scale-105 hover:-rotate-2
             dark:border-foreground dark:bg-card
           ">
             <div className="mb-2 font-mono text-5xl font-bold text-neon-green">
