@@ -186,6 +186,25 @@ export const migrateCustomToLlmJudge = mutation({
   },
 });
 
+export const migrateSelfReferenceJudgeCriteria = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const doc = await ctx.db
+      .query("testCases")
+      .filter((q) => q.eq(q.field("slug"), "self-reference-count"))
+      .first();
+    if (!doc) return { patched: false, reason: "not found" };
+
+    const seed = testCases.find((tc) => tc.slug === "self-reference-count");
+    if (!seed) return { patched: false, reason: "not in seed" };
+
+    await ctx.db.patch(doc._id, {
+      validationConfig: seed.validationConfig,
+    });
+    return { patched: true };
+  },
+});
+
 export const clearAll = mutation({
   args: {},
   handler: async (ctx) => {
