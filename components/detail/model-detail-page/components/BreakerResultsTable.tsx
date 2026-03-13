@@ -105,7 +105,9 @@ export const BreakerResultsTable = ({ breakdown }: BreakerResultsTableProps) => 
                     {entry.latestRun?.rawResponse != null ? (
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" className="
+                            cursor-pointer
+                          ">
                             <Eye className="size-4" />
                           </Button>
                         </DialogTrigger>
