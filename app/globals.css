@@ -292,3 +292,21 @@
     animation: marquee 20s linear infinite;
   }
 }
+
+@keyframes head-shake-no {
+  0%, 8% { transform: translateX(0); }
+  1% { transform: translateX(-6px) rotate(-1deg); }
+  2% { transform: translateX(5px) rotate(1deg); }
+  3% { transform: translateX(-4px) rotate(-0.5deg); }
+  4% { transform: translateX(4px) rotate(0.5deg); }
+  5% { transform: translateX(-2px); }
+  6% { transform: translateX(2px); }
+  7% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+@utility animate-head-shake-no {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: head-shake-no 10s ease-in-out infinite;
+  }
+}

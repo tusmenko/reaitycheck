@@ -52,11 +52,13 @@ export const HeroSection = ({
           lg:text-7xl
         ">
           Where AI Models <br />
-          <span className="
-            relative inline-block animate-shadow-neon-cycle bg-neon-pink px-4
-            text-white
-          ">
-            Face Reality
+          <span className="relative inline-block animate-head-shake-no">
+            <span className="
+              inline-block animate-shadow-neon-cycle bg-neon-pink px-4
+              text-white
+            ">
+              Face Reality
+            </span>
           </span>
         </h1>
         <p className="
