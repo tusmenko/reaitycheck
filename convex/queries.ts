@@ -124,31 +124,25 @@ export const getActiveTestCasesWithKillRates = query({
       .withIndex("by_active", (q) => q.eq("isActive", true))
       .collect();
 
-    const allRuns = await ctx.db.query("testRuns").collect();
-    // Latest run per (testCaseId, modelId)
-    const latestByPair = new Map<string, { isCorrect: boolean; executedAt: number }>();
-    for (const run of allRuns) {
-      // Skip inconclusive results (infrastructure failures)
-      if (run.status !== "success" && run.status !== "failed") {
-        continue;
-      }
-      const key = `${run.testCaseId}:${run.modelId}`;
-      const existing = latestByPair.get(key);
-      if (!existing || run.executedAt > existing.executedAt) {
-        latestByPair.set(key, { isCorrect: run.isCorrect, executedAt: run.executedAt });
-      }
+    const allStats = await ctx.db.query("testModelStats").collect();
+    const statsByTest = new Map<string, typeof allStats>();
+    for (const stat of allStats) {
+      const key = String(stat.testCaseId);
+      const arr = statsByTest.get(key);
+      if (arr) arr.push(stat);
+      else statsByTest.set(key, [stat]);
     }
 
+    const activeModelIds = new Set(models.map((m) => String(m._id)));
+
     const testsWithRates = tests.map((test) => {
+      const stats = statsByTest.get(String(test._id)) ?? [];
       let failed = 0;
       let total = 0;
-      for (const model of models) {
-        const key = `${test._id}:${model._id}`;
-        const latest = latestByPair.get(key);
-        if (latest) {
-          total += 1;
-          if (!latest.isCorrect) failed += 1;
-        }
+      for (const stat of stats) {
+        if (!activeModelIds.has(String(stat.modelId))) continue;
+        total += 1;
+        if (!stat.latestIsCorrect) failed += 1;
       }
       const killRate =
         total > 0 ? Math.round((failed / total) * 100) : null;
@@ -279,51 +273,56 @@ export const getProviderLeaderboard = query({
 
     if (models.length === 0) return { entries: [], providerAvgResponseTimeMs: 0 };
 
-    const allRuns = await ctx.db.query("testRuns").collect();
-    const modelIds = new Set(models.map((m) => m._id));
+    let providerTotalTimeMs = 0;
+    let providerTimeCount = 0;
 
-    const entries = models.map((model) => {
-      const runs = allRuns.filter(
-        (r) => r.modelId === model._id && r.status === "success"
-      );
-      const successfulRuns = runs.filter((r) => r.isCorrect).length;
-      const totalRuns = runs.length;
-      const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
-      const runsWithTime = runs.filter((r) => r.executionTimeMs != null);
-      const avgExecutionTimeMs =
-        runsWithTime.length > 0
-          ? Math.round(
-            runsWithTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
-            runsWithTime.length
-          )
-          : 0;
+    const entries = await Promise.all(
+      models.map(async (model) => {
+        const stats = await ctx.db
+          .query("testModelStats")
+          .withIndex("by_model", (q) => q.eq("modelId", model._id))
+          .collect();
 
-      return {
-        model,
-        totalRuns,
-        successfulRuns,
-        successRate,
-        trend: (successRate >= 0.7
-          ? "up"
-          : successRate <= 0.25
-            ? "down"
-            : "stable") as "up" | "down" | "stable",
-        rank: 0,
-        avgExecutionTimeMs,
-      };
-    });
+        let totalRuns = 0;
+        let successfulRuns = 0;
+        let totalTimeMs = 0;
+        let timeCount = 0;
+        for (const s of stats) {
+          totalRuns += s.successRunCount;
+          successfulRuns += s.correctRunCount;
+          totalTimeMs += s.totalExecutionTimeMs;
+          timeCount += s.runsWithTimeCount;
+        }
+
+        providerTotalTimeMs += totalTimeMs;
+        providerTimeCount += timeCount;
+
+        const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
+        const avgExecutionTimeMs =
+          timeCount > 0 ? Math.round(totalTimeMs / timeCount) : 0;
+
+        return {
+          model,
+          totalRuns,
+          successfulRuns,
+          successRate,
+          trend: (successRate >= 0.7
+            ? "up"
+            : successRate <= 0.25
+              ? "down"
+              : "stable") as "up" | "down" | "stable",
+          rank: 0,
+          avgExecutionTimeMs,
+        };
+      })
+    );
 
     entries.sort((a, b) => b.successRate - a.successRate);
     entries.forEach((e, i) => (e.rank = i + 1));
 
-    const allProviderRuns = allRuns.filter((r) => modelIds.has(r.modelId));
-    const withTime = allProviderRuns.filter((r) => r.executionTimeMs != null);
     const providerAvgResponseTimeMs =
-      withTime.length > 0
-        ? Math.round(
-          withTime.reduce((acc, r) => acc + r.executionTimeMs, 0) /
-          withTime.length
-        )
+      providerTimeCount > 0
+        ? Math.round(providerTotalTimeMs / providerTimeCount)
         : 0;
 
     return { entries, providerAvgResponseTimeMs };
@@ -346,34 +345,25 @@ export const getProviderBreakdown = query({
       .withIndex("by_active", (q) => q.eq("isActive", true))
       .collect();
 
-    const allRuns = await ctx.db.query("testRuns").collect();
-    const latestByPair = new Map<
-      string,
-      { isCorrect: boolean; executedAt: number }
-    >();
-    for (const run of allRuns) {
-      if (models.some((m) => m._id === run.modelId)) {
-        const key = `${run.testCaseId}:${run.modelId}`;
-        const existing = latestByPair.get(key);
-        if (!existing || run.executedAt > existing.executedAt) {
-          latestByPair.set(key, {
-            isCorrect: run.isCorrect,
-            executedAt: run.executedAt,
-          });
-        }
-      }
+    const modelIds = new Set(models.map((m) => String(m._id)));
+
+    const allStats = await ctx.db.query("testModelStats").collect();
+    const statsByTest = new Map<string, typeof allStats>();
+    for (const stat of allStats) {
+      if (!modelIds.has(String(stat.modelId))) continue;
+      const key = String(stat.testCaseId);
+      const arr = statsByTest.get(key);
+      if (arr) arr.push(stat);
+      else statsByTest.set(key, [stat]);
     }
 
     const result = tests.map((test) => {
+      const stats = statsByTest.get(String(test._id)) ?? [];
       let passed = 0;
       let total = 0;
-      for (const model of models) {
-        const key = `${test._id}:${model._id}`;
-        const latest = latestByPair.get(key);
-        if (latest) {
-          total += 1;
-          if (latest.isCorrect) passed += 1;
-        }
+      for (const stat of stats) {
+        total += 1;
+        if (stat.latestIsCorrect) passed += 1;
       }
       const providerPassRate = total > 0 ? passed / total : 0;
       return { test, providerPassRate };
@@ -392,14 +382,23 @@ export const getLeaderboard = query({
       .withIndex("by_active", (q) => q.eq("isActive", true))
       .collect();
 
-    const allRuns = await ctx.db.query("testRuns").collect();
+    const allStats = await ctx.db.query("testModelStats").collect();
+    const statsByModel = new Map<string, typeof allStats>();
+    for (const stat of allStats) {
+      const key = String(stat.modelId);
+      const arr = statsByModel.get(key);
+      if (arr) arr.push(stat);
+      else statsByModel.set(key, [stat]);
+    }
 
     const entries = models.map((model) => {
-      const runs = allRuns.filter(
-        (r) => r.modelId === model._id && r.status === "success"
-      );
-      const successfulRuns = runs.filter((r) => r.isCorrect).length;
-      const totalRuns = runs.length;
+      const stats = statsByModel.get(String(model._id)) ?? [];
+      let totalRuns = 0;
+      let successfulRuns = 0;
+      for (const s of stats) {
+        totalRuns += s.successRunCount;
+        successfulRuns += s.correctRunCount;
+      }
       const successRate = totalRuns > 0 ? successfulRuns / totalRuns : 0;
 
       return {
@@ -407,7 +406,6 @@ export const getLeaderboard = query({
         totalRuns,
         successfulRuns,
         successRate,
-        // Trend is static for now — will be computed from historical data later
         trend: (successRate >= 0.7
           ? "up"
           : successRate <= 0.25
@@ -427,53 +425,16 @@ export const getLeaderboard = query({
 export const getComparisonGrid = query({
   args: {},
   handler: async (ctx) => {
-    const allRuns = await ctx.db.query("testRuns").collect();
+    const allStats = await ctx.db.query("testModelStats").collect();
 
-    // Group by test+model, keep latest run per pair (include parsedAnswer for answer popup)
-    const latestByPair = new Map<
-      string,
-      {
-        testCaseId: string;
-        modelId: string;
-        isCorrect: boolean;
-        successRate: number;
-        status: string;
-        executedAt: number;
-        parsedAnswer?: string;
-        rawResponse?: string;
-      }
-    >();
-
-    for (const run of allRuns) {
-      // Skip inconclusive results (infrastructure failures)
-      if (run.status !== "success" && run.status !== "failed") {
-        continue;
-      }
-      const key = `${run.testCaseId}:${run.modelId}`;
-      const existing = latestByPair.get(key);
-      if (!existing || run.executedAt > existing.executedAt) {
-        latestByPair.set(key, {
-          testCaseId: run.testCaseId,
-          modelId: run.modelId,
-          isCorrect: run.isCorrect,
-          successRate: run.isCorrect ? 1 : 0,
-          status: run.status,
-          executedAt: run.executedAt,
-          parsedAnswer: run.parsedAnswer,
-          rawResponse: run.rawResponse,
-        });
-      }
-    }
-
-    return Array.from(latestByPair.values()).map((entry) => ({
-      testCaseId: entry.testCaseId,
-      modelId: entry.modelId,
-      isCorrect: entry.isCorrect,
-      successRate: entry.successRate,
-      status: entry.status,
-      // Explicitly include so they are never stripped from JSON (undefined would be omitted)
-      parsedAnswer: entry.parsedAnswer ?? null,
-      rawResponse: entry.rawResponse ?? "",
+    return allStats.map((stat) => ({
+      testCaseId: stat.testCaseId,
+      modelId: stat.modelId,
+      isCorrect: stat.latestIsCorrect,
+      successRate: stat.latestIsCorrect ? 1 : 0,
+      status: stat.latestStatus,
+      parsedAnswer: stat.latestParsedAnswer ?? null,
+      rawResponse: stat.latestRawResponse ?? "",
     }));
   },
 });

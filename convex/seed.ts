@@ -208,7 +208,7 @@ export const migrateSelfReferenceJudgeCriteria = mutation({
 export const clearAll = mutation({
   args: {},
   handler: async (ctx) => {
-    const tables = ["testRuns", "testCases", "aiModels"] as const;
+    const tables = ["testRuns", "testModelStats", "testCases", "aiModels"] as const;
 
     for (const table of tables) {
       const docs = await ctx.db.query(table).collect();

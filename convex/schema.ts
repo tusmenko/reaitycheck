@@ -85,6 +85,29 @@ export default defineSchema({
     .index("by_test_and_model", ["testCaseId", "modelId"])
     .index("by_status", ["status"]),
 
+  /** Pre-computed aggregates per (testCase, model) pair.
+   *  Updated on every testRun insert / revalidation.
+   *  Eliminates full-table scans of testRuns in read queries. */
+  testModelStats: defineTable({
+    testCaseId: v.id("testCases"),
+    modelId: v.id("aiModels"),
+    // Latest conclusive run (status = success | failed)
+    latestIsCorrect: v.boolean(),
+    latestStatus: v.string(),
+    latestExecutedAt: v.number(),
+    latestParsedAnswer: v.optional(v.string()),
+    latestRawResponse: v.string(),
+    // Counts for leaderboard (only status="success" runs)
+    successRunCount: v.number(),
+    correctRunCount: v.number(),
+    // For avg execution time
+    totalExecutionTimeMs: v.number(),
+    runsWithTimeCount: v.number(),
+  })
+    .index("by_test_and_model", ["testCaseId", "modelId"])
+    .index("by_model", ["modelId"])
+    .index("by_test", ["testCaseId"]),
+
   challengeSubmissions: defineTable({
     prompt: v.string(),
     expectedResult: v.string(),

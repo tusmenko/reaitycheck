@@ -10,6 +10,7 @@ import {
   RATE_LIMIT_MAX_PER_WINDOW,
   RATE_LIMIT_WINDOW_MS,
 } from "./challengeSubmissionLimits";
+import { updateTestModelStats } from "./lib/updateTestModelStats";
 
 export const insertTestRun = internalMutation({
   args: {
@@ -40,10 +41,12 @@ export const insertTestRun = internalMutation({
   },
   handler: async (ctx, args) => {
     const { ...rest } = args;
-    return await ctx.db.insert("testRuns", {
+    const id = await ctx.db.insert("testRuns", {
       ...rest,
       executedAt: Date.now(),
     });
+    await updateTestModelStats(ctx, args.testCaseId, args.modelId);
+    return id;
   },
 });
 
@@ -73,6 +76,10 @@ export const updateTestRunValidation = internalMutation({
   },
   handler: async (ctx, { runId, ...fields }) => {
     await ctx.db.patch(runId, fields);
+    const run = await ctx.db.get(runId);
+    if (run) {
+      await updateTestModelStats(ctx, run.testCaseId, run.modelId);
+    }
   },
 });
 
@@ -153,5 +160,37 @@ export const submitChallenge = mutation({
     }
 
     return id;
+  },
+});
+
+/** Backfill testModelStats from existing testRuns.
+ *  Run once after deploying the schema change. */
+export const backfillTestModelStats = mutation({
+  args: {},
+  handler: async (ctx) => {
+    // Clear existing stats
+    const existingStats = await ctx.db.query("testModelStats").collect();
+    for (const stat of existingStats) {
+      await ctx.db.delete(stat._id);
+    }
+
+    // Find all unique (testCaseId, modelId) pairs
+    const allRuns = await ctx.db.query("testRuns").collect();
+    const pairs = new Set<string>();
+    for (const run of allRuns) {
+      pairs.add(`${run.testCaseId}:${run.modelId}`);
+    }
+
+    let count = 0;
+    for (const pair of pairs) {
+      const [testCaseId, modelId] = pair.split(":") as [
+        typeof allRuns[0]["testCaseId"],
+        typeof allRuns[0]["modelId"],
+      ];
+      await updateTestModelStats(ctx, testCaseId, modelId);
+      count++;
+    }
+
+    return { message: `Backfilled ${count} testModelStats rows.` };
   },
 });
